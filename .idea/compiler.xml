@@ -9,7 +9,7 @@
         <module name="PZ" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel>
       <module name="PZ" target="1.8" />
     </bytecodeTargetLevel>
   </component>
