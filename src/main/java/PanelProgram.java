@@ -1,5 +1,3 @@
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -34,14 +32,9 @@ public class PanelProgram extends JPanel {
 
     public void guiPanelu() {
 
-    setLayout(new BorderLayout( ));
-
-
-
+        setLayout(new BorderLayout());
 
         panelMenu.setPreferredSize(new Dimension(200, 700));
-
-
 
         add(panelMenu, BorderLayout.WEST);
 

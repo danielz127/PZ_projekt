@@ -27,6 +27,9 @@ public class PanelMenu extends JPanel {
 
         JButton buttonWplaty = new JButton("Wplaty");
 
+        JButton buttonSzatnie = new JButton(("Szatnie"));
+
+        add(buttonSzatnie);
         add(buttonKontrahenci);
         add(buttonWplaty);
 
