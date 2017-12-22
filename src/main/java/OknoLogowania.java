@@ -98,9 +98,9 @@ public class OknoLogowania extends JFrame {
     public void polaczenieBazy() {
         try {
 
-            String url = "jdbc:mysql://localhost:3306/zdarzenia";
+            String url = "jdbc:mysql://localhost:3306/zdarzeniowe";
             String userName = "root";
-            String password = "";
+            String password = "root";
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
