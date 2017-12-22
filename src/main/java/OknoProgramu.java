@@ -8,7 +8,8 @@ import java.sql.*;
  * Created by Daniel on 2017-11-10.
  */
 // 1000 x 700
-public class OknoLogowania extends JFrame {
+public class OknoProgramu extends JFrame {
+    //wraz z logowaniem
 
     JPanel panelLogowania;
     JPanel panelMenu;
@@ -25,12 +26,17 @@ public class OknoLogowania extends JFrame {
     boolean succeeded;
     Image iconImage;
     JLabel background;
+    MenuJBar menuJBar;
 
 
-    public OknoLogowania() {
+    public OknoProgramu() {
         super("Siłownia");
 
         panelLogowania = new JPanel();
+        menuJBar = new MenuJBar(this);
+
+        // pamietac ze menu tu sie dodaje
+        setJMenuBar(menuJBar);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         iconImage = Toolkit.getDefaultToolkit().getImage("resources/dumbbell.png");

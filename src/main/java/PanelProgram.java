@@ -15,12 +15,14 @@ public class PanelProgram extends JPanel {
     JPanel panelMenu;
     GridBagLayout gridBagLayout;
 
+
     public PanelProgram(Frame parent, String miasto) {
 
         setSize(parent.getSize());
         setVisible(true);
         this.parent = parent;
         this.miasto = miasto;
+
 
         panelMenu = new PanelMenu(miasto);
         System.out.println(podajGodzine());
