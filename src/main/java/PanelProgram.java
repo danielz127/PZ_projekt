@@ -14,17 +14,19 @@ public class PanelProgram extends JPanel {
     GridBagConstraints gbc;
     JPanel panelMenu;
     GridBagLayout gridBagLayout;
+    Frame frame;
 
 
-    public PanelProgram(Frame parent, String miasto) {
+    public PanelProgram(Frame frame, String miasto) {
 
         setSize(parent.getSize());
         setVisible(true);
-        this.parent = parent;
+        this.frame = frame;
         this.miasto = miasto;
 
 
-        panelMenu = new PanelMenu(miasto);
+        //zobaczyc czy frame sie dobrze dodal
+        panelMenu = new PanelMenu(miasto, frame);
         System.out.println(podajGodzine());
 
         setBackground(Color.RED);

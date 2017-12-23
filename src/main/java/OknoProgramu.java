@@ -56,14 +56,6 @@ public class OknoProgramu extends JFrame {
 
     }
 
-    public ResourceBundle getMybundle() {
-        return mybundle;
-    }
-
-    public void setMybundle(ResourceBundle mybundle) {
-        this.mybundle = mybundle;
-    }
-
     public void guiPanelu() {
         panelLogowania.setVisible(true);
 
@@ -146,6 +138,8 @@ public class OknoProgramu extends JFrame {
                     miasto = myRs.getString("Miasto");
                     sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto);
                     System.out.println(loginBaza + hasloBaza + miasto);
+                    //rozlaczyc z baza!!
+                    myCon.close();
                 }
 
 

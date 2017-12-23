@@ -11,11 +11,12 @@ public class MenuJBar extends JMenuBar {
     JMenu view;
     JMenuItem exit, language, plaf;
     Frame frame;
+    boolean jezyk = true;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public MenuJBar(Frame frame) {
-        file = new JMenu("Plik");
-        view = new JMenu("Widok");
+        file = new JMenu(bundle.getString("file.text"));
+        view = new JMenu(bundle.getString("view.text"));
         add(file);
         add(view);
         this.frame = frame;
@@ -40,7 +41,6 @@ public class MenuJBar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //System.exit(0);
-
                 frame.dispose();
 
             }
@@ -48,15 +48,32 @@ public class MenuJBar extends JMenuBar {
         language.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Locale.setDefault(new Locale("en", "EN"));
+                if (jezyk) {
+                    jezyk = false;
+                    Locale.setDefault(new Locale("en", "EN"));
+                    bundle = ResourceBundle.getBundle("messages");
+                    zmienJezyk();
+                } else {
+                    jezyk = true;
+                    Locale.setDefault(new Locale("pl", "Poland"));
+                    bundle = ResourceBundle.getBundle("messages");
+                    zmienJezyk();
+                }
                 System.out.print(Locale.getDefault());
-                bundle = ResourceBundle.getBundle("messages");
-                language.setText(bundle.getString("language.button"));
+                //
 
             }
         });
 
+    }
+
+    public void zmienJezyk() {
+
+        frame.setTitle(bundle.getString("app.title"));
+        language.setText(bundle.getString("language.button"));
+        view.setText(bundle.getString("view.text"));
+        file.setText(bundle.getString("file.text"));
+        //tutaj zmienic nazwy wszystkiego :oo
     }
 
 }

@@ -4,19 +4,8 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Daniel on 2017-11-13.
  */
-public class PodawajGodzine implements Runnable {
+public class PodawajGodzine{
 
-    String godzina;
-
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        godzina = podajGodzine();
-    }
 
     public String podajGodzine() {
         try {
