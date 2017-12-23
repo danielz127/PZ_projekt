@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Created by Daniel on 2017-11-10.
@@ -6,6 +8,7 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         System.out.print("Dziala");
+
         EventQueue.invokeLater(new Runnable() {
 
             public void run() {

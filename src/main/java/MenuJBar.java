@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MenuJBar extends JMenuBar {
 
@@ -9,6 +11,7 @@ public class MenuJBar extends JMenuBar {
     JMenu view;
     JMenuItem exit, language, plaf;
     Frame frame;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public MenuJBar(Frame frame) {
         file = new JMenu("Plik");
@@ -18,7 +21,7 @@ public class MenuJBar extends JMenuBar {
         this.frame = frame;
 
         exit = new JMenuItem("Zamknij");
-        language = new JMenuItem("Zmień język");
+        language = new JMenuItem(bundle.getString("language.button"));
         plaf = new JMenuItem("Zmień skórkę");
         file.add(exit);
         //file.addSeparator();
@@ -39,6 +42,17 @@ public class MenuJBar extends JMenuBar {
                 //System.exit(0);
 
                 frame.dispose();
+
+            }
+        });
+        language.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Locale.setDefault(new Locale("en", "EN"));
+                System.out.print(Locale.getDefault());
+                bundle = ResourceBundle.getBundle("messages");
+                language.setText(bundle.getString("language.button"));
 
             }
         });

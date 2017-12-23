@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ResourceBundle;
 
 /**
  * Created by Daniel on 2017-11-10.
@@ -27,16 +28,17 @@ public class OknoProgramu extends JFrame {
     Image iconImage;
     JLabel background;
     MenuJBar menuJBar;
-
+    ResourceBundle mybundle;
 
     public OknoProgramu() {
-        super("Siłownia");
+        super();
+        mybundle = ResourceBundle.getBundle("messages");
+        setTitle(mybundle.getString("app.title"));
 
-        panelLogowania = new JPanel();
         menuJBar = new MenuJBar(this);
-
         // pamietac ze menu tu sie dodaje
         setJMenuBar(menuJBar);
+        panelLogowania = new JPanel();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         iconImage = Toolkit.getDefaultToolkit().getImage("resources/dumbbell.png");
@@ -51,8 +53,16 @@ public class OknoProgramu extends JFrame {
         guiPanelu();
         polaczenieBazy();
 
+
     }
 
+    public ResourceBundle getMybundle() {
+        return mybundle;
+    }
+
+    public void setMybundle(ResourceBundle mybundle) {
+        this.mybundle = mybundle;
+    }
 
     public void guiPanelu() {
         panelLogowania.setVisible(true);
@@ -94,13 +104,14 @@ public class OknoProgramu extends JFrame {
         });
     }
 
-    public void pominLogowanie(){
-        panelMenu = new PanelProgram( this, "Krakow");
+    public void pominLogowanie() {
+        panelMenu = new PanelProgram(this, "Krakow");
         panelLogowania.setVisible(false);
         add(panelMenu);
 
 
     }
+
     public void polaczenieBazy() {
         try {
 
