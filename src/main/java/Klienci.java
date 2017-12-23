@@ -1,5 +1,16 @@
 import javax.swing.*;
+import java.awt.*;
 
-public class Klienci extends JPanel {
-    //panel z zestawieniem klientow
+/**
+ * Created by Daniel on 2017-11-18.
+ */
+public class Klienci extends JPanel{
+
+    public Klienci() {
+        setVisible(true);
+        //setSize(200, 700);
+
+        setBackground(Color.BLUE);
+
+    }
 }

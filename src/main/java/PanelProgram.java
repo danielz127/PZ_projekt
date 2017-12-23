@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Daniel on 2017-11-13.
@@ -19,15 +17,9 @@ public class PanelProgram extends JPanel {
 
     public PanelProgram(Frame frame, String miasto) {
 
-        setSize(parent.getSize());
-        setVisible(true);
-        this.frame = frame;
         this.miasto = miasto;
-
-
-        //zobaczyc czy frame sie dobrze dodal
-        panelMenu = new PanelMenu(miasto, frame);
-        System.out.println(podajGodzine());
+        setSize(frame.getSize());
+        setVisible(true);
 
         setBackground(Color.RED);
         guiPanelu();
@@ -35,6 +27,8 @@ public class PanelProgram extends JPanel {
     }
 
     public void guiPanelu() {
+        //zobaczyc czy frame sie dobrze dodal
+        panelMenu = new PanelMenu(miasto);
 
         setLayout(new BorderLayout());
 
@@ -42,21 +36,13 @@ public class PanelProgram extends JPanel {
 
         add(panelMenu, BorderLayout.WEST);
 
-        add(new Kontrahenci());
+        //tutaj drugi panel
+        add(new Klienci());
+
         revalidate();
         repaint();
 
     }
 
-    public String podajGodzine() {
-        try {
-            SimpleDateFormat sdf =
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            return (sdf.format(CzasSieciowy.getAtomicTime().getTime()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
 
 }

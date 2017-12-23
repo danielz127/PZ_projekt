@@ -9,12 +9,12 @@ public class PanelMenu extends JPanel {
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    Frame frame;
 
-    public PanelMenu(String miasto, Frame frame) {
+
+    public PanelMenu(String miasto) {
         setVisible(true);
         sprawdzGodzine = new PodawajGodzine();
-        this.frame = frame;
+
         setBackground(Color.green);
         this.miasto = miasto;
         stworzMenu();
@@ -42,7 +42,7 @@ public class PanelMenu extends JPanel {
         add(labelMiasto);
         add(czasSieciowy);
 
-        JButton buttonKontrahenci = new JButton("Kontrahenci");
+        JButton buttonKontrahenci = new JButton("Klienci");
 
         JButton buttonWplaty = new JButton("Wplaty");
 

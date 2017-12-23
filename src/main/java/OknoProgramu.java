@@ -97,7 +97,7 @@ public class OknoProgramu extends JFrame {
     }
 
     public void pominLogowanie() {
-        panelMenu = new PanelProgram(this, "Krakow");
+        panelMenu = new PanelProgram( this, "Krakow");
         panelLogowania.setVisible(false);
         add(panelMenu);
 
@@ -154,7 +154,7 @@ public class OknoProgramu extends JFrame {
     public boolean sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto) {
         if (loginPanel.equals(loginBaza) && hasloPanel.equals(hasloBaza)) {
 
-            panelMenu = new PanelProgram(this, miasto);
+            panelMenu = new PanelProgram( this, miasto);
             panelLogowania.setVisible(false);
             this.add(panelMenu);
             succeeded = true;
