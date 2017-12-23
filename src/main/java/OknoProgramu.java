@@ -1,3 +1,8 @@
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +18,12 @@ public class OknoProgramu extends JFrame {
     //wraz z logowaniem
 
     JPanel panelLogowania;
+    JPanel panelProgram;
     JPanel panelMenu;
+
+    String loginBaza = "";
+    String hasloBaza = "";
+    String miasto = "";
 
     ResultSet myRs;
     Connection myCon;
@@ -28,14 +38,19 @@ public class OknoProgramu extends JFrame {
     Image iconImage;
     JLabel background;
     MenuJBar menuJBar;
-    ResourceBundle mybundle;
+    ResourceBundle bundle;
+    EventBus eventBus;
+
+
 
     public OknoProgramu() {
         super();
-        mybundle = ResourceBundle.getBundle("messages");
-        setTitle(mybundle.getString("app.title"));
+        eventBus = new EventBus();
+        eventBus.register(this);
+        bundle = ResourceBundle.getBundle("messages");
+        setTitle(bundle.getString("app.title"));
 
-        menuJBar = new MenuJBar(this);
+        menuJBar = new MenuJBar(this, eventBus);
         // pamietac ze menu tu sie dodaje
         setJMenuBar(menuJBar);
         panelLogowania = new JPanel();
@@ -50,13 +65,52 @@ public class OknoProgramu extends JFrame {
 
         setResizable(false);
         setVisible(true);
-        guiPanelu();
+
+        guiPaneluLogowania();
         polaczenieBazy();
+        eventBus.register(panelLogowania);
+
 
 
     }
 
-    public void guiPanelu() {
+    @Subscribe
+    public void onEtykietaEvent(EtykietaEvent event){
+
+        aktualizujEtykiety();
+
+    }
+
+    public void guiPaneluGlownego() {
+        //zobaczyc czy frame sie dobrze dodal
+        panelProgram = new JPanel();
+
+        //miasto zwracane przez zapytanie
+        panelMenu = new PanelMenu(this, miasto, bundle);
+
+        setLayout(new BorderLayout());
+        setSize(this.getSize());
+        setVisible(true);
+
+        setBackground(Color.RED);
+
+        panelMenu.setPreferredSize(new Dimension(200, 700));
+
+        add(panelMenu, BorderLayout.WEST);
+        panelLogowania.setVisible(false);
+
+        //tutaj drugi panel
+        add(new Klienci());
+        eventBus.register(panelMenu);
+        eventBus.register(panelProgram);
+        eventBus.register(menuJBar);
+        revalidate();
+        repaint();
+
+    }
+
+
+    public void guiPaneluLogowania() {
         panelLogowania.setVisible(true);
 
         panelLogowania.setLayout(null);
@@ -87,21 +141,21 @@ public class OknoProgramu extends JFrame {
 
         przyciskLogowania.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 //tutaj usunac, zeby wlaczyc logowanie
                 //sprawdzCzyDobreHaslo();
                 pominLogowanie();
 
             }
         });
+
     }
 
     public void pominLogowanie() {
-        panelMenu = new PanelProgram( this, "Krakow");
-        panelLogowania.setVisible(false);
-        add(panelMenu);
+//        panelProgram = new PanelProgram(this, "Krakow");
+//        panelLogowania.setVisible(false);
+//        add(panelProgram);
 
-
+        guiPaneluGlownego();
     }
 
     public void polaczenieBazy() {
@@ -123,9 +177,7 @@ public class OknoProgramu extends JFrame {
 
     public boolean sprawdzCzyDobreHaslo() {
         {
-            String loginBaza = "";
-            String hasloBaza = "";
-            String miasto = "";
+
             String loginPanel = getUsername();
             String hasloPanel = getPassword();
 
@@ -148,13 +200,14 @@ public class OknoProgramu extends JFrame {
             }
             return false;
 
+
         }
     }
 
     public boolean sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto) {
         if (loginPanel.equals(loginBaza) && hasloPanel.equals(hasloBaza)) {
 
-            panelMenu = new PanelProgram( this, miasto);
+            panelMenu = new PanelProgram(this, miasto, bundle);
             panelLogowania.setVisible(false);
             this.add(panelMenu);
             succeeded = true;
@@ -179,4 +232,8 @@ public class OknoProgramu extends JFrame {
     }
 
 
+    public void aktualizujEtykiety() {
+
+        labelHaslo.setText(bundle.getString("button.password"));
+    }
 }

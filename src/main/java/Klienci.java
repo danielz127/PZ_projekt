@@ -10,7 +10,7 @@ public class Klienci extends JPanel{
         setVisible(true);
         //setSize(200, 700);
 
-        setBackground(Color.BLUE);
+        setBackground(Color.DARK_GRAY);
 
     }
 }

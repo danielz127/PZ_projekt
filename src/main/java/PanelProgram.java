@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 /**
  * Created by Daniel on 2017-11-13.
@@ -7,20 +8,21 @@ import java.awt.*;
 public class PanelProgram extends JPanel {
     String miasto;
     JLabel labelMiasto;
-    Frame parent;
+
     JLabel labelTime;
     GridBagConstraints gbc;
     JPanel panelMenu;
     GridBagLayout gridBagLayout;
     Frame frame;
+    ResourceBundle bundle;
 
 
-    public PanelProgram(Frame frame, String miasto) {
+    public PanelProgram(Frame frame, String miasto, ResourceBundle bundle) {
 
         this.miasto = miasto;
         setSize(frame.getSize());
         setVisible(true);
-
+        this.bundle = bundle;
         setBackground(Color.RED);
         guiPanelu();
 
@@ -28,7 +30,7 @@ public class PanelProgram extends JPanel {
 
     public void guiPanelu() {
         //zobaczyc czy frame sie dobrze dodal
-        panelMenu = new PanelMenu(miasto);
+        panelMenu = new PanelMenu(frame, miasto, bundle);
 
         setLayout(new BorderLayout());
 
