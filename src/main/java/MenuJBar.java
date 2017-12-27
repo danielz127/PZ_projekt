@@ -14,19 +14,36 @@ public class MenuJBar extends JMenuBar {
     JMenuItem exit, language, plaf;
     Frame frame;
     boolean jezyk = true;
-    ResourceBundle bundle = ResourceBundle.getBundle("messages");
+    ResourceBundle bundle;
     EventBus eventBus;
-
+    WindowCloseListener windowCloseListener;
     public MenuJBar(Frame frame, EventBus eventBus) {
-        file = new JMenu(bundle.getString("file.text"));
-        view = new JMenu(bundle.getString("view.text"));
-        add(file);
-        add(view);
+
+
         this.frame = frame;
         this.eventBus = eventBus;
-        exit = new JMenuItem("Zamknij");
+
+
+        utworzElementy();
+        dodajElementy();
+        listenery();
+
+
+    }
+
+    public void utworzElementy() {
+        bundle = ResourceBundle.getBundle("messages");
+        windowCloseListener = new WindowCloseListener(frame);
+        file = new JMenu(bundle.getString("file.text"));
+        view = new JMenu(bundle.getString("view.text"));
         language = new JMenuItem(bundle.getString("language.button"));
         plaf = new JMenuItem("Zmień skórkę");
+        exit = new JMenuItem("Zamknij");
+    }
+
+    public void dodajElementy() {
+        add(file);
+        add(view);
         file.add(exit);
         //file.addSeparator();
 
@@ -34,20 +51,12 @@ public class MenuJBar extends JMenuBar {
         view.addSeparator();
         view.add(plaf);
 
-        listenery();
-
 
     }
 
     public void listenery() {
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //System.exit(0);
-                frame.dispose();
+        exit.addActionListener(windowCloseListener);
 
-            }
-        });
         language.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +78,7 @@ public class MenuJBar extends JMenuBar {
             bundle = ResourceBundle.getBundle("messages");
             zmienEtykiety();
         }
-       // System.out.print(Locale.getDefault());
+        // System.out.print(Locale.getDefault());
         //
     }
 

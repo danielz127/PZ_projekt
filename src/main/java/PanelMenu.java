@@ -1,8 +1,8 @@
 import com.google.common.eventbus.Subscribe;
-import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,17 +15,16 @@ public class PanelMenu extends JPanel {
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
     Frame frame;
-    JButton buttonWyloguj, buttonKlienci, buttonWplaty;
+    JButton buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
-    JButton buttonSzatnie;
-
+    JLabel labelMiasto;
+    ArrayList<JButton> listaButtonow;
 
 
     public PanelMenu(Frame frame, String miasto, ResourceBundle bundle) {
         setVisible(true);
         sprawdzGodzine = new PodawajGodzine();
         this.frame = frame;
-
 
         setBackground(Color.green);
         this.miasto = miasto;
@@ -36,52 +35,71 @@ public class PanelMenu extends JPanel {
         GridLayout gridLayout = new GridLayout(20, 2, 0, 5);
         setLayout(gridLayout);
         czasSieciowy = new JLabel();
+        listaButtonow = new ArrayList<>();
         SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
 
-                czasSieciowy.setText("Zalogowano: " + sprawdzGodzine.podajGodzine());
+                czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
                 return null;
             }
         };
         godzina.execute();
 
-        JLabel labelMiasto = new JLabel();
-
-
-        labelMiasto.setText(miasto);
-
-        add(labelMiasto);
-        add(czasSieciowy);
-
+        labelMiasto = new JLabel();
+        etykietaMiasta();
         stworzPrzyciski();
         dodajEtykiety();
         dodajPrzyciski();
 
     }
+
     @Subscribe
-    public void onEtykietaEvent(EtykietaEvent event){
+    public void onEtykietaEvent(EtykietaEvent event) {
+
         dodajEtykiety();
     }
 
-    public void stworzPrzyciski(){
-        buttonSzatnie = new JButton(("Szatnie"));
+    public void etykietaMiasta() {
+
+        add(labelMiasto);
+        add(czasSieciowy);
+
+    }
+
+    public void stworzPrzyciski() {
+        //kolejnosc ma znaczenie
         buttonKlienci = new JButton("Klienci");
+        buttonSzatnie = new JButton(("Szatnia"));
+        buttonKarnety = new JButton("Karnety");
+        buttonMagazyn = new JButton("Magazyn");
         buttonWplaty = new JButton("Wplaty");
-        buttonWyloguj = new JButton(bundle.getString("button.logowanie"));
+        buttonStatystyka = new JButton("Statystyka");
+        buttonWyloguj = new JButton(bundle.getString("button.wylogowanie"));
+        dodajDoListy();
+
+    }
+
+    private void dodajDoListy() {
+        listaButtonow.add(buttonKlienci);
+        listaButtonow.add(buttonSzatnie);
+        listaButtonow.add(buttonKarnety);
+        listaButtonow.add(buttonMagazyn);
+        listaButtonow.add(buttonWplaty);
+        listaButtonow.add(buttonStatystyka);
+        listaButtonow.add(buttonWyloguj);
     }
 
     public void dodajEtykiety() {
         bundle = ResourceBundle.getBundle("messages");
+        labelMiasto.setText(miasto);
         System.out.print(Locale.getDefault());
-        buttonWyloguj.setText(bundle.getString("button.logowanie"));
+        buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
 
     }
-    public void dodajPrzyciski() {
-        add(buttonSzatnie);
-        add(buttonKlienci);
-        add(buttonWplaty);
-        add(buttonWyloguj);
 
+    public void dodajPrzyciski() {
+        for (JButton button : listaButtonow)
+            add(button);
     }
 }
