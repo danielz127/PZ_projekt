@@ -4,10 +4,11 @@ public class Baza {
     ResultSet myRs;
     Connection myCon;
     Statement myStm;
-    public void utworzPOlaczenie(){
+
+    public void utworzPolaczenie(){
         try {
 
-            String url = "jdbc:mysql://localhost:3306/zdarzeniowe";
+            String url = "jdbc:mysql://localhost:3306/zdarzeniowe?autoReconnect=true&useSSL=false";
 
             //bardzo tajne haslo
             String userName = "root";
@@ -16,6 +17,7 @@ public class Baza {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
             myCon = DriverManager.getConnection(url, userName, password);
+
 
 
         } catch (Exception ex) {

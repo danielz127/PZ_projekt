@@ -3,54 +3,160 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.sql.SQLException;
 
 public class Klienci extends JPanel {
-    static final long serialVersionUID = 1L;
-    protected JButton button;
-    DefaultTableModel model = new DefaultTableModel();
+
+    JButton buttonDodajKlienta, buttonWyswietlKLienta;
+    DefaultTableModel model;
     JTable table;
     Baza baza;
+    JTextField textField;
+    JLabel labelNazwisko;
+    GridBagConstraints gbc;
+    JButton buttonSzukajNazwiska;
 
-    double wartoscProd = 0;
-    int iloscProd = 0;
+
 
     JTextField textArea;
 
-    public void utworzElementy(){
-        table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        table.setPreferredScrollableViewportSize(new Dimension(600, 400));
-        add(scrollPane);
-        textArea = new JTextField();
-        textArea.setFont(new Font("Serif", Font.ITALIC, 16));
-        table.setPreferredScrollableViewportSize(new Dimension(600, 400));
-        button = new JButton("Add item");
-        add(button);
-
-    }
     public Klienci(Baza baza, OknoProgramu oknoProgramu) {
         //GridBagLayout od razu
-        super(new GridLayout(4, 0));
+        super();
+        setBackground(Color.WHITE);
+
         this.baza = baza;
 
         setVisible(true);
         utworzElementy();
-        wypelnijTabele();
+        dodajElementy();
+
         listenery();
 
     }
 
+    public void utworzElementy() {
+        textField = new JTextField(15);
+        buttonSzukajNazwiska = new JButton("Szukaj");
+        labelNazwisko = new JLabel("Podaj nazwisko");
+
+        gbc = new GridBagConstraints();
+        model = new DefaultTableModel();
+        table = new JTable();
+
+        textArea = new JTextField();
+        textArea.setFont(new Font("Serif", Font.ITALIC, 16));
+
+        buttonDodajKlienta = new JButton("Dodaj klienta");
+        buttonWyswietlKLienta = new JButton("Wyswietl wszystkich klientow");
+
+
+    }
+
+    public void dodajElementy(){
+        setLayout(new GridBagLayout());
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        gbc.insets=new Insets(3, 3, 3, 3);
+
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.gridx=0;
+        gbc.gridy=0;
+
+        add(labelNazwisko, gbc);
+
+        gbc.gridx=2;
+        gbc.gridy=0;
+        gbc.gridwidth=10;
+        add(textField);
+
+        gbc.gridx=15;
+        gbc.gridy=0;
+        gbc.gridwidth=4;
+        add(buttonSzukajNazwiska);
+
+
+        gbc.gridx=0;
+        gbc.gridy=1;
+        gbc.gridwidth=10;
+
+        add(scrollPane, gbc);
+
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridx=0;
+        gbc.gridy=12;
+        gbc.gridwidth=2;
+        add(buttonWyswietlKLienta, gbc);
+
+        gbc.gridx=8;
+        gbc.gridy=12;
+        add(buttonDodajKlienta, gbc);
+
+
+
+    }
+
+
+
     private void listenery() {
-        button.addActionListener(new ActionListener() {
+        buttonDodajKlienta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //  sc = new ShoppingCart(Integer.parseInt(textArea.getText()));
-                dodajPustyWiersz();
-                policzWartosci();
-
-                //
+                dodajPustyWiersz();                //
             }
         });
+        buttonWyswietlKLienta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wypelnijTabele();
+            }
+        });
+        buttonSzukajNazwiska.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                szukajNazwiska();
+            }
+        });
+    }
+
+    private void szukajNazwiska() {
+        // table.add
+        model=new DefaultTableModel();
+        model.addColumn("Imie");
+        model.addColumn("Nazwisko");
+        model.addColumn("Telefon");
+        baza.utworzPolaczenie();
+        String nazwiskoWejscie = textField.getText();
+        String kodSql = "select Klient.Imie, Klient.Nazwisko,Klient.Telefon from klient, miasto, silownia " +
+        "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and Klient.Nazwisko ="+'"' +nazwiskoWejscie+'"'+
+        " ORDER BY klient.Nazwisko DESC" ;
+        try {
+            baza.myStm = baza.myCon.createStatement();
+            baza.myRs = baza.myStm.executeQuery(kodSql);
+            while (baza.myRs.next()) {
+                String imie = baza.myRs.getString("Imie");
+                String nazwisko = baza.myRs.getString("Nazwisko");
+                String telefon = baza.myRs.getString("Telefon");
+                model.addRow(new Object[]{imie, nazwisko, telefon});
+
+                //System.out.println(country + " " + sum);
+                //
+            }
+
+            baza.rozlaczBaze();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        table.setModel(model);
+
+
+
+
+        model.addRow(new Object[]{null});
+        //model.addRow(new Object[]{null});
+        table.setModel(model);
+
     }
 
     public void dodajPustyWiersz() {
@@ -59,24 +165,49 @@ public class Klienci extends JPanel {
 
     }
 
-    public void policzWartosci() {
-        iloscProd = 0;
-        wartoscProd = 0;
-        for (int i = 0; i < model.getRowCount(); i++) {
-            if (model.getValueAt(i, 2) != null) iloscProd += Integer.parseInt(model.getValueAt(i, 2).toString());
-            if (model.getValueAt(i, 1) != null)
-                wartoscProd = wartoscProd + Integer.parseInt(model.getValueAt(i, 1).toString()) * Integer.parseInt(model.getValueAt(i, 2).toString());
 
-        }
+//        for (int i = 0; i < model.getRowCount(); i++) {
+//            if (model.getValueAt(i, 2) != null) iloscProd += Integer.parseInt(model.getValueAt(i, 2).toString());
+//            if (model.getValueAt(i, 1) != null)
+//                wartoscProd = wartoscProd + Integer.parseInt(model.getValueAt(i, 1).toString()) * Integer.parseInt(model.getValueAt(i, 2).toString());
+//
+//        }
 
-    }
 
     public void wypelnijTabele() {
         // table.add
-
+        model = new DefaultTableModel();
         model.addColumn("Imie");
         model.addColumn("Nazwisko");
         model.addColumn("Telefon");
+        baza.utworzPolaczenie();
+
+        try {
+            baza.myStm = baza.myCon.createStatement();
+            baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon " +
+                    "from klient, miasto, silownia " +
+                    "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta " +
+                    "ORDER BY klient.Nazwisko DESC ;");
+            while (baza.myRs.next()) {
+                String imie = baza.myRs.getString("Imie");
+                String nazwisko = baza.myRs.getString("Nazwisko");
+                String telefon = baza.myRs.getString("Telefon");
+                model.addRow(new Object[]{imie, nazwisko, telefon});
+
+                //System.out.println(country + " " + sum);
+                //
+            }
+
+            baza.rozlaczBaze();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        table.setModel(model);
+
+
+
+
         model.addRow(new Object[]{null});
         //model.addRow(new Object[]{null});
         table.setModel(model);

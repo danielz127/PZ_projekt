@@ -174,7 +174,7 @@ public class OknoProgramu extends JFrame {
 
     public boolean sprawdzCzyDobreHaslo() {
         {
-            baza.utworzPOlaczenie();
+            baza.utworzPolaczenie();
             String loginPanel = getUsername();
             String hasloPanel = getPassword();
 
@@ -187,6 +187,7 @@ public class OknoProgramu extends JFrame {
                     loginBaza = baza.myRs.getString("Login");
                     hasloBaza = baza.myRs.getString("Haslo");
                     miasto = baza.myRs.getString("Nazwa");
+
                     sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto);
                     System.out.println(loginBaza + hasloBaza + miasto);
                     //rozlaczyc z baza!!
@@ -207,17 +208,19 @@ public class OknoProgramu extends JFrame {
     }
 
 
-    public void sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto) {
+    public boolean sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto)   {
         if (loginPanel.equals(loginBaza) && hasloPanel.equals(hasloBaza)) {
 
             guiPaneluGlownego();
             panelLogowania.setVisible(false);
+            return true;
 
 
         } else {
 
             tekstHaslo.setText("");
             tekstLogin.setText("");
+            return false;
 
         }
 
