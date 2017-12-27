@@ -108,8 +108,8 @@ public class OknoProgramu extends JFrame {
         add(panelMenu, BorderLayout.WEST);
         panelLogowania.setVisible(false);
 
-        //tutaj drugi panel
-        add(new Klienci());
+        //tutaj drugi panel - domyslnie klienci - ale powinno byc na przycisk
+        add(new Klienci(baza, this));
 
 
     }

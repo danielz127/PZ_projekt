@@ -10,8 +10,8 @@ public class Testy extends JFrame {
 
         this.setTitle("Test");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        add(panelTlo);
+        Baza baza = new Baza();
+       // add(new Klienci(ba));
 
         pack();  // **** added
         setVisible(true);

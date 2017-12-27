@@ -8,6 +8,8 @@ public class Baza {
         try {
 
             String url = "jdbc:mysql://localhost:3306/zdarzeniowe";
+
+            //bardzo tajne haslo
             String userName = "root";
             String password = "root";
 
