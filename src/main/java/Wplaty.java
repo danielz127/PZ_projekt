@@ -1,5 +1,5 @@
 import javax.swing.*;
 
-public class Wplaty extends JPanel{
+public class Wplaty extends JPanel {
 
 }

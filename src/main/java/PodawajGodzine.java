@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Daniel on 2017-11-13.
  */
-public class PodawajGodzine{
+public class PodawajGodzine {
 
 
     public String podajGodzine() {

@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Created by Daniel on 2017-11-10.

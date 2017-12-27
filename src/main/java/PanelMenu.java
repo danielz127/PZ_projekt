@@ -14,17 +14,18 @@ public class PanelMenu extends JPanel {
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    Frame frame;
+    OknoProgramu frame;
     JButton buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
     JLabel labelMiasto;
     ArrayList<JButton> listaButtonow;
 
 
-    public PanelMenu(Frame frame, String miasto, ResourceBundle bundle) {
+    public PanelMenu(OknoProgramu frame, String miasto) {
         setVisible(true);
         sprawdzGodzine = new PodawajGodzine();
         this.frame = frame;
+
 
         setBackground(Color.green);
         this.miasto = miasto;
@@ -54,11 +55,6 @@ public class PanelMenu extends JPanel {
 
     }
 
-    @Subscribe
-    public void onEtykietaEvent(EtykietaEvent event) {
-
-        dodajEtykiety();
-    }
 
     public void etykietaMiasta() {
 

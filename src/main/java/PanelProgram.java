@@ -13,11 +13,11 @@ public class PanelProgram extends JPanel {
     GridBagConstraints gbc;
     JPanel panelMenu;
     GridBagLayout gridBagLayout;
-    Frame frame;
+    OknoProgramu frame;
     ResourceBundle bundle;
 
 
-    public PanelProgram(Frame frame, String miasto, ResourceBundle bundle) {
+    public PanelProgram(OknoProgramu frame, String miasto, ResourceBundle bundle) {
 
         this.miasto = miasto;
         setSize(frame.getSize());
@@ -30,7 +30,7 @@ public class PanelProgram extends JPanel {
 
     public void guiPanelu() {
         //zobaczyc czy frame sie dobrze dodal
-        panelMenu = new PanelMenu(frame, miasto, bundle);
+        panelMenu = new PanelMenu(frame, miasto);
 
         setLayout(new BorderLayout());
 

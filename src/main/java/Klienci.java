@@ -3,12 +3,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
 import java.io.*;
 
 public class Klienci extends JPanel {
-    protected JButton button;
     static final long serialVersionUID = 1L;
+    protected JButton button;
     DefaultTableModel model = new DefaultTableModel();
     JTable table;
 
@@ -41,7 +40,7 @@ public class Klienci extends JPanel {
         button = new JButton("Add item");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              //  sc = new ShoppingCart(Integer.parseInt(textArea.getText()));
+                //  sc = new ShoppingCart(Integer.parseInt(textArea.getText()));
                 dodajPustyWiersz();
                 policzWartosci();
 

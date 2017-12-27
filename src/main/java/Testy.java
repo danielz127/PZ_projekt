@@ -1,13 +1,9 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Testy extends JFrame {
 
 
-    public static void main(String[] args) {
-        Testy testy = new Testy();
-    }
-    public Testy(){
+    public Testy() {
         // Window and Picture Setup
 
         JPanel panelTlo = new PanelTlo();
@@ -19,6 +15,10 @@ public class Testy extends JFrame {
 
         pack();  // **** added
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        Testy testy = new Testy();
     }
 
 }
