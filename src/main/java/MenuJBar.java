@@ -50,6 +50,8 @@ public class MenuJBar extends JMenuBar {
         exit.addActionListener(windowCloseListener);
 
         language.addActionListener(new JezyklListener(frame));
+
+
     }
 
 

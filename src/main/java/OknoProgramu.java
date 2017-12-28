@@ -109,7 +109,7 @@ public class OknoProgramu extends JFrame {
         panelLogowania.setVisible(false);
 
         //tutaj drugi panel - domyslnie klienci - ale powinno byc na przycisk
-        add(new Klienci(baza, this));
+      //  add(new Klienci(baza, this));
 
 
     }
@@ -188,7 +188,8 @@ public class OknoProgramu extends JFrame {
                     hasloBaza = baza.myRs.getString("Haslo");
                     miasto = baza.myRs.getString("Nazwa");
 
-                    sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto);
+                    if(sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto))
+                        return true;
                     System.out.println(loginBaza + hasloBaza + miasto);
                     //rozlaczyc z baza!!
 
@@ -199,6 +200,8 @@ public class OknoProgramu extends JFrame {
 
             } catch (SQLException e) {
                 e.printStackTrace();
+            } catch (PasswordException e) {
+                System.out.print("Tutaj jest łapany wyjątek");
             }
 
             return false;
@@ -208,7 +211,7 @@ public class OknoProgramu extends JFrame {
     }
 
 
-    public boolean sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto)   {
+    public boolean sprawdzPoprawnosc(String loginPanel, String hasloPanel, String loginBaza, String hasloBaza, String miasto) throws PasswordException {
         if (loginPanel.equals(loginBaza) && hasloPanel.equals(hasloBaza)) {
 
             guiPaneluGlownego();
@@ -216,11 +219,13 @@ public class OknoProgramu extends JFrame {
             return true;
 
 
+
         } else {
 
             tekstHaslo.setText("");
             tekstLogin.setText("");
-            return false;
+            throw new PasswordException();
+
 
         }
 

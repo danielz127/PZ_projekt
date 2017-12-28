@@ -2,6 +2,8 @@ import com.google.common.eventbus.Subscribe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -19,6 +21,14 @@ public class PanelMenu extends JPanel {
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
     JLabel labelMiasto;
     ArrayList<JButton> listaButtonow;
+    //dodaj wszystkie panele do listy np;
+    Klienci klienci;
+    Szatnia szatnia;
+    Karnety karnety;
+    Magazyn magazyn;
+    Statystyka statystyka;
+    Wplaty wplaty;
+    ArrayList<JPanel> listaPaneli;
 
 
     public PanelMenu(OknoProgramu frame, String miasto) {
@@ -29,6 +39,7 @@ public class PanelMenu extends JPanel {
 
         setBackground(Color.green);
         this.miasto = miasto;
+        listaPaneli = new ArrayList<>();
         stworzMenu();
     }
 
@@ -52,7 +63,38 @@ public class PanelMenu extends JPanel {
         stworzPrzyciski();
         dodajEtykiety();
         dodajPrzyciski();
+        paneleDoListy();
+        listenery();
 
+    }
+
+    private void paneleDoListy() {
+    }
+
+    private void listenery() {
+        buttonKlienci.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //dodaj funkcje wygaszajaca wszystkie panele
+                if(szatnia!=null)
+                szatnia.setVisible(false);
+                klienci = new Klienci(frame.baza, frame);
+                frame.add(klienci);
+                frame.pack();
+                //cos zeby odwieżyć ramke
+            }
+        });
+        buttonSzatnie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                szatnia = new Szatnia();
+                if(klienci!=null)
+                klienci.setVisible(false);
+                frame.add(szatnia);
+                frame.pack();
+            }
+        });
     }
 
 
