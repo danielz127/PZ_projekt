@@ -1,2 +1,4 @@
-public class Karnety {
+import javax.swing.*;
+
+public class Karnety extends JPanel {
 }

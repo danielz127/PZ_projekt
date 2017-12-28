@@ -1,2 +1,4 @@
-public class Statystyka {
+import javax.swing.*;
+
+public class Statystyka extends JPanel {
 }
