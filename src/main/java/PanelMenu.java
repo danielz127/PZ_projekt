@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 /**
  * Created by Daniel on 2017-11-14.
@@ -16,7 +17,7 @@ public class PanelMenu extends JPanel {
     PodawajGodzine sprawdzGodzine;
     OknoProgramu frame;
     JButton buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
-    ResourceBundle bundle = ResourceBundle.getBundle("messages");
+    ResourceBundle bundle;
     JLabel labelMiasto;
     ArrayList<JButton> listaButtonow;
     //dodaj wszystkie panele do listy np;
@@ -33,16 +34,15 @@ public class PanelMenu extends JPanel {
 
     public PanelMenu(OknoProgramu frame, String miasto) {
         setVisible(true);
+        bundle = ResourceBundle.getBundle("messages");
         sprawdzGodzine = new PodawajGodzine();
         this.frame = frame;
-
-        setBackground(Color.green);
+        setBackground(new Color(160, 255, 255));
         this.miasto = miasto;
         listaPaneli = new ArrayList<>();
         stworzMenu();
         utworzPanele();
         paneleDoListy();
-
         listeneryPaneli();
         //wygasPanele();
         listenery();
@@ -125,13 +125,13 @@ public class PanelMenu extends JPanel {
 
         public void stworzPrzyciski () {
             //kolejnosc ma znaczenie
-            buttonKlienci = new JButton("Klienci");
-            buttonSzatnie = new JButton(("Szatnia"));
-            buttonKarnety = new JButton("Karnety");
-            buttonMagazyn = new JButton("Magazyn");
-            buttonWplaty = new JButton("Wplaty");
-            buttonStatystyka = new JButton("Statystyka");
-            buttonWyloguj = new JButton(bundle.getString("button.wylogowanie"));
+            buttonKlienci = new JButton("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
+            buttonSzatnie = new JButton("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
+            buttonKarnety = new JButton("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
+            buttonMagazyn = new JButton("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
+            buttonWplaty = new JButton("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
+            buttonStatystyka = new JButton("Statystyka", new ImageIcon("src/main/resources/ikony/statystyka.png"));
+            buttonWyloguj = new JButton(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"));
             dodajDoListy();
 
         }
@@ -155,7 +155,11 @@ public class PanelMenu extends JPanel {
         }
 
         public void dodajPrzyciski () {
-            for (JButton button : listaButtonow)
+        setLayout(new FlowLayout());
+            Consumer<JButton> consumer = button -> {  button.setPreferredSize(new Dimension(120, 30));
                 add(button);
+            };
+            listaButtonow.forEach(consumer);
+
         }
     }

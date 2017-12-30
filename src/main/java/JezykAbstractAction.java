@@ -1,16 +1,18 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class JezyklListener implements ActionListener {
+public class JezykAbstractAction extends AbstractAction {
     OknoProgramu oknoProgramu;
     boolean jezyk;
 
 
 
-    public JezyklListener(OknoProgramu oknoProgramu) {
+    public JezykAbstractAction(String text, ImageIcon icon, OknoProgramu oknoProgramu) {
+        super(text, icon);
 
         jezyk = true;
         this.oknoProgramu = oknoProgramu;

@@ -1,18 +1,31 @@
+import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Baza {
     ResultSet myRs;
     Connection myCon;
     Statement myStm;
+    BazaParser bazaParser;
+    ArrayList<String> daneBazy;
+    public Baza() {
+      bazaParser = new BazaParser();
+      bazaParser.pobierzXML();
+      daneBazy = bazaParser.getDaneBazy();
+
+    }
 
     public void utworzPolaczenie(){
         try {
 
-            String url = "jdbc:mysql://localhost:3306/zdarzeniowe?autoReconnect=true&useSSL=false";
+//            String url = "jdbc:mysql://localhost:3306/zdarzeniowe?autoReconnect=true&useSSL=false";
+//            String wazne = "?autoReconnect=true&useSSL=false";
+//            url +=wazne;
 
-            //bardzo tajne haslo
-            String userName = "root";
-            String password = "root";
+            String url = daneBazy.get(0);
+            String userName = daneBazy.get(1);
+            String password = daneBazy.get(2);
+
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 

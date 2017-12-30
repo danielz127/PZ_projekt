@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<dane>
+    <Baza url="jdbc:mysql://localhost:3306/zdarzeniowe?autoReconnect=true&amp;useSSL=false">
+        <login>root</login>
+        <haslo>root</haslo>
+    </Baza>
+
+</dane>

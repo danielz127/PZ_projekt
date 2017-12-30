@@ -37,21 +37,39 @@ public class OknoProgramu extends JFrame {
     MenuJBar menuJBar;
     ResourceBundle bundle;
     Font font;
+    WczytajProperties wczytajProperties;
 
 
     public OknoProgramu() {
         super();
+        wczytajProperties = new WczytajProperties();
 
-        setSize(1000, 700);
+        setSize(wczytajProperties.getSzerokosc(), wczytajProperties.getWysokosc());
+        //moze warto zmienic
         setResizable(false);
         setVisible(true);
 
+        swingWrokerBazy();
         listenery();
         utworzElementy();
         dodajElementy();
 
         guiPaneluLogowania();
 
+    }
+
+    private void swingWrokerBazy() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                baza = new Baza();
+
+
+                return null;
+            }
+
+        };
+        worker.execute();
     }
 
     private void listenery() {
@@ -66,7 +84,9 @@ public class OknoProgramu extends JFrame {
 
 
     public void utworzElementy() {
-        baza = new Baza();
+        //baza byc moze w tle
+
+
         font = getFont();
         bundle = ResourceBundle.getBundle("messages");
         menuJBar = new MenuJBar(this, bundle);
@@ -109,7 +129,7 @@ public class OknoProgramu extends JFrame {
         panelLogowania.setVisible(false);
 
         //tutaj drugi panel - domyslnie klienci - ale powinno byc na przycisk
-      //  add(new Klienci(baza, this));
+        //  add(new Klienci(baza, this));
 
 
     }
@@ -125,7 +145,7 @@ public class OknoProgramu extends JFrame {
         tekstHaslo = new JPasswordField(20);
         labelLogin = new JLabel("Login");
         labelHaslo = new JLabel(bundle.getString("label.password"));
-        przyciskLogowania = new JButton("Zaloguj");
+        przyciskLogowania = new JButton("Zaloguj", new ImageIcon("src/main/resources/ikony/login.png"));
         labelHaslo.setLabelFor(tekstHaslo);
         labelLogin.setLabelFor(tekstLogin);
 
@@ -188,7 +208,7 @@ public class OknoProgramu extends JFrame {
                     hasloBaza = baza.myRs.getString("Haslo");
                     miasto = baza.myRs.getString("Nazwa");
 
-                    if(sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto))
+                    if (sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto))
                         return true;
                     System.out.println(loginBaza + hasloBaza + miasto);
                     //rozlaczyc z baza!!
@@ -217,7 +237,6 @@ public class OknoProgramu extends JFrame {
             guiPaneluGlownego();
             panelLogowania.setVisible(false);
             return true;
-
 
 
         } else {

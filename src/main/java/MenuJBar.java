@@ -9,6 +9,7 @@ public class MenuJBar extends JMenuBar {
     OknoProgramu frame;
     ResourceBundle bundle;
     WindowCloseListener windowCloseListener;
+    Action changeLanguageAction;
 
     public MenuJBar(OknoProgramu frame, ResourceBundle bundle) {
 
@@ -18,19 +19,26 @@ public class MenuJBar extends JMenuBar {
 
         utworzElementy();
         dodajElementy();
+        utworzAkcje();
         listenery();
 
 
     }
+
+    private void utworzAkcje() {
+       // changeLanguageAction = new JezykAbstractAction(frame);
+    }
+
+
 
     public void utworzElementy() {
 
         windowCloseListener = new WindowCloseListener(frame);
         file = new JMenu(bundle.getString("file.text"));
         view = new JMenu(bundle.getString("view.text"));
-        language = new JMenuItem(bundle.getString("language.button"));
-        plaf = new JMenuItem("Zmień skórkę");
-        exit = new JMenuItem("Zamknij");
+        language = new JMenuItem(new JezykAbstractAction(bundle.getString("language.button"), new ImageIcon("src/main/resources/ikony/languageIcon.png"), frame));
+        plaf = new JMenuItem("Zmień skórkę", new ImageIcon("src/main/resources/ikony/zmiana1.png"));
+        exit = new JMenuItem("Zamknij", new ImageIcon("src/main/resources/ikony/zamknij.png"));
     }
 
     public void dodajElementy() {
@@ -49,7 +57,7 @@ public class MenuJBar extends JMenuBar {
     public void listenery() {
         exit.addActionListener(windowCloseListener);
 
-        language.addActionListener(new JezyklListener(frame));
+        //language.addActionListener(new JezykAbstractAction(frame));
 
 
     }
