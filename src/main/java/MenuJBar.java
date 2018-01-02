@@ -5,7 +5,7 @@ public class MenuJBar extends JMenuBar {
 
     JMenu file;
     JMenu view;
-    JMenuItem exit, language, plaf;
+    JMenuItem exit, language, plaf, plaf1, plaf2, plaf3;
     OknoProgramu frame;
     ResourceBundle bundle;
     WindowCloseListener windowCloseListener;
@@ -37,7 +37,11 @@ public class MenuJBar extends JMenuBar {
         file = new JMenu(bundle.getString("file.text"));
         view = new JMenu(bundle.getString("view.text"));
         language = new JMenuItem(new JezykAbstractAction(bundle.getString("language.button"), new ImageIcon("src/main/resources/ikony/languageIcon.png"), frame));
-        plaf = new JMenuItem("Zmień skórkę", new ImageIcon("src/main/resources/ikony/zmiana1.png"));
+//        plaf = new JMenu("Zmień skórkę", new ImageIcon("src/main/resources/ikony/zmiana1.png"));
+        plaf = new JMenu("Zmien widok");
+        plaf1 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst1"),new ImageIcon("src/main/resources/ikony/widok.png" ),1));
+        plaf2 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst2"),new ImageIcon("src/main/resources/ikony/widok.png" ),2));
+        plaf3 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst3"),new ImageIcon("src/main/resources/ikony/widok.png" ),3));
         exit = new JMenuItem("Zamknij", new ImageIcon("src/main/resources/ikony/zamknij.png"));
     }
 
@@ -50,6 +54,12 @@ public class MenuJBar extends JMenuBar {
         view.add(language);
         view.addSeparator();
         view.add(plaf);
+
+
+        plaf.add(plaf1);
+
+        plaf.add(plaf2);
+        plaf.add(plaf3);
 
 
     }

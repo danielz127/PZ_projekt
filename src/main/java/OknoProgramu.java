@@ -92,7 +92,7 @@ public class OknoProgramu extends JFrame {
         menuJBar = new MenuJBar(this, bundle);
         panelLogowania = new JPanel();
 
-        iconImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/dumbbell.png");
+        iconImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/ikony/dumbbell.png");
 
 
     }
@@ -175,8 +175,8 @@ public class OknoProgramu extends JFrame {
         przyciskLogowania.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //tutaj usunac, zeby wlaczyc logowanie
-                //sprawdzCzyDobreHaslo();
-                pominLogowanie();
+               sprawdzCzyDobreHaslo();
+               //pominLogowanie();
 
             }
         });

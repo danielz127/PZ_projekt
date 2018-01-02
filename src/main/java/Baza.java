@@ -18,9 +18,6 @@ public class Baza {
     public void utworzPolaczenie(){
         try {
 
-//            String url = "jdbc:mysql://localhost:3306/zdarzeniowe?autoReconnect=true&useSSL=false";
-//            String wazne = "?autoReconnect=true&useSSL=false";
-//            url +=wazne;
 
             String url = daneBazy.get(0);
             String userName = daneBazy.get(1);

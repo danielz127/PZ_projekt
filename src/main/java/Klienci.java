@@ -15,7 +15,7 @@ public class Klienci extends JPanel {
     JLabel labelNazwisko;
     GridBagConstraints gbc;
     JButton buttonSzukajNazwiska;
-
+    OknoProgramu oknoProgramu;
 
 
     JTextField textArea;
@@ -24,7 +24,7 @@ public class Klienci extends JPanel {
         //GridBagLayout od razu
         super();
         setBackground(Color.WHITE);
-
+        this.oknoProgramu = oknoProgramu;
         this.baza = baza;
 
         setVisible(true);
@@ -53,56 +53,54 @@ public class Klienci extends JPanel {
 
     }
 
-    public void dodajElementy(){
+    public void dodajElementy() {
         setLayout(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(table);
 
-        gbc.insets=new Insets(3, 3, 3, 3);
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.gridx=0;
-        gbc.gridy=0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
         add(labelNazwisko, gbc);
 
-        gbc.gridx=2;
-        gbc.gridy=0;
-        gbc.gridwidth=10;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 10;
         add(textField);
 
-        gbc.gridx=15;
-        gbc.gridy=0;
-        gbc.gridwidth=4;
+        gbc.gridx = 15;
+        gbc.gridy = 0;
+        gbc.gridwidth = 4;
         add(buttonSzukajNazwiska);
 
 
-        gbc.gridx=0;
-        gbc.gridy=1;
-        gbc.gridwidth=10;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 10;
 
         add(scrollPane, gbc);
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.gridx=0;
-        gbc.gridy=12;
-        gbc.gridwidth=2;
+        gbc.gridx = 0;
+        gbc.gridy = 12;
+        gbc.gridwidth = 2;
         add(buttonWyswietlKLienta, gbc);
 
-        gbc.gridx=8;
-        gbc.gridy=12;
+        gbc.gridx = 8;
+        gbc.gridy = 12;
         add(buttonDodajKlienta, gbc);
 
 
-
     }
-
 
 
     private void listenery() {
         buttonDodajKlienta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //  sc = new ShoppingCart(Integer.parseInt(textArea.getText()));
-                dodajPustyWiersz();                //
+                //
             }
         });
         buttonWyswietlKLienta.addActionListener(new ActionListener() {
@@ -111,6 +109,7 @@ public class Klienci extends JPanel {
                 wypelnijTabele();
             }
         });
+        buttonDodajKlienta.addActionListener(new NowyKlientEvent(baza, oknoProgramu));
         buttonSzukajNazwiska.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,15 +120,19 @@ public class Klienci extends JPanel {
 
     private void szukajNazwiska() {
         // table.add
-        model=new DefaultTableModel();
+        model = new DefaultTableModel();
         model.addColumn("Imie");
         model.addColumn("Nazwisko");
         model.addColumn("Telefon");
         baza.utworzPolaczenie();
         String nazwiskoWejscie = textField.getText();
+
+
+
+        //powinno byc sql prepared
         String kodSql = "select Klient.Imie, Klient.Nazwisko,Klient.Telefon from klient, miasto, silownia " +
-        "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and Klient.Nazwisko ="+'"' +nazwiskoWejscie+'"'+
-        " ORDER BY klient.Nazwisko DESC" ;
+                "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and Klient.Nazwisko =" + '"' + nazwiskoWejscie + '"' +
+                " ORDER BY klient.Nazwisko DESC";
         try {
             baza.myStm = baza.myCon.createStatement();
             baza.myRs = baza.myStm.executeQuery(kodSql);
@@ -151,17 +154,9 @@ public class Klienci extends JPanel {
         table.setModel(model);
 
 
-
-
         model.addRow(new Object[]{null});
         //model.addRow(new Object[]{null});
         table.setModel(model);
-
-    }
-
-    public void dodajPustyWiersz() {
-        //model = new DefaultTableModel();
-        model.addRow(new Object[]{null});
 
     }
 
@@ -186,7 +181,7 @@ public class Klienci extends JPanel {
             baza.myStm = baza.myCon.createStatement();
             baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon " +
                     "from klient, miasto, silownia " +
-                    "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta " +
+                    "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= '"+ oknoProgramu.miasto +"'"+
                     "ORDER BY klient.Nazwisko DESC ;");
             while (baza.myRs.next()) {
                 String imie = baza.myRs.getString("Imie");
@@ -204,8 +199,6 @@ public class Klienci extends JPanel {
             e.printStackTrace();
         }
         table.setModel(model);
-
-
 
 
         model.addRow(new Object[]{null});
