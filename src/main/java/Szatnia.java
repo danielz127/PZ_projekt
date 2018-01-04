@@ -9,7 +9,8 @@ public class Szatnia extends JPanel {
     ArrayList<Szafka> szafkiMeskie;
     ArrayList<Szafka> szafkiDamskie;
     ArrayList<JButton> przyciskiSzafek;
-
+    GridBagConstraints gbc;
+    JLabel meskie, damskie;
     public Szatnia(Baza baza, OknoProgramu oknoProgramu) {
         super();
         this.oknoProgramu = oknoProgramu;
@@ -30,13 +31,6 @@ public class Szatnia extends JPanel {
             @Override
             protected void done() {
                 super.done();
-//                for (Szafka szafka : szafkiDamskie) {
-//                    System.out.println(szafka.NrSzafki + String.valueOf(szafka.zajeta) + String.valueOf(szafka.plec));
-//                }
-//
-//                for (Szafka szafka : szafkiMeskie) {
-//                    System.out.println(szafka.NrSzafki + String.valueOf(szafka.zajeta) + String.valueOf(szafka.plec));
-//                }
                 dodajPrzyciskiSzafek();
 
             }
@@ -88,22 +82,61 @@ public class Szatnia extends JPanel {
     }
 
     private void dodajPrzyciskiSzafek() {
-        for (Szafka szafka : szafkiDamskie) {
-            add(szafka.button);
-        }
+        setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        meskie = new JLabel("Meskie");
+        meskie.setFont(new Font("Serif", Font.PLAIN, 24));
+        int x = 0;
+        int y = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth=4;
+        add(meskie, gbc);
+        gbc.gridwidth=1;
+        y++;
 
         for (Szafka szafka : szafkiMeskie) {
-            add(szafka.button);
-
+            gbc.gridx = x;
+            gbc.gridy = y;
+            add(szafka.button, gbc);
+            x = (x + 1);
+            if (x == 4) {
+                y++;
+                x = 0;
+            }
         }
+        y=y+2;
+        x=0;
+        damskie = new JLabel("Damskie");
+        damskie.setFont(new Font("Serif", Font.PLAIN, 24));
+        gbc.gridy = y;
+        gbc.gridx = x;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth=4;
+        add(damskie, gbc);
+        y++;
+        gbc.gridwidth=1;
+        y++;
+        for (Szafka szafka : szafkiDamskie) {
+
+            gbc.gridy = y;
+            gbc.gridx = x;
+            add(szafka.button, gbc);
+            x = (x + 1);
+            if (x == 4) {
+                y++;
+                x = 0;
+            }
+        }
+
 
     }
 
 
     public void utworzPanel() {
-        setVisible(true);
-        setBackground(Color.RED);
-        setPreferredSize(new Dimension(400, 500));
+
+        setBackground(new Color(223, 219, 235));
+
 
     }
 }
