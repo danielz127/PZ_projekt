@@ -27,7 +27,6 @@ public class Klienci extends JPanel {
         this.oknoProgramu = oknoProgramu;
         this.baza = baza;
 
-        setVisible(true);
         utworzElementy();
         dodajElementy();
 

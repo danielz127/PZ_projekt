@@ -63,8 +63,6 @@ public class OknoProgramu extends JFrame {
             @Override
             protected Void doInBackground() throws Exception {
                 baza = new Baza();
-
-
                 return null;
             }
 
@@ -174,9 +172,10 @@ public class OknoProgramu extends JFrame {
 
         przyciskLogowania.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 //tutaj usunac, zeby wlaczyc logowanie
-               sprawdzCzyDobreHaslo();
-               //pominLogowanie();
+               //sprawdzCzyDobreHaslo();
+               pominLogowanie();
 
             }
         });

@@ -50,7 +50,7 @@ public class PanelMenu extends JPanel {
 
     private void utworzPanele() {
         klienci = new Klienci(frame.baza, frame);
-        szatnia = new Szatnia();
+        szatnia = new Szatnia(frame.baza, frame);
     }
 
     public void listeneryPaneli() {
@@ -64,23 +64,17 @@ public class PanelMenu extends JPanel {
         setLayout(gridLayout);
         czasSieciowy = new JLabel();
         listaButtonow = new ArrayList<>();
-        SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
 
-                czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
-                return null;
-            }
-        };
-        godzina.execute();
+
 
         labelMiasto = new JLabel();
-        etykietaMiasta();
+
         stworzPrzyciski();
         dodajEtykiety();
         dodajPrzyciski();
         paneleDoListy();
         listenery();
+        etykietaMiasta();
 
     }
 
@@ -119,6 +113,16 @@ public class PanelMenu extends JPanel {
         public void etykietaMiasta () {
 
             add(labelMiasto);
+            SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+
+                    czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
+                    return null;
+                }
+            };
+            labelMiasto.setPreferredSize(new Dimension(100, 20));
+            godzina.execute();
             add(czasSieciowy);
 
         }
@@ -131,7 +135,7 @@ public class PanelMenu extends JPanel {
             buttonMagazyn = new JButton("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
             buttonWplaty = new JButton("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
             buttonStatystyka = new JButton("Statystyka", new ImageIcon("src/main/resources/ikony/statystyka.png"));
-            buttonWyloguj = new JButton(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"));
+            buttonWyloguj = new JButton(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png")));
             dodajDoListy();
 
         }
