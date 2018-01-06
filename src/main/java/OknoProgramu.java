@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * Created by Daniel on 2017-11-10.
  */
 // 1000 x 700
-public class OknoProgramu extends JFrame {
+public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     //wraz z logowaniem
 
     JPanel panelLogowania;
@@ -257,12 +257,12 @@ public class OknoProgramu extends JFrame {
     }
 
 
-    public void aktualizujEtykiety() {
 
+    @Override
+    public void aktualizacjaEtykiet() {
         bundle = ResourceBundle.getBundle("messages");
         labelHaslo.setBounds(labelHaslo.getX(), labelHaslo.getY(), labelHaslo.getWidth() + 50, labelHaslo.getHeight());
         labelHaslo.setText(bundle.getString("label.password"));
-
 
     }
 }

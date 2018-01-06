@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.util.ResourceBundle;
 
-public class MenuJBar extends JMenuBar {
+public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet{
 
     JMenu file;
     JMenu view;
@@ -76,15 +76,13 @@ public class MenuJBar extends JMenuBar {
     }
 
 
-    public void zmienEtykiety() {
-
+    @Override
+    public void aktualizacjaEtykiet() {
         bundle = ResourceBundle.getBundle("messages");
         frame.setTitle(bundle.getString("app.title"));
         language.setText(bundle.getString("language.button"));
         view.setText(bundle.getString("view.text"));
         file.setText(bundle.getString("file.text"));
 
-        //tutaj zmienic nazwy wszystkiego :oo
     }
-
 }
