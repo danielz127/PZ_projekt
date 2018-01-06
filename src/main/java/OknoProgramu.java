@@ -144,8 +144,7 @@ public class OknoProgramu extends JFrame {
         labelLogin = new JLabel("Login");
         labelHaslo = new JLabel(bundle.getString("label.password"));
         przyciskLogowania = new JButton("Zaloguj", new ImageIcon("src/main/resources/ikony/login.png"));
-        labelHaslo.setLabelFor(tekstHaslo);
-        labelLogin.setLabelFor(tekstLogin);
+
 
 
         //wymiary obrazka
@@ -158,7 +157,7 @@ public class OknoProgramu extends JFrame {
         labelLogin.setFont(new Font(font.getFontName(), font.getStyle(), 20));
         labelHaslo.setFont(new Font(font.getFontName(), font.getStyle(), 20));
         labelLogin.setBounds(350, 200, 50, 30);
-        labelHaslo.setBounds(350, 250, 50, 30);
+        labelHaslo.setBounds(350, 250, 100, 30);
         przyciskLogowania.setBounds(450, 300, 100, 30);
 
 

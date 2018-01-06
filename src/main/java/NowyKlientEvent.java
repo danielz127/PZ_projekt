@@ -27,14 +27,33 @@ public class NowyKlientEvent implements ActionListener {
             nazwisko = JOptionPane.showInputDialog(null, "Nazwisko", "Naziwsko", 1);
             if (nazwisko != null && !nazwisko.equals("")) {
                 telefon = JOptionPane.showInputDialog(null, "Telefon", "Telefon", 1);
+               sprawdzTelefon();
                 if (telefon != null && !telefon.equals("")) {
                     System.out.println(imie + nazwisko + telefon);
+
                     if (zapytaj() == 0)
                         dodajDoBazy(imie, nazwisko, telefon);
                 }
             }
         }
     }
+
+    private void sprawdzTelefon()   {
+        try {
+            Integer.parseInt(telefon);
+            if(telefon.length()==9)
+                System.out.print("okej");
+        } catch (NumberFormatException e) {
+            try {
+                throw new TelefonException(this);
+            } catch (TelefonException e1) {
+
+            }
+
+        }
+    }
+
+
 
     private int zapytaj() {
 

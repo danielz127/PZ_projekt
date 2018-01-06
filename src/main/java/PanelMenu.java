@@ -1,25 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 /**
  * Created by Daniel on 2017-11-14.
  */
-public class PanelMenu extends JPanel {
+public class PanelMenu extends JPanel implements Subject {
 
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
     OknoProgramu frame;
-    JButton buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
+    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
     ResourceBundle bundle;
     JLabel labelMiasto;
-    ArrayList<JButton> listaButtonow;
+    ArrayList<PrzyciskWMenu> listaPrzyciskow;
+    ArrayList<Observer> listaObserwatorow;
     //dodaj wszystkie panele do listy np;
     Klienci klienci;
     Szatnia szatnia;
@@ -54,8 +52,9 @@ public class PanelMenu extends JPanel {
     }
 
     public void listeneryPaneli() {
-        listenerKlienci = new ZmienPanelListener(this, klienci);
-        listenerSzatnie = new ZmienPanelListener(this, szatnia);
+        listenerKlienci = new ZmienPanelListener(this, klienci, buttonKlienci);
+        listenerSzatnie = new ZmienPanelListener(this, szatnia, buttonSzatnie);
+
     }
 
 
@@ -63,8 +62,9 @@ public class PanelMenu extends JPanel {
         GridLayout gridLayout = new GridLayout(20, 2, 0, 5);
         setLayout(gridLayout);
         czasSieciowy = new JLabel();
-        listaButtonow = new ArrayList<>();
+        listaPrzyciskow = new ArrayList<>();
 
+        listaObserwatorow=new ArrayList<>();
 
 
         labelMiasto = new JLabel();
@@ -110,60 +110,84 @@ public class PanelMenu extends JPanel {
         buttonSzatnie.addActionListener(listenerSzatnie);
 
     }
-        public void etykietaMiasta () {
 
-            add(labelMiasto);
-            SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
+    public void etykietaMiasta() {
 
-                    czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
-                    return null;
-                }
-            };
-            labelMiasto.setPreferredSize(new Dimension(100, 20));
-            godzina.execute();
-            add(czasSieciowy);
+        add(labelMiasto);
+        SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
 
+                czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
+                return null;
+            }
+        };
+        labelMiasto.setPreferredSize(new Dimension(100, 20));
+        godzina.execute();
+        add(czasSieciowy);
+
+    }
+
+    public void stworzPrzyciski() {
+        //kolejnosc ma znaczenie
+        buttonKlienci = new PrzyciskWMenu("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
+        buttonSzatnie = new PrzyciskWMenu("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
+        buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
+        buttonMagazyn = new PrzyciskWMenu("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
+        buttonWplaty = new PrzyciskWMenu("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
+        buttonStatystyka = new PrzyciskWMenu("Statystyka", new ImageIcon("src/main/resources/ikony/statystyka.png"));
+        buttonWyloguj = new PrzyciskWMenu(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame));
+        dodajDoListy();
+
+    }
+
+    private void dodajDoListy() {
+        listaPrzyciskow.add(buttonKlienci);
+        listaPrzyciskow.add(buttonSzatnie);
+        listaPrzyciskow.add(buttonKarnety);
+        listaPrzyciskow.add(buttonMagazyn);
+        listaPrzyciskow.add(buttonWplaty);
+        listaPrzyciskow.add(buttonStatystyka);
+        listaPrzyciskow.add(buttonWyloguj);
+
+        for(PrzyciskWMenu button : listaPrzyciskow){
+            register(button);
         }
 
-        public void stworzPrzyciski () {
-            //kolejnosc ma znaczenie
-            buttonKlienci = new JButton("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
-            buttonSzatnie = new JButton("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
-            buttonKarnety = new JButton("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
-            buttonMagazyn = new JButton("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
-            buttonWplaty = new JButton("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
-            buttonStatystyka = new JButton("Statystyka", new ImageIcon("src/main/resources/ikony/statystyka.png"));
-            buttonWyloguj = new JButton(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png")));
-            dodajDoListy();
+    }
 
-        }
+    public void dodajEtykiety() {
+        bundle = ResourceBundle.getBundle("messages");
+        labelMiasto.setText(miasto);
+        System.out.print(Locale.getDefault());
+        buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
 
-        private void dodajDoListy () {
-            listaButtonow.add(buttonKlienci);
-            listaButtonow.add(buttonSzatnie);
-            listaButtonow.add(buttonKarnety);
-            listaButtonow.add(buttonMagazyn);
-            listaButtonow.add(buttonWplaty);
-            listaButtonow.add(buttonStatystyka);
-            listaButtonow.add(buttonWyloguj);
-        }
+    }
 
-        public void dodajEtykiety () {
-            bundle = ResourceBundle.getBundle("messages");
-            labelMiasto.setText(miasto);
-            System.out.print(Locale.getDefault());
-            buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
-
-        }
-
-        public void dodajPrzyciski () {
+    public void dodajPrzyciski() {
         setLayout(new FlowLayout());
-            Consumer<JButton> consumer = button -> {  button.setPreferredSize(new Dimension(120, 30));
-                add(button);
-            };
-            listaButtonow.forEach(consumer);
 
+        for (PrzyciskWMenu button: listaPrzyciskow) {
+            button.setPreferredSize(new Dimension(120, 30));
+            button.setBackground(new Color(213, 237, 218));
+            add(button);
         }
     }
+
+    @Override
+    public void register(Observer o) {
+        listaObserwatorow.add(o);
+    }
+
+    @Override
+    public void unregister(Observer o) {
+        listaObserwatorow.remove(o);
+
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : listaObserwatorow)
+            o.update();
+    }
+}

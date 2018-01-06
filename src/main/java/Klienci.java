@@ -42,7 +42,7 @@ public class Klienci extends JPanel {
         gbc = new GridBagConstraints();
         model = new DefaultTableModel();
         table = new JTable();
-
+        table.setEnabled(false);
         textArea = new JTextField();
         textArea.setFont(new Font("Serif", Font.ITALIC, 16));
 
@@ -150,11 +150,7 @@ public class Klienci extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        table.setModel(model);
 
-
-        model.addRow(new Object[]{null});
-        //model.addRow(new Object[]{null});
         table.setModel(model);
 
     }
@@ -197,12 +193,10 @@ public class Klienci extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        table.setModel(model);
 
-
-        model.addRow(new Object[]{null});
         //model.addRow(new Object[]{null});
         table.setModel(model);
+
 
 
     }

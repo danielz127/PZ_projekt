@@ -31,7 +31,7 @@ public class PlafAbstract extends AbstractAction {
 
             case 2:
                 try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                     odswierzOkna();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();

@@ -1,20 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Szatnia extends JPanel {
+public class Szatnia extends JPanel  {
     Baza baza;
     OknoProgramu oknoProgramu;
     ArrayList<Szafka> szafkiMeskie;
     ArrayList<Szafka> szafkiDamskie;
+    ArrayList<Klient> klients;
     ArrayList<JButton> przyciskiSzafek;
     GridBagConstraints gbc;
     JLabel meskie, damskie;
+    JButton zwolnijSzafki;
+    Szatnia szatnia;
+
     public Szatnia(Baza baza, OknoProgramu oknoProgramu) {
         super();
+        this.szatnia = this;
         this.oknoProgramu = oknoProgramu;
         this.baza = baza;
+        zwolnijSzafki = new PrzyciskZwolnijSzafki("Zwolnij wszystkie szafki", this);
 
         pobierzSzafki();
         utworzPanel();
@@ -24,6 +32,7 @@ public class Szatnia extends JPanel {
         szafkiMeskie = new ArrayList<>();
         szafkiDamskie = new ArrayList<>();
         przyciskiSzafek = new ArrayList<>();
+        klients = new ArrayList<>();
     }
 
     private void pobierzSzafki() {
@@ -58,9 +67,9 @@ public class Szatnia extends JPanel {
                         //false - damskie
 
                         if (plec.equals("1")) {
-                            szafkiMeskie.add(new Szafka(Boolean.parseBoolean(zajetosc), Integer.parseInt(nrSzafki), true));
+                            szafkiMeskie.add(new Szafka(Boolean.parseBoolean(zajetosc), Integer.parseInt(nrSzafki), true, szatnia));
                         } else {
-                            szafkiDamskie.add(new Szafka(Boolean.parseBoolean(zajetosc), Integer.parseInt(nrSzafki), false));
+                            szafkiDamskie.add(new Szafka(Boolean.parseBoolean(zajetosc), Integer.parseInt(nrSzafki), false, szatnia));
                         }
 
                         //System.out.println(country + " " + sum);
@@ -128,7 +137,11 @@ public class Szatnia extends JPanel {
                 x = 0;
             }
         }
-
+        gbc.gridy = ++y;
+        gbc.gridx = 0;
+        gbc.gridwidth=2;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(zwolnijSzafki, gbc);
 
     }
 
