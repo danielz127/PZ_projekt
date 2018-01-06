@@ -31,11 +31,6 @@ public class BazaParser {
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
 
-            System.out.println("Element główny: "
-                    + doc.getDocumentElement().getNodeName());
-
-
-
             NodeList nodeLst = doc.getElementsByTagName("Baza");
 
             for (int s = 0; s < nodeLst.getLength(); s++) {

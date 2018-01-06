@@ -15,14 +15,20 @@ public class ZwolnijSzafkiListener implements ActionListener {
     }
 
     private void zwolnijSzafki() {
-        for(Szafka szafka : szatnia.szafkiMeskie){
+        for (Szafka szafka : szatnia.szafkiMeskie) {
             //zmiana zajetosci - usunac osobe
-            szafka.zajeta = false;
-            szafka.dodajIkone();
+            if (szafka.uszkodzona != true) {
+                szafka.zajeta = false;
+                szafka.NrKlienta=0;
+                szafka.dodajIkone();
+            }
         }
-        for(Szafka szafka : szatnia.szafkiDamskie){
-            szafka.zajeta = false;
-            szafka.dodajIkone();
+        for (Szafka szafka : szatnia.szafkiDamskie) {
+            if (szafka.uszkodzona != true) {
+                szafka.zajeta = false;
+                szafka.NrKlienta=0;
+                szafka.dodajIkone();
+            }
         }
     }
 

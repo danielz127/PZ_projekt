@@ -30,8 +30,6 @@ public class OknoProgramu extends JFrame {
     JLabel labelHaslo;
     JTextField tekstHaslo;
     JButton przyciskLogowania;
-    GridBagConstraints gbc;
-    boolean succeeded;
     Image iconImage;
     JLabel background;
     MenuJBar menuJBar;
@@ -43,11 +41,13 @@ public class OknoProgramu extends JFrame {
     public OknoProgramu() {
         super();
         wczytajProperties = new WczytajProperties();
+        //setAlwaysOnTop(true);
 
-        setSize(wczytajProperties.getSzerokosc(), wczytajProperties.getWysokosc());
+        setBounds(50, 50, wczytajProperties.getSzerokosc(), wczytajProperties.getWysokosc());
         //moze warto zmienic
         setResizable(false);
         setVisible(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         swingWrokerBazy();
         listenery();
@@ -74,8 +74,8 @@ public class OknoProgramu extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Closed");
-                e.getWindow().dispose();
+                //System.out.println("Closed");
+               dispose();
             }
         });
     }
@@ -173,8 +173,8 @@ public class OknoProgramu extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-               //sprawdzCzyDobreHaslo();
-               pominLogowanie();
+               sprawdzCzyDobreHaslo();
+               //pominLogowanie();
 
             }
         });

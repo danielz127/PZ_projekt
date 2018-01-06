@@ -14,10 +14,9 @@ public class WindowCloseListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //tutaj dodaj akcje przy zamknięciu okienka
 
-        System.out.print("Zamykam okienko");
-
         try {
             frame.dispose();
+            System.exit(0);
         } catch (Exception e1) {
             e1.printStackTrace();
         }

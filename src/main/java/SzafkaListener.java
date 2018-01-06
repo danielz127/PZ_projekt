@@ -13,6 +13,7 @@ public class SzafkaListener implements ActionListener {
 
 
     private void otworzMenuSzafki() {
+        new SzafkaDialog(szafka);
     }
 
     @Override
@@ -41,15 +42,15 @@ public class SzafkaListener implements ActionListener {
 
                 try {
                     baza.myStm = baza.myCon.createStatement();
-//                    baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon, Klient.NrKlienta " +
-//                            "from klient, miasto, silownia " +
-//                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= '"+ szafka.szatnia.oknoProgramu.miasto +"'"+
-//                            "ORDER BY klient.Nazwisko DESC ;");
-
                     baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon, Klient.NrKlienta " +
                             "from klient, miasto, silownia " +
-                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= 'Warszawa '"+
+                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= '"+ szafka.szatnia.oknoProgramu.miasto +"'"+
                             "ORDER BY klient.Nazwisko DESC ;");
+
+//                    baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon, Klient.NrKlienta " +
+//                            "from klient, miasto, silownia " +
+//                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= 'Warszawa '"+
+//                            "ORDER BY klient.Nazwisko DESC ;");
                     while (baza.myRs.next()) {
                         String imie = baza.myRs.getString("Imie");
                         String nazwisko = baza.myRs.getString("Nazwisko");

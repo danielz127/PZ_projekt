@@ -57,7 +57,7 @@ public class Szatnia extends JPanel  {
                             "FROM szafki, szatnia, silownia, miasto\n" +
                             "WHERE szatnia.IdSzatni=szafki.IdSzatni AND\n" +
                             "  szatnia.IdSilowni = silownia.IdSilowni and silownia.IdMiasta = miasto.IdMiasta\n" +
-                            "AND miasto.Nazwa = \"Warszawa\"");
+                            "AND miasto.Nazwa = '"+ oknoProgramu.miasto.toString()+"'");
                     while (baza.myRs.next()) {
                         String nrSzafki = baza.myRs.getString("NrSzafki");
                         String zajetosc = baza.myRs.getString("Zajetosc");

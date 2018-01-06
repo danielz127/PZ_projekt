@@ -7,7 +7,7 @@ public class Szafka {
     JButton button;
     boolean uszkodzona;
     Szatnia szatnia;
-    int NrKlienta;
+    int NrKlienta=0;
 
     //brzydko ale szybko
     ImageIcon iconZajeta = new ImageIcon("src/main/resources/ikony/szatnia/lockerR4.png");
@@ -23,7 +23,12 @@ public class Szafka {
         button = new JButton();
         dodajIkone();
         wlasciwosciIkony();
+        listener();
 
+    }
+
+    private void listener() {
+        button.addActionListener(new SzafkaListener(this));
     }
 
 
@@ -31,11 +36,11 @@ public class Szafka {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
-        button.addActionListener(new SzafkaListener(this));
+
     }
 
     public void dodajIkone() {
-        if (zajeta == false) {
+        if (zajeta == false && uszkodzona== false) {
             button.setIcon(iconWolna);
         } else {
             button.setIcon(iconZajeta);
