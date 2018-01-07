@@ -2,10 +2,12 @@ package PaneleMenu;
 
 import AbstractActions.WylogujAbstract;
 import CzasSieciowy.PodawajGodzine;
+import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.Observer;
 import Interfejsy.Subject;
 import Listenery.ZmienPanelListener;
 import Main.OknoProgramu;
+import PaneleMenu.Karnety.Karnety;
 import PaneleMenu.Klient.Klienci;
 import PaneleMenu.Szatnia.Szatnia;
 
@@ -18,12 +20,12 @@ import java.util.ResourceBundle;
 /**
  * Created by Daniel on 2017-11-14.
  */
-public class PanelMenu extends JPanel implements Subject {
+public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
+    public OknoProgramu frame;
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    public OknoProgramu frame;
     PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
     ResourceBundle bundle;
     JLabel labelMiasto;
@@ -50,14 +52,27 @@ public class PanelMenu extends JPanel implements Subject {
         this.miasto = miasto;
         listaPaneli = new ArrayList<>();
         stworzMenu();
-        utworzPanele();
-        paneleDoListy();
-        listeneryPaneli();
-        //wygasPanele();
-        listenery();
+        workerSwingPaneli();
+    }
+
+    private void workerSwingPaneli() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+
+                utworzPanele();
+                paneleDoListy();
+                listeneryPaneli();
+                //wygasPanele();
+                listeneryPrzyciskow();
+                return null;
+            }
+        };
+        worker.execute();
     }
 
     private void utworzPanele() {
+
         klienci = new Klienci(frame.baza, frame);
         szatnia = new Szatnia(frame.baza, frame);
     }
@@ -75,7 +90,7 @@ public class PanelMenu extends JPanel implements Subject {
         czasSieciowy = new JLabel();
         listaPrzyciskow = new ArrayList<>();
 
-        listaObserwatorow=new ArrayList<>();
+        listaObserwatorow = new ArrayList<>();
 
 
         labelMiasto = new JLabel();
@@ -84,7 +99,7 @@ public class PanelMenu extends JPanel implements Subject {
         dodajEtykiety();
         dodajPrzyciski();
         paneleDoListy();
-        listenery();
+        listeneryPrzyciskow();
         etykietaMiasta();
 
     }
@@ -104,7 +119,7 @@ public class PanelMenu extends JPanel implements Subject {
         listaPaneli.add(magazyn);
     }
 
-    private void listenery() {
+    private void listeneryPrzyciskow() {
 //        buttonKlienci.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -142,7 +157,7 @@ public class PanelMenu extends JPanel implements Subject {
     public void stworzPrzyciski() {
         //kolejnosc ma znaczenie
         buttonKlienci = new PrzyciskWMenu("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
-        buttonSzatnie = new PrzyciskWMenu("Zzatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
+        buttonSzatnie = new PrzyciskWMenu("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
         buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
         buttonMagazyn = new PrzyciskWMenu("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
         buttonWplaty = new PrzyciskWMenu("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
@@ -161,24 +176,21 @@ public class PanelMenu extends JPanel implements Subject {
         listaPrzyciskow.add(buttonStatystyka);
         listaPrzyciskow.add(buttonWyloguj);
 
-        for(PrzyciskWMenu button : listaPrzyciskow){
+        for (PrzyciskWMenu button : listaPrzyciskow) {
             register(button);
         }
 
     }
 
     public void dodajEtykiety() {
-        bundle = ResourceBundle.getBundle("messages");
-        labelMiasto.setText(miasto);
-        System.out.print(Locale.getDefault());
-        buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
+
 
     }
 
     public void dodajPrzyciski() {
         setLayout(new FlowLayout());
 
-        for (PrzyciskWMenu button: listaPrzyciskow) {
+        for (PrzyciskWMenu button : listaPrzyciskow) {
             button.setPreferredSize(new Dimension(120, 30));
             button.setBackground(new Color(213, 237, 218));
             add(button);
@@ -200,5 +212,14 @@ public class PanelMenu extends JPanel implements Subject {
     public void notifyObservers() {
         for (Observer o : listaObserwatorow)
             o.update();
+    }
+
+    @Override
+    public void aktualizacjaEtykiet() {
+        bundle = ResourceBundle.getBundle("messages");
+        labelMiasto.setText(miasto);
+        System.out.print(Locale.getDefault());
+        buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
+
     }
 }

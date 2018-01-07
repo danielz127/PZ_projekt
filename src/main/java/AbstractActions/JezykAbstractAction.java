@@ -50,7 +50,7 @@ public class JezykAbstractAction extends AbstractAction {
     public void zmienEtykiety() {
         oknoProgramu.aktualizacjaEtykiet();
         if(oknoProgramu.menuJBar!=null)oknoProgramu.menuJBar.aktualizacjaEtykiet();
-        if(oknoProgramu.panelMenu!= null)oknoProgramu.panelMenu.dodajEtykiety();
+        if(oknoProgramu.panelMenu!= null)oknoProgramu.panelMenu.aktualizacjaEtykiet();
 
     }
 }

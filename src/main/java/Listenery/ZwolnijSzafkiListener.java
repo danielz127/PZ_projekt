@@ -1,5 +1,6 @@
 package Listenery;
 
+import Exceptions.UszkodzoneSzafki;
 import PaneleMenu.Szatnia.Szafka;
 import PaneleMenu.Szatnia.Szatnia;
 
@@ -20,6 +21,7 @@ public class ZwolnijSzafkiListener implements ActionListener {
     }
 
     private void zwolnijSzafki() {
+        int uszkodzone=0;
         for (Szafka szafka : szatnia.szafkiMeskie) {
             //zmiana zajetosci - usunac osobe
             if (szafka.uszkodzona != true) {
@@ -27,6 +29,7 @@ public class ZwolnijSzafkiListener implements ActionListener {
                 szafka.NrKlienta=0;
                 szafka.dodajIkone();
             }
+            else uszkodzone++;
         }
         for (Szafka szafka : szatnia.szafkiDamskie) {
             if (szafka.uszkodzona != true) {
@@ -34,7 +37,16 @@ public class ZwolnijSzafkiListener implements ActionListener {
                 szafka.NrKlienta=0;
                 szafka.dodajIkone();
             }
+            else uszkodzone++;
         }
+        if(uszkodzone!=0){
+            try {
+                throw new UszkodzoneSzafki(uszkodzone);
+            } catch (UszkodzoneSzafki uszkodzoneSzafki) {
+
+            }
+        }
+
     }
 
 

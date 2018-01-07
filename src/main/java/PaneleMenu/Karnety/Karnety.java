@@ -1,4 +1,4 @@
-package PaneleMenu;
+package PaneleMenu.Karnety;
 
 import javax.swing.*;
 

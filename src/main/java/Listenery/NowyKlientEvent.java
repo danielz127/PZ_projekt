@@ -1,23 +1,26 @@
 package Listenery;
 
+import Baza.Baza;
+import Exceptions.FormatException;
 import Exceptions.TelefonException;
 import Main.OknoProgramu;
-import Baza.Baza;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class NowyKlientEvent implements ActionListener {
+    public String telefon;
+    public OknoProgramu okno;
     JDialog dialog;
     Baza baza;
     String imie;
     String nazwisko;
-    public String telefon;
     JOptionPane optionPane;
-    public OknoProgramu okno;
     int Idmiasta;
 
 
@@ -28,14 +31,31 @@ public class NowyKlientEvent implements ActionListener {
 
     }
 
+    public boolean sprawdzFormat(String tekst) {
+        Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        Matcher matcher;
+        String wzor = tekst.toUpperCase();
+        matcher = pattern.matcher(wzor);
+        if (matcher.matches()) {
+            return true;
+        } else {
+            new FormatException();
+        }
+        return false;
+    }
+
     public void dodajKlienta() {
+
+
         imie = JOptionPane.showInputDialog(null, "Imie", "Imie", 1);
-        if ((imie != null) && (!imie.equals(""))) {
+
+        if ((sprawdzFormat(imie))) {
             nazwisko = JOptionPane.showInputDialog(null, "Nazwisko", "Naziwsko", 1);
-            if (nazwisko != null && !nazwisko.equals("")) {
+
+            if (sprawdzFormat(nazwisko)) {
                 telefon = JOptionPane.showInputDialog(null, "Telefon", "Telefon", 1);
-               sprawdzTelefon();
-                if (telefon != null && !telefon.equals("")) {
+
+                if (telefon != null && !telefon.equals("") && sprawdzTelefon(telefon)) {
                     System.out.println(imie + nazwisko + telefon);
 
                     if (zapytaj() == 0)
@@ -45,21 +65,31 @@ public class NowyKlientEvent implements ActionListener {
         }
     }
 
-    private void sprawdzTelefon()   {
+    private boolean sprawdzTelefon(String telefonS) {
         try {
-            Integer.parseInt(telefon);
-            if(telefon.length()==9)
+            Integer.parseInt(telefonS);
+            if (telefonS.length() == 9) {
                 System.out.print("okej");
+                return true;
+
+            } else {
+                try {
+                    throw new TelefonException(this);
+                } catch (TelefonException e1) {
+                }
+            }
         } catch (NumberFormatException e) {
             try {
                 throw new TelefonException(this);
             } catch (TelefonException e1) {
-
             }
+            return false;
+
 
         }
-    }
+        return false;
 
+    }
 
 
     private int zapytaj() {
@@ -84,17 +114,17 @@ public class NowyKlientEvent implements ActionListener {
                 baza.utworzPolaczenie();
 
                 try {
-                    int liczbaKlientow=0;
+                    int liczbaKlientow = 0;
                     baza.myStm = baza.myCon.createStatement();
                     baza.myRs = baza.myStm.executeQuery("SELECT COUNT(klient.NrKlienta)+1 from klient");
 
-                    while(baza.myRs.next()) {
+                    while (baza.myRs.next()) {
                         liczbaKlientow = baza.myRs.getInt(1);
 
                     }
-                    baza.myRs = baza.myStm.executeQuery("select miasto.IdMiasta from miasto WHERE miasto.Nazwa = '"+okno.miasto+ "'");
+                    baza.myRs = baza.myStm.executeQuery("select miasto.IdMiasta from miasto WHERE miasto.Nazwa = '" + okno.miasto + "'");
 
-                    while(baza.myRs.next()) {
+                    while (baza.myRs.next()) {
                         Idmiasta = baza.myRs.getInt(1);
 
                     }

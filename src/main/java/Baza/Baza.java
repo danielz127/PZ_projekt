@@ -1,6 +1,5 @@
 package Baza;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -33,7 +32,6 @@ public class Baza {
 
 
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 

@@ -17,7 +17,7 @@ public class TelefonException extends Exception {
         JOptionPane optionPane = new JOptionPane();
 
         optionPane.showMessageDialog(null,
-                "Nieprawidlowy format i dlugosc telefonu",
+                "Nieprawidlowy format/dlugosc telefonu",
                 "Error",
                 JOptionPane.WARNING_MESSAGE);
     }

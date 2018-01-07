@@ -1,6 +1,7 @@
 package PaneleMenu.Klient;
 
 import Baza.Baza;
+import Exceptions.BrakWynikow;
 import Listenery.NowyKlientEvent;
 import Main.OknoProgramu;
 
@@ -133,7 +134,6 @@ public class Klienci extends JPanel {
         String nazwiskoWejscie = textField.getText();
 
 
-
         //powinno byc sql prepared
         String kodSql = "select Klient.Imie, Klient.Nazwisko,Klient.Telefon from klient, miasto, silownia " +
                 "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and Klient.Nazwisko =" + '"' + nazwiskoWejscie + '"' +
@@ -141,6 +141,12 @@ public class Klienci extends JPanel {
         try {
             baza.myStm = baza.myCon.createStatement();
             baza.myRs = baza.myStm.executeQuery(kodSql);
+            try {
+                if (!baza.myRs.next())
+                    throw new BrakWynikow();
+            } catch (BrakWynikow brakWynikow) {
+                System.out.println("Brak wynikow");
+            }
             while (baza.myRs.next()) {
                 String imie = baza.myRs.getString("Imie");
                 String nazwisko = baza.myRs.getString("Nazwisko");
@@ -182,8 +188,14 @@ public class Klienci extends JPanel {
             baza.myStm = baza.myCon.createStatement();
             baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon " +
                     "from klient, miasto, silownia " +
-                    "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= '"+ oknoProgramu.miasto +"'"+
+                    "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= '" + oknoProgramu.miasto + "'" +
                     "ORDER BY klient.Nazwisko DESC ;");
+            try {
+                if (!baza.myRs.next())
+                    throw new BrakWynikow();
+            } catch (BrakWynikow brakWynikow) {
+                System.out.println("Brak wynikow");
+            }
             while (baza.myRs.next()) {
                 String imie = baza.myRs.getString("Imie");
                 String nazwisko = baza.myRs.getString("Nazwisko");
@@ -202,7 +214,6 @@ public class Klienci extends JPanel {
 
         //model.addRow(new Object[]{null});
         table.setModel(model);
-
 
 
     }
