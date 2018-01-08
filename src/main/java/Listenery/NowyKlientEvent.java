@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 public class NowyKlientEvent implements ActionListener {
     public String telefon;
     public OknoProgramu okno;
-    JDialog dialog;
     Baza baza;
     String imie;
     String nazwisko;

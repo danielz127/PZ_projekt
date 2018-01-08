@@ -21,6 +21,7 @@ public class CzasSieciowy {
         Socket conn = null;
 
         try {
+
             conn = new Socket(ATOMICTIME_SERVER, ATOMICTIME_PORT);
 
             in = new BufferedReader

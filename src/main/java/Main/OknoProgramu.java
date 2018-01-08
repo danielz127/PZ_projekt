@@ -4,6 +4,7 @@ import AbstractActions.MenuJBar;
 import Baza.Baza;
 import Exceptions.PasswordException;
 import Interfejsy.AktualizacjaEtykiet;
+import Listenery.WindowCloseListener;
 import PaneleMenu.PanelMenu;
 
 import javax.swing.*;
@@ -79,13 +80,7 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     }
 
     private void listenery() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                //System.out.println("Closed");
-                dispose();
-            }
-        });
+        addWindowListener(new WindowCloseListener(this));
     }
 
 
@@ -182,8 +177,9 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-                sprawdzCzyDobreHaslo();
-                //pominLogowanie();
+
+                //sprawdzCzyDobreHaslo();
+                pominLogowanie();
 
             }
         });
@@ -191,9 +187,6 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     }
 
     public void pominLogowanie() {
-//        panelProgram = new PanelProgram(this, "Krakow");
-//        panelLogowania.setVisible(false);
-//        add(panelProgram);
 
         guiPaneluGlownego();
     }

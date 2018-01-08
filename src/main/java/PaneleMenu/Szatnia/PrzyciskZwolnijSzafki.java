@@ -12,6 +12,7 @@ public class PrzyciskZwolnijSzafki extends JButton   {
     public PrzyciskZwolnijSzafki(String tekst, Szatnia szatnia) {
         super(tekst);
         this.szatnia=szatnia;
+
         addActionListener(new ZwolnijSzafkiListener(szatnia));
     }
 

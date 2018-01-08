@@ -24,7 +24,7 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
 
         this.bundle = bundle;
         this.frame = frame;
-
+        windowCloseListener = new WindowCloseListener(frame);
 
         utworzElementy();
         dodajElementy();
@@ -42,7 +42,7 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
 
     public void utworzElementy() {
 
-        windowCloseListener = new WindowCloseListener(frame);
+
         file = new JMenu(bundle.getString("file.text"));
         view = new JMenu(bundle.getString("view.text"));
         language = new JMenuItem(new JezykAbstractAction(bundle.getString("language.button"), new ImageIcon("src/main/resources/ikony/languageIcon.png"), frame));

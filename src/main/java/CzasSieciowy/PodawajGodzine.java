@@ -1,7 +1,5 @@
 package CzasSieciowy;
 
-import CzasSieciowy.CzasSieciowy;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -10,6 +8,17 @@ import java.text.SimpleDateFormat;
  */
 public class PodawajGodzine {
 
+    private static PodawajGodzine firstInstance = null;
+
+    private PodawajGodzine() {
+    }
+
+    public static PodawajGodzine getInstance() {
+        if (firstInstance == null) {
+            firstInstance = new PodawajGodzine();
+        }
+        return firstInstance;
+    }
 
     public String podajGodzine() {
         try {
@@ -21,4 +30,6 @@ public class PodawajGodzine {
         }
         return "";
     }
+
+
 }

@@ -26,27 +26,28 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonStatystyka, buttonMagazyn, buttonKarnety;
+    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonZestawienie, buttonMagazyn, buttonKarnety;
     ResourceBundle bundle;
     JLabel labelMiasto;
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
     ArrayList<Observer> listaObserwatorow;
-    //dodaj wszystkie panele do listy np;
+
+    //wszystkie panele do listy np;
     Klienci klienci;
-    Szatnia szatnia;
-    Karnety karnety;
+    public Szatnia szatnia;
+    public Karnety karnety;
     Magazyn magazyn;
-    Statystyka statystyka;
+    Zestawienie zestawienie;
     Wplaty wplaty;
     ArrayList<JPanel> listaPaneli;
-    ZmienPanelListener listenerKlienci;
-    ZmienPanelListener listenerSzatnie;
+    ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerZestawienie, listenerMagazyn, listenerWplaty;
+
 
 
     public PanelMenu(OknoProgramu frame, String miasto) {
         setVisible(true);
         bundle = ResourceBundle.getBundle("messages");
-        sprawdzGodzine = new PodawajGodzine();
+        sprawdzGodzine = PodawajGodzine.getInstance();
         this.frame = frame;
         setBackground(new Color(160, 255, 255));
         this.miasto = miasto;
@@ -75,11 +76,20 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
         klienci = new Klienci(frame.baza, frame);
         szatnia = new Szatnia(frame.baza, frame);
+        karnety = new Karnety(frame.baza, frame);
+        wplaty = new Wplaty();
+        zestawienie = new Zestawienie();
+        magazyn = new Magazyn();
     }
 
     public void listeneryPaneli() {
         listenerKlienci = new ZmienPanelListener(this, klienci, buttonKlienci);
         listenerSzatnie = new ZmienPanelListener(this, szatnia, buttonSzatnie);
+        listenerKarnety = new ZmienPanelListener(this, karnety, buttonKarnety);
+        listenerZestawienie = new ZmienPanelListener(this, zestawienie, buttonZestawienie);
+        listenerWplaty = new ZmienPanelListener(this, wplaty, buttonWplaty);
+        listenerMagazyn = new ZmienPanelListener(this, magazyn, buttonMagazyn);
+
 
     }
 
@@ -115,31 +125,24 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPaneli.add(szatnia);
         listaPaneli.add(karnety);
         listaPaneli.add(wplaty);
-        listaPaneli.add(statystyka);
+        listaPaneli.add(zestawienie);
         listaPaneli.add(magazyn);
     }
 
     private void listeneryPrzyciskow() {
-//        buttonKlienci.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                //dodaj funkcje wygaszajaca wszystkie panele
-//                wygasPanele();
-//                klienci = new PaneleMenu.PaneleMenu.Klient.Klient.Klienci(frame.baza, frame);
-//                frame.add(klienci);
-//                frame.pack();
-//                //cos zeby odwieżyć ramke
-//            }
-//        });
+
         buttonKlienci.addActionListener(listenerKlienci);
         buttonSzatnie.addActionListener(listenerSzatnie);
+        buttonKarnety.addActionListener(listenerKarnety);
+        buttonMagazyn.addActionListener(listenerMagazyn);
+        buttonWplaty.addActionListener(listenerWplaty);
+        buttonZestawienie.addActionListener(listenerZestawienie);
 
     }
 
     public void etykietaMiasta() {
 
-        add(labelMiasto);
+
         SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -149,7 +152,9 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
             }
         };
         labelMiasto.setPreferredSize(new Dimension(100, 20));
+        labelMiasto.setText(miasto);
         godzina.execute();
+        add(labelMiasto);
         add(czasSieciowy);
 
     }
@@ -161,7 +166,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
         buttonMagazyn = new PrzyciskWMenu("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
         buttonWplaty = new PrzyciskWMenu("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
-        buttonStatystyka = new PrzyciskWMenu("Statystyka", new ImageIcon("src/main/resources/ikony/statystyka.png"));
+        buttonZestawienie = new PrzyciskWMenu("Zestawienie", new ImageIcon("src/main/resources/ikony/zestawienie.png"));
         buttonWyloguj = new PrzyciskWMenu(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame));
         dodajDoListy();
 
@@ -173,8 +178,9 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPrzyciskow.add(buttonKarnety);
         listaPrzyciskow.add(buttonMagazyn);
         listaPrzyciskow.add(buttonWplaty);
-        listaPrzyciskow.add(buttonStatystyka);
+        listaPrzyciskow.add(buttonZestawienie);
         listaPrzyciskow.add(buttonWyloguj);
+        buttonWyloguj.setPreferredSize(new Dimension(130, 35));
 
         for (PrzyciskWMenu button : listaPrzyciskow) {
             register(button);
@@ -189,9 +195,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
     public void dodajPrzyciski() {
         setLayout(new FlowLayout());
-
         for (PrzyciskWMenu button : listaPrzyciskow) {
-            button.setPreferredSize(new Dimension(120, 30));
             button.setBackground(new Color(213, 237, 218));
             add(button);
         }
@@ -217,7 +221,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     @Override
     public void aktualizacjaEtykiet() {
         bundle = ResourceBundle.getBundle("messages");
-        labelMiasto.setText(miasto);
         System.out.print(Locale.getDefault());
         buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
 

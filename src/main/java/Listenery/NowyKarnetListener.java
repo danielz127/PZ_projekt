@@ -1,31 +1,34 @@
 package Listenery;
 
-import PaneleMenu.Klient.Klient;
-import PaneleMenu.Szatnia.Szafka;
-import PaneleMenu.Szatnia.SzafkaDialog;
 import Baza.Baza;
+import PaneleMenu.Karnety.Karnety;
+import PaneleMenu.Karnety.NowyKarnetDialog;
+import PaneleMenu.Klient.Klient;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class SzafkaListener implements ActionListener {
-    Szafka szafka;
+public class NowyKarnetListener implements ActionListener {
+    Karnety karnety;
     Baza baza;
-    public SzafkaListener(Szafka szafka) {
-        this.szafka = szafka;
-        this.baza = szafka.szatnia.baza;
+    ArrayList<Klient> klients;
+
+    public NowyKarnetListener(Karnety karnety) {
+        this.karnety = karnety;
+        this.baza = karnety.oknoProgramu.baza;
+        this.klients = karnety.klients;
     }
 
 
-    private void otworzMenuSzafki() {
-        new SzafkaDialog(szafka);
+    private void otworzOkno() {
+        new NowyKarnetDialog(karnety.oknoProgramu);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(szafka.NrSzafki + " " + String.valueOf(szafka.plec));
         pobierzKlientow();
 
 
@@ -36,7 +39,7 @@ public class SzafkaListener implements ActionListener {
             @Override
             protected void done() {
                 super.done();
-                otworzMenuSzafki();
+                otworzOkno();
 
             }
 
@@ -45,37 +48,34 @@ public class SzafkaListener implements ActionListener {
 
                 baza.utworzPolaczenie();
                 //TODO klienci, zmienic miasto
-                szafka.szatnia.klients.clear();
+                karnety.klients.clear();
 
                 try {
                     baza.myStm = baza.myCon.createStatement();
                     baza.myRs = baza.myStm.executeQuery("select Klient.Imie, Klient.Nazwisko,Klient.Telefon, Klient.NrKlienta " +
                             "from klient, miasto, silownia " +
-                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta "+
+                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta " +
                             "ORDER BY klient.Nazwisko DESC ;");
 
-//                    baza.myRs = baza.myStm.executeQuery("select PaneleMenu.Klient.Klient.Imie, PaneleMenu.Klient.Klient.Nazwisko,PaneleMenu.Klient.Klient.Telefon, PaneleMenu.Klient.Klient.NrKlienta " +
-//                            "from klient, miasto, silownia " +
-//                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= 'Warszawa '"+
-//                            "ORDER BY klient.Nazwisko DESC ;");
+
                     while (baza.myRs.next()) {
                         String imie = baza.myRs.getString("Imie");
                         String nazwisko = baza.myRs.getString("Nazwisko");
                         String telefon = baza.myRs.getString("Telefon");
                         String nrKlienta = baza.myRs.getString("NrKlienta");
-                        szafka.szatnia.klients.add(new Klient(imie, nazwisko, Integer.parseInt(telefon), Integer.parseInt(nrKlienta)));
+                        klients.add(new Klient(imie, nazwisko, Integer.parseInt(telefon), Integer.parseInt(nrKlienta)));
 
 
                         //System.out.println(country + " " + sum);
                         //
                     }
-
+                    baza.rozlaczBaze();
 
 
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-               baza.rozlaczBaze();
+
 
 
                 return null;

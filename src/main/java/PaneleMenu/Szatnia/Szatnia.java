@@ -27,7 +27,6 @@ public class Szatnia extends JPanel  {
         this.oknoProgramu = oknoProgramu;
         this.baza = baza;
         zwolnijSzafki = new PrzyciskZwolnijSzafki("Zwolnij wszystkie szafki", this);
-
         pobierzSzafki();
         utworzPanel();
     }

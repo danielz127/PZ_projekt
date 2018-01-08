@@ -1,6 +1,186 @@
 package PaneleMenu.Karnety;
 
-import javax.swing.*;
+import Baza.Baza;
+import Exceptions.BrakWynikow;
+import Interfejsy.AktualizacjaEtykiet;
+import Interfejsy.PaneleInfo;
+import Listenery.NowyKarnetListener;
+import Listenery.NowyKlientEvent;
+import Main.OknoProgramu;
+import PaneleMenu.Klient.Klient;
 
-public class Karnety extends JPanel {
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
+
+    JButton buttonDodajKarnet, buttonWyswietlKarnety;
+    DefaultTableModel model;
+    JTable table;
+    Baza baza;
+    JLabel karnetyLabel;
+    GridBagConstraints gbc;
+    public ArrayList<Klient> klients;
+    ArrayList<Karnet> listaKarnetow;
+
+    public OknoProgramu oknoProgramu;
+
+
+    JTextField textArea;
+
+    public Karnety(Baza baza, OknoProgramu oknoProgramu) {
+        super();
+        setBackground(Color.LIGHT_GRAY);
+        this.oknoProgramu = oknoProgramu;
+        this.baza = baza;
+
+        utworzElementy();
+        dodajElementy();
+        listenery();
+
+    }
+
+    public void utworzElementy() {
+        gbc = new GridBagConstraints();
+        klients = new ArrayList<>();
+        model = new DefaultTableModel();
+        table = new JTable() {
+            public boolean isCellEditable(int data, int columns) {
+                return false;
+            }
+
+            public Component prepareRenderer(
+                    TableCellRenderer r, int data, int columns) {
+                Component c = super.prepareRenderer(r, data, columns);
+
+                // Every even numbers
+                if (data % 2 == 0)
+                    c.setBackground(new Color(255, 216, 255));
+
+                else
+                    c.setBackground(new Color(229, 255, 255));
+
+                return c;
+            }
+
+        };
+        table.setEnabled(false);
+        listaKarnetow = new ArrayList<>();
+        karnetyLabel = new JLabel("Karnety");
+        karnetyLabel.setFont(new Font("Serif", Font.ITALIC, 22));
+
+        buttonDodajKarnet = new JButton("Dodaj karnet");
+        buttonWyswietlKarnety = new JButton("Wyswietl karnety");
+
+
+    }
+
+    public void dodajElementy() {
+        setLayout(new GridBagLayout());
+        JScrollPane scrollPane = new JScrollPane(table);
+        gbc.insets = new Insets(10, 5, 10, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(karnetyLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 10;
+        add(scrollPane, gbc);
+
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridx = 0;
+        gbc.gridy = 12;
+        gbc.gridwidth = 2;
+        add(buttonWyswietlKarnety, gbc);
+
+        gbc.anchor = GridBagConstraints.LAST_LINE_END;
+        gbc.gridx = 9;
+        gbc.gridy = 12;
+        add(buttonDodajKarnet, gbc);
+
+    }
+
+
+    public void listenery() {
+  
+        buttonWyswietlKarnety.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wypelnijTabele();
+            }
+        });
+        buttonDodajKarnet.addActionListener(new NowyKarnetListener(this));
+
+    }
+
+
+
+    public void wypelnijTabele() {
+        // table.add
+
+        model = new DefaultTableModel();
+        model.addColumn("Nr Karnetu");
+        model.addColumn("Nazwa karnetu");
+        model.addColumn("Osoba");
+        model.addColumn("Od");
+        model.addColumn("Do");
+
+        baza.utworzPolaczenie();
+        listaKarnetow.clear();
+        boolean znaleziono = false;
+
+        try {
+            baza.myStm = baza.myCon.createStatement();
+            baza.myRs = baza.myStm.executeQuery("select karnety.Idkarnetu,karnety.NrKlienta,karnety.Nazwakarnetu, klient.Imie, klient.Nazwisko, karnety.Od, karnety.Do\n" +
+                    "from karnety, klient\n" +
+                    "where karnety.NrKlienta = klient.NrKlienta");
+
+            while (baza.myRs.next()) {
+                znaleziono = true;
+                String nrKarnetu = baza.myRs.getString("IdKarnetu");
+                String nrKlienta = baza.myRs.getString("NrKlienta");
+                String imie = baza.myRs.getString("Imie");
+                String nazwaKarnetu = baza.myRs.getString("Nazwakarnetu");
+                String nazwisko = baza.myRs.getString("Nazwisko");
+                String dataOd = baza.myRs.getString("Od");
+                String dataDo = baza.myRs.getString("Do");
+
+                model.addRow(new Object[]{nrKarnetu,nazwaKarnetu,  (imie+ " "+ nazwisko), dataOd, dataDo});
+                listaKarnetow.add(new Karnet(Integer.parseInt(nrKarnetu), Integer.parseInt(nrKlienta), nazwaKarnetu, dataOd, dataDo));
+
+                //System.out.println(country + " " + sum);
+                //
+            }
+            try {
+                if (!znaleziono)
+                    throw new BrakWynikow();
+            } catch (BrakWynikow brakWynikow) {
+                // System.out.println("Brak wynikow");
+            }
+            znaleziono = false;
+
+            baza.rozlaczBaze();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        table.setModel(model);
+        table.getColumnModel().getColumn(1).setPreferredWidth(table.getColumnModel().getColumn(1).getWidth()+30);
+
+
+    }
+
+
+    @Override
+    public void aktualizacjaEtykiet() {
+
+    }
 }

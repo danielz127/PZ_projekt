@@ -11,13 +11,13 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 public class SzafkaDialog extends JDialog implements WindowListener {
-    Szafka szafka;
+    public Szafka szafka;
     JRadioButton wolna, zajeta, uszkodzona;
     JLabel nrSzafki, stan;
     ArrayList<JComponent> listaElementow;
     ButtonGroup group;
     JButton zapisz;
-    JTextArea textArea;
+    public JTextArea textArea;
 
     public SzafkaDialog(Szafka szafka) {
         szafka.szatnia.oknoProgramu.setEnabled(false);
@@ -102,7 +102,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
     }
 
     private void wybierzOsobe() {
-        WybierzOsobe osoba = new WybierzOsobe(szafka.szatnia, this);
+         new WybierzOsobeSzafka(szafka.szatnia, this);
 
     }
 

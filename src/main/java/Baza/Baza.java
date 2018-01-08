@@ -2,6 +2,7 @@ package Baza;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Baza {
     public ResultSet myRs;
@@ -9,6 +10,7 @@ public class Baza {
     public Statement myStm;
     BazaParser bazaParser;
     ArrayList<String> daneBazy;
+    private static Logger logr=Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public Baza() {
       bazaParser = new BazaParser();
       bazaParser.pobierzXML();
@@ -32,6 +34,8 @@ public class Baza {
 
 
         } catch (Exception ex) {
+            logr.info("Blad polaczenia z baza");
+
         }
     }
 
@@ -39,7 +43,7 @@ public class Baza {
         try {
             myCon.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logr.info("Blad przy rozlaczaniu z baza");
         }
     }
 }
