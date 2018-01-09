@@ -44,6 +44,7 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     public MenuJBar menuJBar;
     ResourceBundle bundle;
     Font font;
+    public String silowniaNazwa;
     WczytajProperties wczytajProperties;
 
 
@@ -178,8 +179,8 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
 
                 //tutaj usunac, zeby wlaczyc logowanie
 
-                //sprawdzCzyDobreHaslo();
-                pominLogowanie();
+                sprawdzCzyDobreHaslo();
+                //pominLogowanie();
 
             }
         });
@@ -200,14 +201,14 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
 
             try {
                 baza.myStm = baza.myCon.createStatement();
-                baza.myRs = baza.myStm.executeQuery("select Uzytkownik.Login, uzytkownik.Haslo, miasto.Nazwa\n" +
+                baza.myRs = baza.myStm.executeQuery("select Uzytkownik.Login, uzytkownik.Haslo, silownia.Nazwa as Silnaz, miasto.Nazwa\n" +
                         "from miasto, uzytkownik, silownia\n" +
                         "where Miasto.IdMiasta = silownia.IdMiasta AND silownia.IdSilowni = uzytkownik.IdSilowni");
                 while (baza.myRs.next()) {
                     loginBaza = baza.myRs.getString("Login");
                     hasloBaza = baza.myRs.getString("Haslo");
                     miasto = baza.myRs.getString("Nazwa");
-
+                    silowniaNazwa = baza.myRs.getString("Silnaz");
                     if (sprawdzPoprawnosc(loginPanel, hasloPanel, loginBaza, hasloBaza, miasto))
                         return true;
                     System.out.println(loginBaza + hasloBaza + miasto);

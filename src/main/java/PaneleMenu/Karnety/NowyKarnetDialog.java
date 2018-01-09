@@ -3,12 +3,16 @@ package PaneleMenu.Karnety;
 import Baza.Baza;
 import Main.OknoProgramu;
 import PaneleMenu.Szatnia.Szatnia;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,14 +22,19 @@ import java.util.TimeZone;
 
 public class NowyKarnetDialog extends JDialog implements WindowListener {
     public Szatnia szatnia;
-    public JTextArea textArea;
+    public JTextArea textAreaOsoba;
     JComboBox listaNazw;
-    JFormattedTextField txtDate;
     JTextArea dataDo;
     JLabel osoba, dlugosc, dataOd, dataDoLbl;
+    JDateChooser dateChooser;
+    Date now;
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     TimeZone pdt = TimeZone.getDefault();
     Calendar calendar = new GregorianCalendar(pdt);
+
+    int nrKlienta;
+    int nrKarnetu;
 
     OknoProgramu oknoProgramu;
 
@@ -40,7 +49,7 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
 
         setTitle("Karnet");
         setResizable(false);
-        setBounds(oknoProgramu.getX() + 50, oknoProgramu.getY() + 50, 550, 105);
+        setBounds(oknoProgramu.getX() + 50, oknoProgramu.getY() + 50, 600, 105);
         addWindowListener(this);
         utworzElementy();
         dodajEtykiety();
@@ -53,10 +62,10 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
     }
 
     private void listenery() {
-        textArea.addMouseListener(new MouseListener() {
+        textAreaOsoba.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setEnabled(false);
+
                 wybierzOsobe();
             }
 
@@ -83,42 +92,100 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
         wybierz.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!textAreaOsoba.getText().equals(""))
+                    zapiszNowyKarnet();
+            }
+        });
+        dateChooser.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+
                 zmienKoncowaDate();
+            }
+        });
+        listaNazw.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                zmienKoncowaDate();
+
             }
         });
     }
 
+    private void zapiszNowyKarnet() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+
+                baza.utworzPolaczenie();
+                try {
+                    baza.myStm = baza.myCon.createStatement();
+                    baza.myRs = baza.myStm.executeQuery("select count(karnety.Idkarnetu) as NrKarnetu FROM karnety");
+
+                    while (baza.myRs.next()) {
+                        nrKarnetu = Integer.parseInt(baza.myRs.getString("NrKarnetu")) + 1;
+                    }
+
+                    baza.myStm.executeQuery("SET FOREIGN_KEY_CHECKS=0");
+
+                    String insertTableSQL = "INSERT INTO karnety"
+                            + "(Idkarnetu, NrKlienta, Nazwakarnetu, Od, Do) VALUES"
+                            + "(?,?,?,?,?)";
+
+                    String nazwakarnetuTekst = listaNazw.getSelectedItem().toString();
+                    String dataOdTekst = format.format(dateChooser.getDate());
+                    String dataDoText = dataDo.getText();
+
+                    PreparedStatement preparedStatement = baza.myCon.prepareStatement(insertTableSQL);
+                    preparedStatement.setInt(1, nrKarnetu);
+                    preparedStatement.setInt(2, nrKlienta);
+                    preparedStatement.setString(3, nazwakarnetuTekst);
+                    preparedStatement.setDate(4, java.sql.Date.valueOf(dataOdTekst));
+                    preparedStatement.setDate(5, java.sql.Date.valueOf(dataDoText));
+                    preparedStatement.executeUpdate();
+
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
+                //System.out.println(nazwakarnetuTekst + dataOdTekst + dataDoText);
+
+                baza.rozlaczBaze();
+                oknoProgramu.setEnabled(true);
+                dispose();
+                return null;
+            }
+        };
+        worker.execute();
+
+    }
+
     private void utworzElementy() {
-        osoba = new JLabel("Wybierz osobe");
-        dlugosc = new JLabel("Wybierz dlugosc");
-        dataOd = new JLabel("Poczatek");
-        dataDoLbl = new JLabel("Koniec");
 
-        textArea = new JTextArea();
-        textArea.setAlignmentY(2);
-        textArea.setColumns(15);
+        dateChooser = new JDateChooser();
+        dateChooser.setSize(dateChooser.getWidth() + 20, dateChooser.getHeight());
+        dateChooser.setDate(calendar.getTime());
+        dateChooser.setPreferredSize(new Dimension(150, 30));
+        textAreaOsoba = new JTextArea("");
+        textAreaOsoba.setColumns(15);
+
         listaNazw = new JComboBox(new Object[]{"Tygodniowy", "30 dniowy", "90 dniowy"});
-        dataDo = new JTextArea("aa");
+        dataDo = new JTextArea("");
         dataDo.setEnabled(false);
-
         dataDo.setColumns(10);
+
         wybierz = new JButton("Zapisz");
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        txtDate = new JFormattedTextField(df);
-        txtDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-        txtDate.setColumns(10);
+
 
     }
 
     public void zmienKoncowaDate() {
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
         Date date = null;
-        try {
-            date = format.parse(txtDate.getText());
-        } catch (ParseException e) {
-           //TODO format daty
-        }
+        date = dateChooser.getDate();
 
         calendar.setTime(date);
 
@@ -139,9 +206,8 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
 
 
         }
-        Date now = calendar.getTime();
+        now = calendar.getTime();
         String strDate = format.format(now);
-        System.out.println(strDate);
         dataDo.setText(strDate);
     }
 
@@ -149,9 +215,9 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
 
         setLayout(new FlowLayout());
 
-        add(textArea);
+        add(textAreaOsoba);
         add(listaNazw);
-        add(txtDate);
+        add(dateChooser);
         add(dataDo);
         add(wybierz);
 

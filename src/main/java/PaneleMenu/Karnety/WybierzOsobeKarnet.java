@@ -26,9 +26,10 @@ public class WybierzOsobeKarnet extends WyborOsoby implements WindowListener {
             public void actionPerformed(ActionEvent e) {
                 if (jt.getSelectedRow() != -1) {
                     int i = jt.getSelectedRow();
-                    dialog.textArea.setText(jt.getValueAt(i, 1) + " " + jt.getValueAt(i, 2));
+                    dialog.textAreaOsoba.setText(jt.getValueAt(i, 1) + " " + jt.getValueAt(i, 2));
+                    dialog.nrKlienta = (int) jt.getValueAt(i, 0);
                     dispose();
-                    dialog.setEnabled(true);
+
                 }
 
             }

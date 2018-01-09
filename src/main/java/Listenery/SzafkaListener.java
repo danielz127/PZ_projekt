@@ -44,7 +44,7 @@ public class SzafkaListener implements ActionListener {
             protected Void doInBackground() throws Exception {
 
                 baza.utworzPolaczenie();
-                //TODO klienci, zmienic miasto
+
                 szafka.szatnia.klients.clear();
 
                 try {

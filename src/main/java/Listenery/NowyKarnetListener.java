@@ -47,7 +47,7 @@ public class NowyKarnetListener implements ActionListener {
             protected Void doInBackground() throws Exception {
 
                 baza.utworzPolaczenie();
-                //TODO klienci, zmienic miasto
+
                 karnety.klients.clear();
 
                 try {

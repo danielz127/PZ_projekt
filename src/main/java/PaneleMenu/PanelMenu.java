@@ -9,6 +9,8 @@ import Listenery.ZmienPanelListener;
 import Main.OknoProgramu;
 import PaneleMenu.Karnety.Karnety;
 import PaneleMenu.Klient.Klienci;
+import PaneleMenu.Edycja.Edycja;
+import PaneleMenu.Stan.Stan;
 import PaneleMenu.Szatnia.Szatnia;
 
 import javax.swing.*;
@@ -26,7 +28,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonWplaty, buttonSzatnie, buttonZestawienie, buttonMagazyn, buttonKarnety;
+    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonStan, buttonSzatnie, buttonZestawienie, buttonEdycja, buttonKarnety;
     ResourceBundle bundle;
     JLabel labelMiasto;
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
@@ -36,9 +38,9 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     Klienci klienci;
     public Szatnia szatnia;
     public Karnety karnety;
-    Magazyn magazyn;
+    Edycja edycja;
     Zestawienie zestawienie;
-    Wplaty wplaty;
+    Stan stan;
     ArrayList<JPanel> listaPaneli;
     ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerZestawienie, listenerMagazyn, listenerWplaty;
 
@@ -77,9 +79,10 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         klienci = new Klienci(frame.baza, frame);
         szatnia = new Szatnia(frame.baza, frame);
         karnety = new Karnety(frame.baza, frame);
-        wplaty = new Wplaty();
-        zestawienie = new Zestawienie();
-        magazyn = new Magazyn();
+        stan = new Stan(frame);
+        zestawienie = new Zestawienie(frame);
+        edycja = new Edycja(frame);
+
     }
 
     public void listeneryPaneli() {
@@ -87,8 +90,8 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listenerSzatnie = new ZmienPanelListener(this, szatnia, buttonSzatnie);
         listenerKarnety = new ZmienPanelListener(this, karnety, buttonKarnety);
         listenerZestawienie = new ZmienPanelListener(this, zestawienie, buttonZestawienie);
-        listenerWplaty = new ZmienPanelListener(this, wplaty, buttonWplaty);
-        listenerMagazyn = new ZmienPanelListener(this, magazyn, buttonMagazyn);
+        listenerWplaty = new ZmienPanelListener(this, stan, buttonStan);
+        listenerMagazyn = new ZmienPanelListener(this, edycja, buttonEdycja);
 
 
     }
@@ -124,9 +127,9 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPaneli.add(klienci);
         listaPaneli.add(szatnia);
         listaPaneli.add(karnety);
-        listaPaneli.add(wplaty);
+        listaPaneli.add(stan);
         listaPaneli.add(zestawienie);
-        listaPaneli.add(magazyn);
+        listaPaneli.add(edycja);
     }
 
     private void listeneryPrzyciskow() {
@@ -134,8 +137,8 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonKlienci.addActionListener(listenerKlienci);
         buttonSzatnie.addActionListener(listenerSzatnie);
         buttonKarnety.addActionListener(listenerKarnety);
-        buttonMagazyn.addActionListener(listenerMagazyn);
-        buttonWplaty.addActionListener(listenerWplaty);
+        buttonEdycja.addActionListener(listenerMagazyn);
+        buttonStan.addActionListener(listenerWplaty);
         buttonZestawienie.addActionListener(listenerZestawienie);
 
     }
@@ -164,9 +167,9 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonKlienci = new PrzyciskWMenu("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
         buttonSzatnie = new PrzyciskWMenu("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
         buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
-        buttonMagazyn = new PrzyciskWMenu("Magazyn", new ImageIcon("src/main/resources/ikony/magazyn.png"));
-        buttonWplaty = new PrzyciskWMenu("Wplaty", new ImageIcon("src/main/resources/ikony/wplata.png"));
-        buttonZestawienie = new PrzyciskWMenu("Zestawienie", new ImageIcon("src/main/resources/ikony/zestawienie.png"));
+        buttonEdycja = new PrzyciskWMenu("Edycja", new ImageIcon("src/main/resources/ikony/magazyn.png"));
+        buttonStan = new PrzyciskWMenu("Stan", new ImageIcon("src/main/resources/ikony/wplata.png"));
+        buttonZestawienie = new PrzyciskWMenu("Zestawienie", new ImageIcon("src/main/resources/ikony/statystyka.png"));
         buttonWyloguj = new PrzyciskWMenu(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame));
         dodajDoListy();
 
@@ -176,8 +179,8 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPrzyciskow.add(buttonKlienci);
         listaPrzyciskow.add(buttonSzatnie);
         listaPrzyciskow.add(buttonKarnety);
-        listaPrzyciskow.add(buttonMagazyn);
-        listaPrzyciskow.add(buttonWplaty);
+        listaPrzyciskow.add(buttonEdycja);
+        listaPrzyciskow.add(buttonStan);
         listaPrzyciskow.add(buttonZestawienie);
         listaPrzyciskow.add(buttonWyloguj);
         buttonWyloguj.setPreferredSize(new Dimension(130, 35));

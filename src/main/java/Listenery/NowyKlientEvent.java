@@ -31,6 +31,8 @@ public class NowyKlientEvent implements ActionListener {
     }
 
     public boolean sprawdzFormat(String tekst) {
+        if(tekst==null)
+            return false;
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
         Matcher matcher;
         String wzor = tekst.toUpperCase();

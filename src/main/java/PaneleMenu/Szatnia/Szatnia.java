@@ -54,7 +54,7 @@ public class Szatnia extends JPanel  {
 
                 try {
                     baza.myStm = baza.myCon.createStatement();
-                    //TODO Zmienic Warszawa na miasto.nazwa = okno.miasto
+
 
                     baza.myRs = baza.myStm.executeQuery("select szafki.NrSzafki, szafki.Zajetosc, szatnia.Plec\n" +
                             "FROM szafki, szatnia, silownia, miasto\n" +

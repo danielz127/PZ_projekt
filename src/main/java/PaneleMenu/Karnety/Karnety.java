@@ -32,11 +32,10 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
     public OknoProgramu oknoProgramu;
 
 
-    JTextField textArea;
-
     public Karnety(Baza baza, OknoProgramu oknoProgramu) {
         super();
         setBackground(Color.LIGHT_GRAY);
+        setPreferredSize(new Dimension(550, 700));
         this.oknoProgramu = oknoProgramu;
         this.baza = baza;
 
@@ -70,10 +69,11 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
             }
 
         };
+        table.setSize((table.getWidth()+200), table.getHeight());
         table.setEnabled(false);
         listaKarnetow = new ArrayList<>();
         karnetyLabel = new JLabel("Karnety");
-        karnetyLabel.setFont(new Font("Serif", Font.ITALIC, 22));
+        karnetyLabel.setFont(new Font("Serif", Font.ITALIC, 24));
 
         buttonDodajKarnet = new JButton("Dodaj karnet");
         buttonWyswietlKarnety = new JButton("Wyswietl karnety");
