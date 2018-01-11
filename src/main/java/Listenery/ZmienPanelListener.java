@@ -16,7 +16,6 @@ public class ZmienPanelListener implements ActionListener {
         this.panelMenu = panelMenu;
         this.button = button;
         this.panelWstaw = panelWstaw;
-
     }
 
     @Override

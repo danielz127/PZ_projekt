@@ -28,21 +28,20 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
-    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonStan, buttonSzatnie, buttonZestawienie, buttonEdycja, buttonKarnety;
+    PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonStan, buttonSzatnie, buttonEdycja, buttonKarnety;
     ResourceBundle bundle;
     JLabel labelMiasto;
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
     ArrayList<Observer> listaObserwatorow;
 
-    //wszystkie panele do listy np;
-    Klienci klienci;
+
+    public Klienci klienci;
     public Szatnia szatnia;
     public Karnety karnety;
     Edycja edycja;
-    Zestawienie zestawienie;
     Stan stan;
     ArrayList<JPanel> listaPaneli;
-    ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerZestawienie, listenerMagazyn, listenerWplaty;
+    ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerMagazyn, listenerWplaty;
 
 
 
@@ -55,24 +54,10 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         this.miasto = miasto;
         listaPaneli = new ArrayList<>();
         stworzMenu();
-        workerSwingPaneli();
+
     }
 
-    private void workerSwingPaneli() {
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
 
-                utworzPanele();
-                paneleDoListy();
-                listeneryPaneli();
-                //wygasPanele();
-                listeneryPrzyciskow();
-                return null;
-            }
-        };
-        worker.execute();
-    }
 
     private void utworzPanele() {
 
@@ -80,7 +65,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         szatnia = new Szatnia(frame.baza, frame);
         karnety = new Karnety(frame.baza, frame);
         stan = new Stan(frame);
-        zestawienie = new Zestawienie(frame);
         edycja = new Edycja(frame);
 
     }
@@ -89,11 +73,8 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listenerKlienci = new ZmienPanelListener(this, klienci, buttonKlienci);
         listenerSzatnie = new ZmienPanelListener(this, szatnia, buttonSzatnie);
         listenerKarnety = new ZmienPanelListener(this, karnety, buttonKarnety);
-        listenerZestawienie = new ZmienPanelListener(this, zestawienie, buttonZestawienie);
         listenerWplaty = new ZmienPanelListener(this, stan, buttonStan);
         listenerMagazyn = new ZmienPanelListener(this, edycja, buttonEdycja);
-
-
     }
 
 
@@ -102,21 +83,34 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         setLayout(gridLayout);
         czasSieciowy = new JLabel();
         listaPrzyciskow = new ArrayList<>();
-
         listaObserwatorow = new ArrayList<>();
-
-
         labelMiasto = new JLabel();
-
         stworzPrzyciski();
         dodajEtykiety();
         dodajPrzyciski();
-        paneleDoListy();
-        listeneryPrzyciskow();
         etykietaMiasta();
+        workerSwingPaneli();
 
     }
+    private void workerSwingPaneli() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected void done() {
+                super.done();
+                listeneryPrzyciskow();
+            }
 
+            @Override
+            protected Void doInBackground() throws Exception {
+                utworzPanele();
+                listeneryPaneli();
+                paneleDoListy();
+
+                return null;
+            }
+        };
+        worker.execute();
+    }
     public void wygasPanele() {
         for (JPanel panel : listaPaneli)
             if (panel != null)
@@ -128,7 +122,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPaneli.add(szatnia);
         listaPaneli.add(karnety);
         listaPaneli.add(stan);
-        listaPaneli.add(zestawienie);
         listaPaneli.add(edycja);
     }
 
@@ -139,7 +132,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonKarnety.addActionListener(listenerKarnety);
         buttonEdycja.addActionListener(listenerMagazyn);
         buttonStan.addActionListener(listenerWplaty);
-        buttonZestawienie.addActionListener(listenerZestawienie);
 
     }
 
@@ -168,8 +160,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonSzatnie = new PrzyciskWMenu("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
         buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
         buttonEdycja = new PrzyciskWMenu("Edycja", new ImageIcon("src/main/resources/ikony/magazyn.png"));
-        buttonStan = new PrzyciskWMenu("Stan", new ImageIcon("src/main/resources/ikony/wplata.png"));
-        buttonZestawienie = new PrzyciskWMenu("Zestawienie", new ImageIcon("src/main/resources/ikony/statystyka.png"));
+        buttonStan = new PrzyciskWMenu("Stan", new ImageIcon("src/main/resources/ikony/statystyka.png"));
         buttonWyloguj = new PrzyciskWMenu(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame));
         dodajDoListy();
 
@@ -181,7 +172,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaPrzyciskow.add(buttonKarnety);
         listaPrzyciskow.add(buttonEdycja);
         listaPrzyciskow.add(buttonStan);
-        listaPrzyciskow.add(buttonZestawienie);
         listaPrzyciskow.add(buttonWyloguj);
         buttonWyloguj.setPreferredSize(new Dimension(130, 35));
 

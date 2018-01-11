@@ -11,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -23,17 +21,15 @@ import java.util.ResourceBundle;
 public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     //wraz z logowaniem
 
+    public PanelMenu panelMenu;
+    public String miasto = "";
+    public Baza baza;
+    public MenuJBar menuJBar;
+    public String silowniaNazwa;
     JPanel panelLogowania;
     JPanel panelProgram;
-    public PanelMenu panelMenu;
-
     String loginBaza = "";
     String hasloBaza = "";
-    public String miasto = "";
-
-    public Baza baza;
-
-
     JLabel labelLogin;
     JTextField tekstLogin;
     JLabel labelHaslo;
@@ -41,10 +37,8 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     JButton przyciskLogowania;
     Image iconImage;
     JLabel background;
-    public MenuJBar menuJBar;
     ResourceBundle bundle;
     Font font;
-    public String silowniaNazwa;
     WczytajProperties wczytajProperties;
 
 
@@ -178,12 +172,12 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-
-                sprawdzCzyDobreHaslo();
-                //pominLogowanie();
+                //sprawdzCzyDobreHaslo();
+                pominLogowanie();
 
             }
         });
+
 
     }
 

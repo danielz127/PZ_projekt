@@ -125,8 +125,20 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
         tekstWplata.setColumns(20);
         tekstWplata.setEnabled(false);
 
-        listaMagazyn = new JList<>();
-        listaWplat = new JList<>();
+        listaMagazyn = new JList(){
+            @Override
+            public void setSelectionBackground(Color selectionBackground) {
+                super.setSelectionBackground(new Color(200, 200, 233));
+            }
+        };
+        listaWplat = new JList(){
+            @Override
+            public void setSelectionBackground(Color selectionBackground) {
+                super.setSelectionBackground(new Color(204, 221, 65));
+            }
+
+
+        };
         zmianaCzcionki();
 
     }

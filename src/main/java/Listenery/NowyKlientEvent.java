@@ -31,7 +31,7 @@ public class NowyKlientEvent implements ActionListener {
     }
 
     public boolean sprawdzFormat(String tekst) {
-        if(tekst==null)
+        if (tekst == null)
             return false;
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
         Matcher matcher;
@@ -117,7 +117,7 @@ public class NowyKlientEvent implements ActionListener {
                 try {
                     int liczbaKlientow = 0;
                     baza.myStm = baza.myCon.createStatement();
-                    baza.myRs = baza.myStm.executeQuery("SELECT COUNT(klient.NrKlienta)+1 from klient");
+                    baza.myRs = baza.myStm.executeQuery("SELECT max(klient.NrKlienta)+1 from klient");
 
                     while (baza.myRs.next()) {
                         liczbaKlientow = baza.myRs.getInt(1);

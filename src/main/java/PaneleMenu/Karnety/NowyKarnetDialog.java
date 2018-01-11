@@ -120,7 +120,7 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
                 baza.utworzPolaczenie();
                 try {
                     baza.myStm = baza.myCon.createStatement();
-                    baza.myRs = baza.myStm.executeQuery("select count(karnety.Idkarnetu) as NrKarnetu FROM karnety");
+                    baza.myRs = baza.myStm.executeQuery("select max(karnety.Idkarnetu) as NrKarnetu FROM karnety");
 
                     while (baza.myRs.next()) {
                         nrKarnetu = Integer.parseInt(baza.myRs.getString("NrKarnetu")) + 1;
