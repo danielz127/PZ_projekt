@@ -1,1 +1,0 @@
-INSERT INTO zdarzeniowe.silownia (IdSilowni, IdMiasta, Nazwa) VALUES (1, 1, 'Fit Gym');

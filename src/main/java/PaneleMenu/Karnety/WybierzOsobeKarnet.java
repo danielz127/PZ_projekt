@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
+
 public class WybierzOsobeKarnet extends WyborOsoby implements WindowListener {
 
     public WybierzOsobeKarnet(Karnety karnety, NowyKarnetDialog dialog) {
@@ -44,8 +46,9 @@ public class WybierzOsobeKarnet extends WyborOsoby implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        dispose();
-        dialog.setEnabled(true);
+
+        dialog.setVisible(true);
+        this.dispose();
 
     }
 

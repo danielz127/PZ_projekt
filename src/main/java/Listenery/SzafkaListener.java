@@ -25,7 +25,7 @@ public class SzafkaListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(szafka.NrSzafki + " " + String.valueOf(szafka.plec));
+        //System.out.println(szafka.NrSzafki + " " + String.valueOf(szafka.plec));
         pobierzKlientow();
 
 

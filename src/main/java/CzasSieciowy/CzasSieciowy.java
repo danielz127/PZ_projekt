@@ -50,7 +50,7 @@ public class CzasSieciowy {
 
             return calendar;
         } catch (IOException e) {
-            throw e;
+            //TODO czas sieciowy
         } finally {
             if (in != null) {
                 in.close();
@@ -59,5 +59,6 @@ public class CzasSieciowy {
                 conn.close();
             }
         }
+        return null;
     }
 }

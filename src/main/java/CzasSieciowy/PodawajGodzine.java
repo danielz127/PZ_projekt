@@ -26,7 +26,7 @@ public class PodawajGodzine {
                     new SimpleDateFormat("yyyy-MM-dd HH:mm");
             return (sdf.format(CzasSieciowy.getAtomicTime().getTime()));
         } catch (IOException e) {
-            e.printStackTrace();
+           //TODO czas systemowy
         }
         return "";
     }

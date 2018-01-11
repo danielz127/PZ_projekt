@@ -249,8 +249,9 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        dispose();
         oknoProgramu.setEnabled(true);
+        dispose();
+
 
     }
 

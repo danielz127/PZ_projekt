@@ -25,8 +25,8 @@ public abstract class  WyborOsoby extends JDialog {
     public NowyKarnetDialog dialog;
 
     public WyborOsoby(Szatnia szatnia, SzafkaDialog szafkaDialog) {
-        this.klients = szatnia.klients;
         this.szatnia = szatnia;
+        this.klients = this.szatnia.klients;
         this.szafkaDialog = szafkaDialog;
         setBounds(szafkaDialog.getBounds());
         wspolneCzesc();

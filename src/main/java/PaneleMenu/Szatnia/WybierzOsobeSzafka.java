@@ -15,9 +15,12 @@ public class WybierzOsobeSzafka extends WyborOsoby implements WindowListener {
 
     public WybierzOsobeSzafka(Szatnia szatnia, SzafkaDialog szafkaDialog) {
         super(szatnia, szafkaDialog);
+
+        addWindowListener(this);
         listener();
         setVisible(true);
-
+        setBounds(szafkaDialog.getX(), szafkaDialog.getY(), 350, 400);
+        repaint();
     }
 
 
@@ -31,8 +34,9 @@ public class WybierzOsobeSzafka extends WyborOsoby implements WindowListener {
                     int i = jt.getSelectedRow();
                     szafkaDialog.textArea.setText(jt.getValueAt(i, 1) + " " + jt.getValueAt(i, 2));
                     szafkaDialog.szafka.NrKlienta = (int) jt.getValueAt(i, 0);
-                    dispose();
+
                     szafkaDialog.setVisible(true);
+                    dispose();
                 }
 
             }
