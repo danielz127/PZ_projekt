@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class SzafkaDialog extends JDialog implements WindowListener {
     public Szafka szafka;
@@ -18,12 +19,13 @@ public class SzafkaDialog extends JDialog implements WindowListener {
     ButtonGroup group;
     JButton zapisz;
     public JTextArea textArea;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public SzafkaDialog(Szafka szafka) {
         szafka.szatnia.oknoProgramu.setEnabled(false);
         setAlwaysOnTop(true);
         this.szafka = szafka;
-        setTitle("Szafka");
+        setTitle(bundle.getString("szafka"));
         listaElementow = new ArrayList<>();
         setResizable(false);
         group = new ButtonGroup();
@@ -76,6 +78,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
 
         textArea = new JTextArea();
         textArea.setColumns(15);
+        textArea.setSize(new Dimension(100, 20));
 
 
         listaElementow.add(wolna);
@@ -155,12 +158,12 @@ public class SzafkaDialog extends JDialog implements WindowListener {
     private void dodajEtykiety() {
         czcionka();
 
-        nrSzafki.setText("Nr szafki: " + szafka.NrSzafki);
-        zapisz.setText("Zapisz");
-        stan.setText("Stan:");
-        wolna.setText("Wolna");
-        zajeta.setText("Zajeta");
-        uszkodzona.setText("Uszkodzona");
+        nrSzafki.setText(bundle.getString("szafka.nr")+ " " + szafka.NrSzafki);
+        zapisz.setText(bundle.getString("zapisz"));
+        stan.setText(bundle.getString("stan"));
+        wolna.setText(bundle.getString("wolna"));
+        zajeta.setText(bundle.getString("zajeta"));
+        uszkodzona.setText(bundle.getString("uszkodzona"));
 
 
     }

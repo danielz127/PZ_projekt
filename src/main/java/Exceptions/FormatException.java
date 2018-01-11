@@ -1,18 +1,19 @@
 package Exceptions;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 public class FormatException extends Exception {
     private final static Logger logr = Logger.getLogger( Logger.GLOBAL_LOGGER_NAME );
-
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
     public FormatException() {
         JOptionPane optionPane = new JOptionPane();
         logr.info("Zly format wprowadzonych danych");
 
         optionPane.showMessageDialog(null,
-                "Zly format!",
-                "Error",
+                bundle.getString("format.error"),
+                bundle.getString("error.message"),
                 JOptionPane.WARNING_MESSAGE);
     }
 

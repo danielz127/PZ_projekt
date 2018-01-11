@@ -18,7 +18,7 @@ public class WylogujAbstract extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.print("Wylogowuje");
+
         oknoProgramu.dispose();
 
         EventQueue.invokeLater(new Runnable() {

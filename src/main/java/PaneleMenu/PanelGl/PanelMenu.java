@@ -33,6 +33,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     JLabel labelMiasto;
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
     ArrayList<Observer> listaObserwatorow;
+    String godzinka;
 
 
     public Klienci klienci;
@@ -86,7 +87,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         listaObserwatorow = new ArrayList<>();
         labelMiasto = new JLabel();
         stworzPrzyciski();
-        dodajEtykiety();
+
         dodajPrzyciski();
         etykietaMiasta();
         workerSwingPaneli();
@@ -141,8 +142,8 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-
-                czasSieciowy.setText(bundle.getString("label.logged") + ": " + sprawdzGodzine.podajGodzine());
+            godzinka = sprawdzGodzine.podajGodzine();
+                czasSieciowy.setText(bundle.getString("label.logged") + ": " + godzinka);
                 return null;
             }
         };
@@ -156,11 +157,11 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
     public void stworzPrzyciski() {
         //kolejnosc ma znaczenie
-        buttonKlienci = new PrzyciskWMenu("Klienci", new ImageIcon("src/main/resources/ikony/klienci.png"));
-        buttonSzatnie = new PrzyciskWMenu("Szatnia", new ImageIcon("src/main/resources/ikony/szatnia.png"));
-        buttonKarnety = new PrzyciskWMenu("Karnety", new ImageIcon("src/main/resources/ikony/karnety.png"));
-        buttonEdycja = new PrzyciskWMenu("Edycja", new ImageIcon("src/main/resources/ikony/magazyn.png"));
-        buttonStan = new PrzyciskWMenu("Stan", new ImageIcon("src/main/resources/ikony/statystyka.png"));
+        buttonKlienci = new PrzyciskWMenu(bundle.getString("button.klienci"), new ImageIcon("src/main/resources/ikony/klienci.png"));
+        buttonSzatnie = new PrzyciskWMenu(bundle.getString("button.szatnia"), new ImageIcon("src/main/resources/ikony/szatnia.png"));
+        buttonKarnety = new PrzyciskWMenu(bundle.getString("button.karnety"), new ImageIcon("src/main/resources/ikony/karnety.png"));
+        buttonEdycja = new PrzyciskWMenu(bundle.getString("button.edycja"), new ImageIcon("src/main/resources/ikony/magazyn.png"));
+        buttonStan = new PrzyciskWMenu(bundle.getString("button.stan"), new ImageIcon("src/main/resources/ikony/statystyka.png"));
         buttonWyloguj = new PrzyciskWMenu(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame));
         dodajDoListy();
 
@@ -181,10 +182,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
     }
 
-    public void dodajEtykiety() {
-
-
-    }
 
     public void dodajPrzyciski() {
         setLayout(new FlowLayout());
@@ -216,6 +213,13 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         bundle = ResourceBundle.getBundle("messages");
         System.out.print(Locale.getDefault());
         buttonWyloguj.setText(bundle.getString("button.wylogowanie"));
+        buttonKlienci.setText(bundle.getString("button.klienci"));
+        buttonSzatnie.setText(bundle.getString("button.szatnia"));
+        buttonKarnety.setText(bundle.getString("button.karnety"));
+        buttonEdycja.setText(bundle.getString("button.edycja"));
+        buttonStan.setText(bundle.getString("button.stan"));
+        czasSieciowy.setText(bundle.getString("label.logged") + ": " + godzinka);
+        szatnia.aktualizacjaEtykiet();
 
     }
 }

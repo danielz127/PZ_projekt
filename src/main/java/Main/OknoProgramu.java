@@ -141,9 +141,9 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
         background = new JLabel(new ImageIcon("src/main/resources/silownia_tlo.jpg"));
         tekstLogin = new JTextField(20);
         tekstHaslo = new JPasswordField(20);
-        labelLogin = new JLabel("Login");
+        labelLogin = new JLabel(bundle.getString("label.login"));
         labelHaslo = new JLabel(bundle.getString("label.password"));
-        przyciskLogowania = new JButton("Zaloguj", new ImageIcon("src/main/resources/ikony/login.png"));
+        przyciskLogowania = new JButton(bundle.getString("button.zaloguj"), new ImageIcon("src/main/resources/ikony/login.png"));
 
 
         //wymiary obrazka
@@ -260,6 +260,9 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
         setTitle(bundle.getString("app.title"));
         labelHaslo.setBounds(labelHaslo.getX(), labelHaslo.getY(), labelHaslo.getWidth() + 50, labelHaslo.getHeight());
         labelHaslo.setText(bundle.getString("label.password"));
+        labelLogin.setText(bundle.getString("label.login"));
+        przyciskLogowania.setText(bundle.getString("button.zaloguj"));
+
 
     }
 }

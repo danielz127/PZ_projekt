@@ -1,6 +1,7 @@
 package PaneleMenu.Szatnia;
 
 import Baza.Baza;
+import Interfejsy.AktualizacjaEtykiet;
 import Main.OknoProgramu;
 import PaneleMenu.Klient.Klient;
 
@@ -8,8 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class Szatnia extends JPanel  {
+public class Szatnia extends JPanel implements AktualizacjaEtykiet{
     public Baza baza;
     public OknoProgramu oknoProgramu;
     public ArrayList<Szafka> szafkiMeskie;
@@ -20,13 +22,14 @@ public class Szatnia extends JPanel  {
     JLabel meskie, damskie;
     JButton zwolnijSzafki;
     Szatnia szatnia;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public Szatnia(Baza baza, OknoProgramu oknoProgramu) {
         super();
         this.szatnia = this;
         this.oknoProgramu = oknoProgramu;
         this.baza = baza;
-        zwolnijSzafki = new PrzyciskZwolnijSzafki("Zwolnij wszystkie szafki", this);
+        zwolnijSzafki = new PrzyciskZwolnijSzafki(bundle.getString("zwolnij.szafki"), this);
         pobierzSzafki();
         utworzPanel();
     }
@@ -60,7 +63,7 @@ public class Szatnia extends JPanel  {
                             "FROM szafki, szatnia, silownia, miasto\n" +
                             "WHERE szatnia.IdSzatni=szafki.IdSzatni AND\n" +
                             "  szatnia.IdSilowni = silownia.IdSilowni and silownia.IdMiasta = miasto.IdMiasta\n" +
-                            "AND miasto.Nazwa = '"+ oknoProgramu.miasto.toString()+"'");
+                            "AND miasto.Nazwa = '" + oknoProgramu.miasto.toString() + "'");
                     while (baza.myRs.next()) {
                         String nrSzafki = baza.myRs.getString("NrSzafki");
                         String zajetosc = baza.myRs.getString("Zajetosc");
@@ -97,14 +100,14 @@ public class Szatnia extends JPanel  {
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        meskie = new JLabel("Meskie");
+        meskie = new JLabel(bundle.getString("label.meskie"));
         meskie.setFont(new Font("Serif", Font.PLAIN, 24));
         int x = 0;
         int y = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth=4;
+        gbc.gridwidth = 4;
         add(meskie, gbc);
-        gbc.gridwidth=1;
+        gbc.gridwidth = 1;
         y++;
 
         for (Szafka szafka : szafkiMeskie) {
@@ -117,17 +120,17 @@ public class Szatnia extends JPanel  {
                 x = 0;
             }
         }
-        y=y+2;
-        x=0;
-        damskie = new JLabel("Damskie");
+        y = y + 2;
+        x = 0;
+        damskie = new JLabel(bundle.getString("label.damskie"));
         damskie.setFont(new Font("Serif", Font.PLAIN, 24));
         gbc.gridy = y;
         gbc.gridx = x;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth=4;
+        gbc.gridwidth = 4;
         add(damskie, gbc);
         y++;
-        gbc.gridwidth=1;
+        gbc.gridwidth = 1;
         y++;
         for (Szafka szafka : szafkiDamskie) {
 
@@ -142,7 +145,7 @@ public class Szatnia extends JPanel  {
         }
         gbc.gridy = ++y;
         gbc.gridx = 0;
-        gbc.gridwidth=2;
+        gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         add(zwolnijSzafki, gbc);
 
@@ -154,5 +157,13 @@ public class Szatnia extends JPanel  {
         setBackground(new Color(223, 219, 235));
 
 
+    }
+
+    @Override
+    public void aktualizacjaEtykiet() {
+        bundle = ResourceBundle.getBundle("messages");
+        meskie.setText(bundle.getString("label.meskie"));
+        damskie.setText(bundle.getString("label.damskie"));
+        zwolnijSzafki.setText(bundle.getString("zwolnij.szafki"));
     }
 }

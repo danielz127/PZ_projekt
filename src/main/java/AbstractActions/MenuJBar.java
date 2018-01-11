@@ -47,12 +47,12 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
         view = new JMenu(bundle.getString("view.text"));
         language = new JMenuItem(new JezykAbstractAction(bundle.getString("language.button"), new ImageIcon("src/main/resources/ikony/languageIcon.png"), frame));
 //        plaf = new JMenu("Zmień skórkę", new ImageIcon("src/main/resources/ikony/zmiana1.png"));
-        plaf = new JMenu("Zmien widok");
+        plaf = new JMenu(bundle.getString("zmien.widok"));
         wyloguj = new JMenuItem(new WylogujAbstract(bundle.getString("button.wylogowanie"), new ImageIcon("src/main/resources/ikony/wyloguj.png"), frame) );
         plaf1 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst1"),new ImageIcon("src/main/resources/ikony/widok.png" ),1));
         plaf2 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst2"),new ImageIcon("src/main/resources/ikony/widok.png" ),2));
         plaf3 = new JMenuItem(new PlafAbstract(bundle.getString("plaf.tekst3"),new ImageIcon("src/main/resources/ikony/widok.png" ),3));
-        exit = new JMenuItem("Zamknij", new ImageIcon("src/main/resources/ikony/zamknij.png"));
+        exit = new JMenuItem(bundle.getString("close"), new ImageIcon("src/main/resources/ikony/zamknij.png"));
     }
 
     public void dodajElementy() {
@@ -92,6 +92,13 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
         language.setText(bundle.getString("language.button"));
         view.setText(bundle.getString("view.text"));
         file.setText(bundle.getString("file.text"));
+        wyloguj.setText(bundle.getString("button.wylogowanie"));
+        exit.setText(bundle.getString("close"));
+        plaf.setText(bundle.getString("zmien.widok"));
+        plaf1.setText(bundle.getString("plaf.tekst1"));
+        plaf2.setText(bundle.getString("plaf.tekst2"));
+        plaf3.setText(bundle.getString("plaf.tekst3"));
+
 
     }
 }

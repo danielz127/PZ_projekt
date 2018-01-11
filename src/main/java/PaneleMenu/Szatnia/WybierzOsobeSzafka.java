@@ -9,8 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 
 public class WybierzOsobeSzafka extends WyborOsoby implements WindowListener {
+
 
 
     public WybierzOsobeSzafka(Szatnia szatnia, SzafkaDialog szafkaDialog) {

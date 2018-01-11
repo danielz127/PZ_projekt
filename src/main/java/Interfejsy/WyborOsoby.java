@@ -10,19 +10,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public abstract class  WyborOsoby extends JDialog {
-    Szatnia szatnia;
+public abstract class WyborOsoby extends JDialog {
     public SzafkaDialog szafkaDialog;
     public JTable jt;
+    public JButton zapisz;
+    public NowyKarnetDialog dialog;
+    Szatnia szatnia;
     Image image;
     DefaultTableModel model;
-    public JButton zapisz;
     ArrayList<Klient> klients;
     Karnety karnety;
-    public NowyKarnetDialog dialog;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public WyborOsoby(Szatnia szatnia, SzafkaDialog szafkaDialog) {
         this.szatnia = szatnia;
@@ -32,7 +33,8 @@ public abstract class  WyborOsoby extends JDialog {
         wspolneCzesc();
 
     }
-    public WyborOsoby(Karnety karnety, NowyKarnetDialog dialog){
+
+    public WyborOsoby(Karnety karnety, NowyKarnetDialog dialog) {
         this.klients = karnety.klients;
         this.karnety = karnety;
         this.dialog = dialog;
@@ -41,23 +43,24 @@ public abstract class  WyborOsoby extends JDialog {
     }
 
 
-    public void wspolneCzesc(){
+    public void wspolneCzesc() {
         setResizable(false);
         setAlwaysOnTop(true);
         jt = new JTable();
         model = new DefaultTableModel();
-        zapisz = new JButton("Wybierz");
+        zapisz = new JButton(bundle.getString("wybierz"));
 
         image = Toolkit.getDefaultToolkit().getImage("src/main/resources/ikony/select.png");
         setIconImage(image);
         utworzTabele();
         wypelnijTabele();
         //wyborOsoby.setSize(300, 300);
-        setTitle("Wybierz osobe");
+        setTitle(bundle.getString("wybierz.osobe"));
     }
 
     private void wypelnijTabele() {
-        model.setColumnIdentifiers(new Object[]{"Nr Klienta", "Imie", "Nazwisko", "Telefon",});
+        model.setColumnIdentifiers(new Object[]{bundle.getString("klient.nr"),
+                bundle.getString("imie"), bundle.getString("nazwisko"), bundle.getString("telefon")});
         for (Klient klient : klients)
             model.addRow(new Object[]{klient.NrKlienta, klient.imie, klient.nazwisko, klient.telefon});
         jt.setModel(model);
@@ -92,11 +95,9 @@ public abstract class  WyborOsoby extends JDialog {
 
         };
 
-        // Set size of table
         jt.setPreferredScrollableViewportSize(new Dimension(300, 60));
 
-        // This will resize the height of the table automatically
-        // to all data without scrolling.
+
         jt.setFillsViewportHeight(true);
 
         JScrollPane jps = new JScrollPane(jt);
@@ -104,7 +105,6 @@ public abstract class  WyborOsoby extends JDialog {
         zapisz.setSize(new Dimension(30, 40));
         add(zapisz, BorderLayout.PAGE_END);
     }
-
 
 
 }

@@ -54,10 +54,6 @@ public class SzafkaListener implements ActionListener {
                             "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta "+
                             "ORDER BY klient.Nazwisko DESC ;");
 
-//                    baza.myRs = baza.myStm.executeQuery("select PaneleMenu.Klient.Klient.Imie, PaneleMenu.Klient.Klient.Nazwisko,PaneleMenu.Klient.Klient.Telefon, PaneleMenu.Klient.Klient.NrKlienta " +
-//                            "from klient, miasto, silownia " +
-//                            "WHERE klient.IdMiasta = miasto.IdMiasta and miasto.IdMiasta = silownia.IdMiasta and miasto.nazwa= 'Warszawa '"+
-//                            "ORDER BY klient.Nazwisko DESC ;");
                     while (baza.myRs.next()) {
                         String imie = baza.myRs.getString("Imie");
                         String nazwisko = baza.myRs.getString("Nazwisko");

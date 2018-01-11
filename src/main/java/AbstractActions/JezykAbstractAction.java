@@ -24,7 +24,7 @@ public class JezykAbstractAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.print("Zmien jezyk");
+
         zmienJezyk();
         zmienEtykiety();
 
@@ -51,6 +51,7 @@ public class JezykAbstractAction extends AbstractAction {
         oknoProgramu.aktualizacjaEtykiet();
         if(oknoProgramu.menuJBar!=null)oknoProgramu.menuJBar.aktualizacjaEtykiet();
         if(oknoProgramu.panelMenu!= null)oknoProgramu.panelMenu.aktualizacjaEtykiet();
+
 
     }
 }
