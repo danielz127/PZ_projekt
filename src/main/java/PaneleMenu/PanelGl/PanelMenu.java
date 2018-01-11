@@ -1,4 +1,4 @@
-package PaneleMenu;
+package PaneleMenu.PanelGl;
 
 import AbstractActions.WylogujAbstract;
 import CzasSieciowy.PodawajGodzine;

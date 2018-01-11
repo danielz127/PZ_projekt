@@ -1,6 +1,6 @@
 package Listenery;
 
-import PaneleMenu.PanelMenu;
+import PaneleMenu.PanelGl.PanelMenu;
 
 import javax.swing.*;
 import java.awt.*;

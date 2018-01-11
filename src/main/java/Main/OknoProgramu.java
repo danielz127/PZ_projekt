@@ -5,7 +5,7 @@ import Baza.Baza;
 import Exceptions.PasswordException;
 import Interfejsy.AktualizacjaEtykiet;
 import Listenery.WindowCloseListener;
-import PaneleMenu.PanelMenu;
+import PaneleMenu.PanelGl.PanelMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -172,8 +172,8 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-                //sprawdzCzyDobreHaslo();
-                pominLogowanie();
+                sprawdzCzyDobreHaslo();
+                //pominLogowanie();
 
             }
         });

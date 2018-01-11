@@ -1,4 +1,4 @@
-package PaneleMenu;
+package PaneleMenu.PanelGl;
 
 import Interfejsy.Observer;
 
