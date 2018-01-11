@@ -1,0 +1,2 @@
+INSERT INTO zdarzeniowe.wplaty (IdWplaty, IdSilowni, Tytul, Kwota, Data) VALUES (1, 1, 'Urzadzenia', 1000, '2017-12-24');
+INSERT INTO zdarzeniowe.wplaty (IdWplaty, IdSilowni, Tytul, Kwota, Data) VALUES (2, 1, 'Napoje', 500, '2017-12-26');

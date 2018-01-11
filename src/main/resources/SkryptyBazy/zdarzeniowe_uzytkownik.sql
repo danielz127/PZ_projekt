@@ -1,0 +1,2 @@
+INSERT INTO zdarzeniowe.uzytkownik (Login, Haslo, IdUzytkownika, IdSilowni) VALUES ('User1', 'User123', 1, 1);
+INSERT INTO zdarzeniowe.uzytkownik (Login, Haslo, IdUzytkownika, IdSilowni) VALUES ('User2', 'User123', 2, 1);
