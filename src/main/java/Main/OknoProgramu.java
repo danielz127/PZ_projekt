@@ -172,8 +172,8 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-                sprawdzCzyDobreHaslo();
-                //pominLogowanie();
+               // sprawdzCzyDobreHaslo();
+                pominLogowanie();
 
             }
         });

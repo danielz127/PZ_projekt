@@ -53,6 +53,14 @@ public class WybierzOsobeSzafka extends WyborOsoby implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
+        if(szafkaDialog.textArea.getText().equals("")){
+            szafkaDialog.szafka.NrKlienta = 0;
+            szafkaDialog.textArea.setText("");
+            szafkaDialog.szafka.zajeta = false;
+            szafkaDialog.szafka.uszkodzona = false;
+            szafkaDialog.wolna.setSelected(true);
+            szafkaDialog.zajeta.setSelected(false);
+        }
         szafkaDialog.setVisible(true);
         this.dispose();
 

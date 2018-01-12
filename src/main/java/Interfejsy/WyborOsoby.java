@@ -97,7 +97,6 @@ public abstract class WyborOsoby extends JDialog {
 
         jt.setPreferredScrollableViewportSize(new Dimension(300, 60));
 
-
         jt.setFillsViewportHeight(true);
 
         JScrollPane jps = new JScrollPane(jt);

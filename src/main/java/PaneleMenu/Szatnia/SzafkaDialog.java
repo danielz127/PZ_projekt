@@ -13,12 +13,12 @@ import java.util.ResourceBundle;
 
 public class SzafkaDialog extends JDialog implements WindowListener {
     public Szafka szafka;
+    public JTextArea textArea;
     JRadioButton wolna, zajeta, uszkodzona;
     JLabel nrSzafki, stan;
     ArrayList<JComponent> listaElementow;
     ButtonGroup group;
     JButton zapisz;
-    public JTextArea textArea;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public SzafkaDialog(Szafka szafka) {
@@ -48,7 +48,6 @@ public class SzafkaDialog extends JDialog implements WindowListener {
         add(nrSzafki);
 
         for (JComponent rb : listaElementow) {
-
             gbc.gridy = ++y;
             add(rb, gbc);
         }
@@ -58,6 +57,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
 
         gbc.gridy = 2;
         gbc.gridx = 3;
+        gbc.gridwidth = 5;
         add(textArea, gbc);
 
     }
@@ -76,7 +76,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
         uszkodzona = new JRadioButton();
         uszkodzona.setSelected(szafka.uszkodzona);
 
-        textArea = new JTextArea();
+        textArea = new JTextArea("");
         textArea.setColumns(15);
         textArea.setSize(new Dimension(100, 20));
 
@@ -99,13 +99,12 @@ public class SzafkaDialog extends JDialog implements WindowListener {
                     textArea.setText(klient.imie + " " + klient.nazwisko);
                 }
             }
-        }
-        else textArea.setText("");
+        } else textArea.setText("");
 
     }
 
     private void wybierzOsobe() {
-         new WybierzOsobeSzafka(szafka.szatnia, this);
+        new WybierzOsobeSzafka(szafka.szatnia, this);
 
     }
 
@@ -132,9 +131,16 @@ public class SzafkaDialog extends JDialog implements WindowListener {
                                          }
 
                                          if (zajeta.isSelected()) {
-                                             szafka.zajeta = true;
-                                             szafka.uszkodzona = false;
-                                             szafka.dodajIkone();
+                                             if (!textArea.getText().equals("")) {
+                                                 szafka.zajeta = true;
+                                                 szafka.uszkodzona = false;
+                                                 szafka.dodajIkone();
+                                             } else {
+                                                 szafka.NrKlienta = 0;
+                                                 textArea.setText("");
+                                                 szafka.zajeta = false;
+                                                 szafka.uszkodzona = false;
+                                             }
 
                                          }
 
@@ -158,7 +164,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
     private void dodajEtykiety() {
         czcionka();
 
-        nrSzafki.setText(bundle.getString("szafka.nr")+ " " + szafka.NrSzafki);
+        nrSzafki.setText(bundle.getString("szafka.nr") + " " + szafka.NrSzafki);
         zapisz.setText(bundle.getString("zapisz"));
         stan.setText(bundle.getString("stan"));
         wolna.setText(bundle.getString("wolna"));

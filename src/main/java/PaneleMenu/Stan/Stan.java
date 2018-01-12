@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class Stan extends JPanel implements AktualizacjaEtykiet {
     OknoProgramu oknoProgramu;
@@ -25,6 +26,10 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
     JScrollPane pane1, pane2;
     DefaultListModel<Wplata> modelWplat;
     DefaultListModel<Magazyn> modelMagazyn;
+    int ilosc = 0;
+    String data = "";
+    int kwota = 0;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public Stan(OknoProgramu oknoProgramu) {
         this.oknoProgramu = oknoProgramu;
@@ -51,9 +56,11 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 Wplata w = listaWplat.getSelectedValue();
-                if (w != null)
-                    tekstWplata.setText("Kowta: " + w.kwotaWplaty + ", data: " + w.dataWplaty);
-                else tekstWplata.setText("");
+                if (w != null) {
+                    kwota = w.kwotaWplaty;
+                    data = w.dataWplaty;
+                    tekstWplata.setText(bundle.getString("kwota") + w.kwotaWplaty + ", " + bundle.getString("data") + w.dataWplaty);
+                } else tekstWplata.setText("");
             }
         });
 
@@ -62,9 +69,10 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
             public void valueChanged(ListSelectionEvent e) {
 
                 Magazyn m = listaMagazyn.getSelectedValue();
-                if (m != null)
-                    tekstMagazyn.setText("Ilosc: " + m.getIlosc());
-                else
+                if (m != null) {
+                    ilosc = m.getIlosc();
+                    tekstMagazyn.setText(bundle.getString("ilosc") + m.getIlosc());
+                } else
                     tekstMagazyn.setText("");
             }
         });
@@ -110,13 +118,13 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
 
     private void utworzElementy() {
 
-        zaktualizuj = new JButton("Aktualizuj");
+        zaktualizuj = new JButton(bundle.getString("aktualizuj"));
         Font font = new Font(getFont().getName(), getFont().getStyle(), 20);
         nazwaSilowni = new JLabel();
         nazwaSilowni.setFont(font);
         nazwaSilowni.setText(oknoProgramu.silowniaNazwa);
-        magazynLbl = new JLabel("Magazyn");
-        wplataLbl = new JLabel("Wplaty");
+        magazynLbl = new JLabel(bundle.getString("magazyn"));
+        wplataLbl = new JLabel(bundle.getString("wplaty"));
 
         tekstMagazyn = new JTextArea();
         tekstMagazyn.setEnabled(false);
@@ -125,13 +133,13 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
         tekstWplata.setColumns(20);
         tekstWplata.setEnabled(false);
 
-        listaMagazyn = new JList(){
+        listaMagazyn = new JList() {
             @Override
             public void setSelectionBackground(Color selectionBackground) {
                 super.setSelectionBackground(new Color(200, 200, 233));
             }
         };
-        listaWplat = new JList(){
+        listaWplat = new JList() {
             @Override
             public void setSelectionBackground(Color selectionBackground) {
                 super.setSelectionBackground(new Color(204, 221, 65));
@@ -210,6 +218,14 @@ public class Stan extends JPanel implements AktualizacjaEtykiet {
 
     @Override
     public void aktualizacjaEtykiet() {
+        bundle = ResourceBundle.getBundle("messages");
+        magazynLbl.setText(bundle.getString("magazyn"));
+        wplataLbl.setText(bundle.getString("wplaty"));
+        zaktualizuj.setText(bundle.getString("aktualizuj"));
+        if (!tekstMagazyn.getText().equals(""))
+            tekstMagazyn.setText(bundle.getString("ilosc") + ilosc);
+        if (!tekstWplata.getText().equals(""))
+            tekstWplata.setText(bundle.getString("kwota") + kwota + ", " + bundle.getString("data") + data);
 
     }
 }

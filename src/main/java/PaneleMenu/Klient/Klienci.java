@@ -2,6 +2,7 @@ package PaneleMenu.Klient;
 
 import Baza.Baza;
 import Exceptions.BrakWynikow;
+import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.PaneleInfo;
 import Listenery.NowyKlientEvent;
 import Main.OknoProgramu;
@@ -12,8 +13,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class Klienci extends JPanel implements PaneleInfo {
+public class Klienci extends JPanel implements PaneleInfo, AktualizacjaEtykiet {
 
     JButton buttonDodajKlienta, buttonWyswietlKLienta;
     DefaultTableModel model;
@@ -24,6 +26,7 @@ public class Klienci extends JPanel implements PaneleInfo {
     GridBagConstraints gbc;
     JButton buttonSzukajNazwiska;
     OknoProgramu oknoProgramu;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
 
     JTextField textArea;
@@ -45,8 +48,8 @@ public class Klienci extends JPanel implements PaneleInfo {
 
     public void utworzElementy() {
         textField = new JTextField(15);
-        buttonSzukajNazwiska = new JButton("Szukaj");
-        labelNazwisko = new JLabel("Podaj nazwisko");
+        buttonSzukajNazwiska = new JButton(bundle.getString("szukaj"));
+        labelNazwisko = new JLabel(bundle.getString("podaj.nazwisko"));
 
         gbc = new GridBagConstraints();
 
@@ -55,8 +58,8 @@ public class Klienci extends JPanel implements PaneleInfo {
         textArea = new JTextField();
         textArea.setFont(new Font("Serif", Font.ITALIC, 16));
 
-        buttonDodajKlienta = new JButton("Dodaj klienta");
-        buttonWyswietlKLienta = new JButton("Wyswietl wszystkich klientow");
+        buttonDodajKlienta = new JButton(bundle.getString("dodaj.klienta"));
+        buttonWyswietlKLienta = new JButton(bundle.getString("wyswietl.wszystkich"));
 
 
     }
@@ -124,9 +127,12 @@ public class Klienci extends JPanel implements PaneleInfo {
     private void szukajNazwiska() {
         // table.add
         model = new DefaultTableModel();
-        model.addColumn("Imie");
-        model.addColumn("Nazwisko");
-        model.addColumn("Telefon");
+        model.setColumnIdentifiers(new Object[]{
+                bundle.getString("imie"),
+                bundle.getString("nazwisko"),
+                bundle.getString("telefon")
+        });
+
 
         boolean znaleziono = false;
 
@@ -155,7 +161,7 @@ public class Klienci extends JPanel implements PaneleInfo {
                 if (!znaleziono)
                     throw new BrakWynikow();
             } catch (BrakWynikow brakWynikow) {
-                System.out.println("Brak wynikow");
+                // System.out.println("Brak wynikow");
             }
             znaleziono = false;
             baza.rozlaczBaze();
@@ -172,9 +178,9 @@ public class Klienci extends JPanel implements PaneleInfo {
     public void wypelnijTabele() {
         // table.add
         model = new DefaultTableModel();
-        model.addColumn("Imie");
-        model.addColumn("Nazwisko");
-        model.addColumn("Telefon");
+        model.addColumn(bundle.getString("imie"));
+        model.addColumn(bundle.getString("nazwisko"));
+        model.addColumn(bundle.getString("telefon"));
         baza.utworzPolaczenie();
         boolean znaleziono = false;
         try {
@@ -198,7 +204,7 @@ public class Klienci extends JPanel implements PaneleInfo {
                 if (!znaleziono)
                     throw new BrakWynikow();
             } catch (BrakWynikow brakWynikow) {
-                System.out.println("Brak wynikow");
+                // System.out.println("Brak wynikow");
             }
             znaleziono = false;
             baza.rozlaczBaze();
@@ -214,4 +220,18 @@ public class Klienci extends JPanel implements PaneleInfo {
     }
 
 
+    @Override
+    public void aktualizacjaEtykiet() {
+        bundle = ResourceBundle.getBundle("messages");
+        buttonDodajKlienta.setText(bundle.getString("dodaj.klienta"));
+        buttonSzukajNazwiska.setText(bundle.getString("szukaj"));
+        buttonWyswietlKLienta.setText(bundle.getString("wyswietl.wszystkich"));
+        labelNazwisko.setText(bundle.getString("podaj.nazwisko"));
+        model.setColumnIdentifiers(new Object[]{
+                bundle.getString("imie"),
+                bundle.getString("nazwisko"),
+                bundle.getString("telefon")
+        });
+
+    }
 }

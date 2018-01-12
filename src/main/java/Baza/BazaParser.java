@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * @author Mateusz Korwel
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class BazaParser {
 
     ArrayList<String> daneBazy;
-
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public BazaParser() {
         daneBazy = new ArrayList<>();
     }
@@ -60,6 +61,7 @@ public class BazaParser {
 
             }
         } catch (Exception e) {
+            logr.info("Blad parsera");
             e.printStackTrace();
         }
 

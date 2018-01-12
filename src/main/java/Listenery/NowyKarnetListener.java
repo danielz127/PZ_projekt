@@ -10,12 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class NowyKarnetListener implements ActionListener {
     Karnety karnety;
     Baza baza;
     ArrayList<Klient> klients;
-
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public NowyKarnetListener(Karnety karnety) {
         this.karnety = karnety;
         this.baza = karnety.oknoProgramu.baza;
@@ -73,7 +74,8 @@ public class NowyKarnetListener implements ActionListener {
 
 
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logr.info("Blad z polaczeniem z baza");
+                   // e.printStackTrace();
                 }
 
 

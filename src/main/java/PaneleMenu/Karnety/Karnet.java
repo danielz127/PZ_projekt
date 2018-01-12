@@ -74,8 +74,5 @@ public class Karnet {
         this.osoba = osoba;
     }
 
-    @Override
-    public String toString() {
-        return "Nr karnetu: "+ nrKarnetu + ", nr klienta: "+nrKlienta + ", nazwa karnetu: "+nazwaKarnetu + ", wlasciciel:  " +osoba + ", od: " + dataOd + ", do: "  + dataDo;
-    }
+
 }

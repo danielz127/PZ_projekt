@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class Edycja extends JPanel implements AktualizacjaEtykiet {
     Baza baza;
@@ -25,7 +26,7 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
     JScrollPane paneOsoba, paneKarnet;
     JLabel labekKarnet, labelKlienta;
     JButton szukajKlienta, szukajKarnetu;
-    String kolumny[] = {"Nr karnetu", "Nr klienta", "Nazwa karnetu", "Osoba", "Od", "Do"};
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public Edycja(OknoProgramu oknoProgramu) {
         setBackground(new Color(204, 255, 194));
@@ -41,24 +42,24 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
         utworzTabeleOsob();
         utworzTabeleKarnetow();
 
-        labelKlienta = new JLabel("Podaj nazwisko");
-        szukajKlienta = new JButton("Szukaj klienta");
+        labelKlienta = new JLabel(bundle.getString("podaj.nazwisko"));
+        szukajKlienta = new JButton(bundle.getString("szukaj.klienta"));
 
-        labekKarnet = new JLabel("Podaj nr karnetu");
-        szukajKarnetu = new JButton("Szukaj karnetu");
+        labekKarnet = new JLabel(bundle.getString("podaj.nr.karnetu"));
+        szukajKarnetu = new JButton(bundle.getString("szukaj.karnetu"));
 
         tekstOsoba = new JTextField();
         tekstOsoba.setColumns(15);
         paneKarnet = new JScrollPane(tabelaKarnety);
         paneKarnet.setPreferredSize(new Dimension(600, 100));
-        usunKlienta = new JButton("Usun klienta");
+        usunKlienta = new JButton(bundle.getString("usun.klienta"));
         paneOsoba = new JScrollPane(tableOsoby);
 
         paneOsoba.setPreferredSize(new Dimension(600, 400));
         utworzNaglowki();
         tekstKarnet = new JTextField();
         tekstKarnet.setColumns(15);
-        usunKarnet = new JButton("Usun karnet");
+        usunKarnet = new JButton(bundle.getString("usun.karnet"));
 
     }
 
@@ -72,13 +73,11 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
         add(paneOsoba);
 
 
-
         add(labekKarnet);
         add(tekstKarnet);
         add(szukajKarnetu);
         add(usunKarnet);
         add(paneKarnet);
-
 
 
     }
@@ -100,7 +99,6 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
         if (tableOsoby.getSelectedRow() != -1) {
             int i = tableOsoby.getSelectedRow();
             int nrKlienta = Integer.parseInt(String.valueOf(tableOsoby.getValueAt(i, 0)));
-
             usunOsobeBaza(nrKlienta);
 
         }
@@ -117,6 +115,7 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        tekstOsoba.setText("");
         utworzNaglowki();
 
 
@@ -143,6 +142,7 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
             e.printStackTrace();
         }
         baza.rozlaczBaze();
+        tekstKarnet.setText("");
         naglowkiKarnetow();
     }
 
@@ -207,7 +207,7 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
                 if (!znaleziono)
                     throw new BrakWynikow();
             } catch (BrakWynikow brakWynikow) {
-                System.out.println("Brak wynikow");
+                //  System.out.println("Brak wynikow");
             }
             znaleziono = false;
             baza.rozlaczBaze();
@@ -222,10 +222,10 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
 
     private void naglowkiTabeliOsob() {
         modelOsob = new DefaultTableModel();
-        modelOsob.addColumn("Nr Klienta");
-        modelOsob.addColumn("Imie");
-        modelOsob.addColumn("Nazwisko");
-        modelOsob.addColumn("Telefon");
+        modelOsob.setColumnIdentifiers(new Object[]{bundle.getString("klient.nr"),
+                bundle.getString("imie"),
+                bundle.getString("nazwisko"),
+                bundle.getString("telefon")});
         tableOsoby.setModel(modelOsob);
     }
 
@@ -278,18 +278,47 @@ public class Edycja extends JPanel implements AktualizacjaEtykiet {
     private void naglowkiKarnetow() {
 
         modelKarnetow = new DefaultTableModel();
-        modelKarnetow.addColumn("Nr karnetu");
-        modelKarnetow.addColumn("Nr klienta");
-        modelKarnetow.addColumn("Nazwa karnetu");
-        modelKarnetow.addColumn("Osoba");
-        modelKarnetow.addColumn("Od");
-        modelKarnetow.addColumn("Do");
+        modelKarnetow.setColumnIdentifiers(new Object[]{
+                bundle.getString("nr.karnetu"),
+                bundle.getString("klient.nr"),
+                bundle.getString("nazwa.karnetu"),
+                bundle.getString("osoba"),
+                bundle.getString("od"),
+                bundle.getString("do")
+        });
+
+
         tabelaKarnety.setModel(modelKarnetow);
 
     }
 
     @Override
     public void aktualizacjaEtykiet() {
+        bundle = ResourceBundle.getBundle("messages");
+        usunKlienta.setText(bundle.getString("usun.klienta"));
+        usunKarnet.setText(bundle.getString("usun.karnet"));
+        labekKarnet.setText(bundle.getString("podaj.nr.karnetu"));
+        labelKlienta.setText(bundle.getString("podaj.nazwisko"));
+        szukajKarnetu.setText(bundle.getString("szukaj.karnetu"));
+        szukajKlienta.setText(bundle.getString("szukaj.klienta"));
+        naglowkiTabelTlumacz();
+
+
+    }
+
+    private void naglowkiTabelTlumacz() {
+        modelOsob.setColumnIdentifiers(new Object[]{bundle.getString("klient.nr"),
+                bundle.getString("imie"),
+                bundle.getString("nazwisko"),
+                bundle.getString("telefon")});
+        modelKarnetow.setColumnIdentifiers(new Object[]{
+                bundle.getString("nr.karnetu"),
+                bundle.getString("klient.nr"),
+                bundle.getString("nazwa.karnetu"),
+                bundle.getString("osoba"),
+                bundle.getString("od"),
+                bundle.getString("do")
+        });
 
     }
 }

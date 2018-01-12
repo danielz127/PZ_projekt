@@ -5,7 +5,6 @@ import Exceptions.BrakWynikow;
 import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.PaneleInfo;
 import Listenery.NowyKarnetListener;
-import Listenery.NowyKlientEvent;
 import Main.OknoProgramu;
 import PaneleMenu.Klient.Klient;
 
@@ -17,19 +16,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
 
+    public ArrayList<Klient> klients;
+    public OknoProgramu oknoProgramu;
     JButton buttonDodajKarnet, buttonWyswietlKarnety;
     DefaultTableModel model;
     JTable table;
     Baza baza;
     JLabel karnetyLabel;
     GridBagConstraints gbc;
-    public ArrayList<Klient> klients;
     ArrayList<Karnet> listaKarnetow;
-
-    public OknoProgramu oknoProgramu;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
 
     public Karnety(Baza baza, OknoProgramu oknoProgramu) {
@@ -69,14 +69,14 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
             }
 
         };
-        table.setSize((table.getWidth()+200), table.getHeight());
+        table.setSize((table.getWidth() + 200), table.getHeight());
         table.setEnabled(false);
         listaKarnetow = new ArrayList<>();
-        karnetyLabel = new JLabel("Karnety");
+        karnetyLabel = new JLabel(bundle.getString("karnety"));
         karnetyLabel.setFont(new Font("Serif", Font.ITALIC, 24));
 
-        buttonDodajKarnet = new JButton("Dodaj karnet");
-        buttonWyswietlKarnety = new JButton("Wyswietl karnety");
+        buttonDodajKarnet = new JButton(bundle.getString("dodaj.karnet"));
+        buttonWyswietlKarnety = new JButton(bundle.getString("wyswietl.karnety"));
 
 
     }
@@ -110,7 +110,7 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
 
 
     public void listenery() {
-  
+
         buttonWyswietlKarnety.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,16 +122,17 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
     }
 
 
-
     public void wypelnijTabele() {
         // table.add
-
         model = new DefaultTableModel();
-        model.addColumn("Nr Karnetu");
-        model.addColumn("Nazwa karnetu");
-        model.addColumn("Osoba");
-        model.addColumn("Od");
-        model.addColumn("Do");
+        model.setColumnIdentifiers(new Object[]{
+                bundle.getString("nr.karnetu"),
+                bundle.getString("nazwa.karnetu"),
+                bundle.getString("osoba"),
+                bundle.getString("od"),
+                bundle.getString("do"),
+        });
+
 
         baza.utworzPolaczenie();
         listaKarnetow.clear();
@@ -153,7 +154,7 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
                 String dataOd = baza.myRs.getString("Od");
                 String dataDo = baza.myRs.getString("Do");
 
-                model.addRow(new Object[]{nrKarnetu,nazwaKarnetu,  (imie+ " "+ nazwisko), dataOd, dataDo});
+                model.addRow(new Object[]{nrKarnetu, nazwaKarnetu, (imie + " " + nazwisko), dataOd, dataDo});
                 listaKarnetow.add(new Karnet(Integer.parseInt(nrKarnetu), Integer.parseInt(nrKlienta), nazwaKarnetu, dataOd, dataDo));
 
                 //System.out.println(country + " " + sum);
@@ -173,7 +174,7 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
             e.printStackTrace();
         }
         table.setModel(model);
-        table.getColumnModel().getColumn(1).setPreferredWidth(table.getColumnModel().getColumn(1).getWidth()+30);
+        table.getColumnModel().getColumn(1).setPreferredWidth(table.getColumnModel().getColumn(1).getWidth() + 30);
 
 
     }
@@ -181,6 +182,16 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
 
     @Override
     public void aktualizacjaEtykiet() {
-
+        bundle = ResourceBundle.getBundle("messages");
+        buttonDodajKarnet.setText(bundle.getString("dodaj.karnet"));
+        buttonWyswietlKarnety.setText(bundle.getString("wyswietl.karnety"));
+        karnetyLabel.setText(bundle.getString("karnety"));
+        model.setColumnIdentifiers(new Object[]{
+                bundle.getString("nr.karnetu"),
+                bundle.getString("nazwa.karnetu"),
+                bundle.getString("osoba"),
+                bundle.getString("od"),
+                bundle.getString("do"),
+        });
     }
 }

@@ -14,10 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 
 public class NowyKarnetDialog extends JDialog implements WindowListener {
@@ -29,6 +26,7 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
     JDateChooser dateChooser;
     Date now;
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     TimeZone pdt = TimeZone.getDefault();
     Calendar calendar = new GregorianCalendar(pdt);
@@ -47,7 +45,7 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
         oknoProgramu.setEnabled(false);
         setAlwaysOnTop(true);
 
-        setTitle("Karnet");
+        setTitle(bundle.getString("karnet"));
         setResizable(false);
         setBounds(oknoProgramu.getX() + 50, oknoProgramu.getY() + 50, 600, 105);
         addWindowListener(this);
@@ -171,12 +169,12 @@ public class NowyKarnetDialog extends JDialog implements WindowListener {
         textAreaOsoba = new JTextArea("");
         textAreaOsoba.setColumns(15);
 
-        listaNazw = new JComboBox(new Object[]{"Tygodniowy", "30 dniowy", "90 dniowy"});
+        listaNazw = new JComboBox(new Object[]{bundle.getString("tygodniowy"), bundle.getString("30dniowy"), bundle.getString("90dniowy")});
         dataDo = new JTextArea("");
         dataDo.setEnabled(false);
         dataDo.setColumns(10);
 
-        wybierz = new JButton("Zapisz");
+        wybierz = new JButton(bundle.getString("zapisz"));
 
 
     }

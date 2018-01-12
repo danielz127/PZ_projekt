@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.logging.Logger;
 
 /**
  * Created by Daniel on 2017-11-13.
@@ -14,7 +17,7 @@ public class CzasSieciowy {
 
     public static final String ATOMICTIME_SERVER = "129.6.15.30";
     public static final int ATOMICTIME_PORT = 13;
-
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public final static GregorianCalendar getAtomicTime() throws IOException {
         BufferedReader in = null;
@@ -50,7 +53,12 @@ public class CzasSieciowy {
 
             return calendar;
         } catch (IOException e) {
-            //TODO czas sieciowy
+            logr.info("Brak polaczenia z internetem, pobrano czas systemowy");
+            SimpleTimeZone pdt = (SimpleTimeZone) SimpleTimeZone.getDefault();
+            GregorianCalendar calendar = new GregorianCalendar(pdt);
+            Date trialTime = new Date();
+            calendar.setTime(trialTime);
+            return calendar;
         } finally {
             if (in != null) {
                 in.close();
@@ -59,6 +67,5 @@ public class CzasSieciowy {
                 conn.close();
             }
         }
-        return null;
     }
 }

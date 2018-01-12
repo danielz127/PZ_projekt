@@ -29,7 +29,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
     PrzyciskWMenu buttonWyloguj, buttonKlienci, buttonStan, buttonSzatnie, buttonEdycja, buttonKarnety;
-    ResourceBundle bundle;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages");
     JLabel labelMiasto;
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
     ArrayList<Observer> listaObserwatorow;
@@ -48,7 +48,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
     public PanelMenu(OknoProgramu frame, String miasto) {
         setVisible(true);
-        bundle = ResourceBundle.getBundle("messages");
+
         sprawdzGodzine = PodawajGodzine.getInstance();
         this.frame = frame;
         setBackground(new Color(160, 255, 255));
@@ -220,6 +220,10 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         buttonStan.setText(bundle.getString("button.stan"));
         czasSieciowy.setText(bundle.getString("label.logged") + ": " + godzinka);
         szatnia.aktualizacjaEtykiet();
+        klienci.aktualizacjaEtykiet();
+        stan.aktualizacjaEtykiet();
+        edycja.aktualizacjaEtykiet();
+        karnety.aktualizacjaEtykiet();
 
     }
 }

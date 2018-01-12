@@ -22,7 +22,7 @@ public class LoggerExmpl {
             logr.addHandler(fh);
         } catch (java.io.IOException e) {
             // don't stop my program but log out to console.
-            logr.log(Level.SEVERE, "File logger error.");
+            logr.log(Level.SEVERE, "Logger error.");
         }
 
     }
