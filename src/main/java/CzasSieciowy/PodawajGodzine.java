@@ -28,7 +28,7 @@ public class PodawajGodzine {
             return (sdf.format(CzasSieciowy.getAtomicTime().getTime()));
         } catch (IOException e) {
             logr.info("Blad pobierania czasu");
-           //TODO czas systemowy
+
         }
         return "";
     }

@@ -121,7 +121,7 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
         setVisible(true);
 
 
-        panelMenu.setPreferredSize(new Dimension(200, 700));
+        panelMenu.setPreferredSize(new Dimension(wczytajProperties.getMenuWidth(), wczytajProperties.getMenuHeight()));
 
         add(panelMenu, BorderLayout.WEST);
         panelLogowania.setVisible(false);
@@ -172,8 +172,16 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
             public void actionPerformed(ActionEvent e) {
 
                 //tutaj usunac, zeby wlaczyc logowanie
-               // sprawdzCzyDobreHaslo();
-                pominLogowanie();
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        sprawdzCzyDobreHaslo();
+                        return null;
+                    }
+                };
+                worker.execute();
+
+               // pominLogowanie();
 
             }
         });

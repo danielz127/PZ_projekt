@@ -48,4 +48,13 @@ public class WczytajProperties {
     public void setWysokosc() {
         wysokosc = Integer.parseInt(p.getProperty("height"));
     }
+
+    public int getMenuWidth() {
+        return Integer.parseInt(p.getProperty("meniWidth"));
+
+    }
+
+    public int getMenuHeight() {
+        return Integer.parseInt(p.getProperty("menuHeight"));
+    }
 }

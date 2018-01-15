@@ -1,13 +1,13 @@
 package CzasSieciowy;
 
+import Exceptions.BrakInternetu;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
 import java.util.logging.Logger;
 
 /**
@@ -54,11 +54,13 @@ public class CzasSieciowy {
             return calendar;
         } catch (IOException e) {
             logr.info("Brak polaczenia z internetem, pobrano czas systemowy");
-            SimpleTimeZone pdt = (SimpleTimeZone) SimpleTimeZone.getDefault();
-            GregorianCalendar calendar = new GregorianCalendar(pdt);
-            Date trialTime = new Date();
-            calendar.setTime(trialTime);
-            return calendar;
+            try {
+                throw new BrakInternetu();
+            } catch (BrakInternetu brakInternetu) {
+                return brakInternetu.zwrocKalendarz();
+
+            }
+
         } finally {
             if (in != null) {
                 in.close();
