@@ -7,7 +7,7 @@ import java.util.*;
 
 public class BrakInternetu extends Exception {
 
-    GregorianCalendar calendar;
+    static GregorianCalendar calendar;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public BrakInternetu() {
@@ -21,9 +21,8 @@ public class BrakInternetu extends Exception {
 
     }
 
-    public GregorianCalendar zwrocKalendarz() {
-        SimpleTimeZone pdt = (SimpleTimeZone) SimpleTimeZone.getDefault();
-        calendar = new GregorianCalendar(pdt);
+    public static GregorianCalendar zwrocKalendarz() {
+        calendar = new GregorianCalendar();
         Date trialTime = new Date();
         calendar.setTime(trialTime);
         return calendar;

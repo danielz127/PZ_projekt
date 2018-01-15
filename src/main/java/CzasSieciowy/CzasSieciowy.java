@@ -54,12 +54,14 @@ public class CzasSieciowy {
 
             return calendar;
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.out.println("Blad");
-
-            logr.info("Brak polaczenia z internetem, pobrano czas systemowy");
-            return (new BrakInternetu()).zwrocKalendarz();
-
+            try {
+                throw new BrakInternetu();
+            } catch (BrakInternetu brakInternetu) {
+                logr.info("Brak polaczenia z internetem, pobrano czas systemowy");
+                return BrakInternetu.zwrocKalendarz();
+            }
 
 
         }
