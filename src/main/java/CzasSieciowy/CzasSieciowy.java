@@ -19,12 +19,12 @@ public class CzasSieciowy {
     public static final int ATOMICTIME_PORT = 13;
     private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public final static GregorianCalendar getAtomicTime() throws IOException {
+    public final static GregorianCalendar getAtomicTime() {
         BufferedReader in = null;
         Socket conn = null;
 
-        try {
 
+        try {
             conn = new Socket(ATOMICTIME_SERVER, ATOMICTIME_PORT);
 
             in = new BufferedReader
@@ -51,23 +51,18 @@ public class CzasSieciowy {
             calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time[0]) + gmt);
             calendar.set(Calendar.MINUTE, Integer.parseInt(time[1]));
 
+
             return calendar;
         } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Blad");
+
             logr.info("Brak polaczenia z internetem, pobrano czas systemowy");
-            try {
-                throw new BrakInternetu();
-            } catch (BrakInternetu brakInternetu) {
-                return brakInternetu.zwrocKalendarz();
+            return (new BrakInternetu()).zwrocKalendarz();
 
-            }
 
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+
         }
+
     }
 }

@@ -6,20 +6,18 @@ import javax.swing.*;
 import java.util.*;
 
 public class BrakInternetu extends Exception {
-    PanelMenu panelMenu;
+
     GregorianCalendar calendar;
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public BrakInternetu() {
         JOptionPane optionPane = new JOptionPane();
 
-
         optionPane.showMessageDialog(null,
                 bundle.getString("internet.error"),
                 bundle.getString("error.message"),
                 JOptionPane.WARNING_MESSAGE);
 
-        this.panelMenu = panelMenu;
 
     }
 

@@ -7,9 +7,9 @@ import Interfejsy.Observer;
 import Interfejsy.Subject;
 import Listenery.ZmienPanelListener;
 import Main.OknoProgramu;
+import PaneleMenu.Edycja.Edycja;
 import PaneleMenu.Karnety.Karnety;
 import PaneleMenu.Klient.Klienci;
-import PaneleMenu.Edycja.Edycja;
 import PaneleMenu.Stan.Stan;
 import PaneleMenu.Szatnia.Szatnia;
 
@@ -25,6 +25,9 @@ import java.util.ResourceBundle;
 public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
 
     public OknoProgramu frame;
+    public Klienci klienci;
+    public Szatnia szatnia;
+    public Karnety karnety;
     String miasto;
     JLabel czasSieciowy;
     PodawajGodzine sprawdzGodzine;
@@ -34,16 +37,10 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     ArrayList<PrzyciskWMenu> listaPrzyciskow;
     ArrayList<Observer> listaObserwatorow;
     String godzinka;
-
-
-    public Klienci klienci;
-    public Szatnia szatnia;
-    public Karnety karnety;
     Edycja edycja;
     Stan stan;
     ArrayList<JPanel> listaPaneli;
     ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerMagazyn, listenerWplaty;
-
 
 
     public PanelMenu(OknoProgramu frame, String miasto) {
@@ -57,7 +54,6 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         stworzMenu();
 
     }
-
 
 
     private void utworzPanele() {
@@ -93,6 +89,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         workerSwingPaneli();
 
     }
+
     private void workerSwingPaneli() {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
@@ -112,6 +109,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         };
         worker.execute();
     }
+
     public void wygasPanele() {
         for (JPanel panel : listaPaneli)
             if (panel != null)
@@ -142,7 +140,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
         SwingWorker<Void, Void> godzina = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-            godzinka = sprawdzGodzine.podajGodzine();
+                godzinka = sprawdzGodzine.podajGodzine();
                 czasSieciowy.setText(bundle.getString("label.logged") + ": " + godzinka);
                 return null;
             }
