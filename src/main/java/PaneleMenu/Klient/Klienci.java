@@ -4,7 +4,7 @@ import Baza.Baza;
 import Exceptions.BrakWynikow;
 import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.PaneleInfo;
-import Listenery.NowyKlient;
+import Dzialania.NowyKlient;
 import Main.OknoProgramu;
 
 import javax.swing.*;

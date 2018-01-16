@@ -1,6 +1,6 @@
 package Exceptions;
 
-import Listenery.NowyKlient;
+import Dzialania.NowyKlient;
 
 import javax.swing.*;
 import java.util.ResourceBundle;

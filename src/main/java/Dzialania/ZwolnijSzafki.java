@@ -1,4 +1,4 @@
-package Listenery;
+package Dzialania;
 
 import Exceptions.UszkodzoneSzafki;
 import PaneleMenu.Szatnia.Szafka;
@@ -7,10 +7,10 @@ import PaneleMenu.Szatnia.Szatnia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ZwolnijSzafkiListener implements ActionListener {
+public class ZwolnijSzafki implements ActionListener {
     Szatnia szatnia;
 
-    public ZwolnijSzafkiListener(Szatnia szatnia) {
+    public ZwolnijSzafki(Szatnia szatnia) {
         this.szatnia = szatnia;
     }
 

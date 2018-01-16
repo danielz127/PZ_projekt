@@ -1,8 +1,6 @@
 package PaneleMenu.Szatnia;
 
-import Listenery.SzafkaListener;
-
-import javax.swing.*;
+import Dzialania.SzafkaOkienko;
 
 public class Szafka {
     public Boolean zajeta;
@@ -29,7 +27,7 @@ public class Szafka {
     }
 
     private void listener() {
-        button.addActionListener(new SzafkaListener(this));
+        button.addActionListener(new SzafkaOkienko(this));
     }
 
 

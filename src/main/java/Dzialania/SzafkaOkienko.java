@@ -1,4 +1,4 @@
-package Listenery;
+package Dzialania;
 
 import PaneleMenu.Klient.Klient;
 import PaneleMenu.Szatnia.Szafka;
@@ -10,10 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class SzafkaListener implements ActionListener {
+public class SzafkaOkienko implements ActionListener {
     Szafka szafka;
     Baza baza;
-    public SzafkaListener(Szafka szafka) {
+    public SzafkaOkienko(Szafka szafka) {
         this.szafka = szafka;
         this.baza = szafka.szatnia.baza;
     }

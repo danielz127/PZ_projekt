@@ -1,7 +1,6 @@
 package PaneleMenu.Szatnia;
 
-import Listenery.ZwolnijSzafkiListener;
-import PaneleMenu.Szatnia.Szatnia;
+import Dzialania.ZwolnijSzafki;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +12,7 @@ public class PrzyciskZwolnijSzafki extends JButton   {
         super(tekst);
         this.szatnia=szatnia;
 
-        addActionListener(new ZwolnijSzafkiListener(szatnia));
+        addActionListener(new ZwolnijSzafki(szatnia));
     }
 
     @Override

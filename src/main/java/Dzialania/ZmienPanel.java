@@ -1,4 +1,4 @@
-package Listenery;
+package Dzialania;
 
 import PaneleMenu.PanelGl.PanelMenu;
 
@@ -7,12 +7,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ZmienPanelListener implements ActionListener {
+public class ZmienPanel implements ActionListener {
     PanelMenu panelMenu;
     JPanel panelWstaw;
     JButton button;
 
-    public ZmienPanelListener(PanelMenu panelMenu, JPanel panelWstaw, JButton button) {
+    public ZmienPanel(PanelMenu panelMenu, JPanel panelWstaw, JButton button) {
         this.panelMenu = panelMenu;
         this.button = button;
         this.panelWstaw = panelWstaw;

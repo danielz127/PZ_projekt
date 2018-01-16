@@ -1,23 +1,20 @@
-package Listenery;
+package Dzialania;
 
 import Baza.Baza;
 import Main.OknoProgramu;
-import PaneleMenu.Szatnia.Szafka;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
-public class WindowCloseListener implements ActionListener, WindowListener {
+public class ZamykanieOkna implements ActionListener, WindowListener {
 
     OknoProgramu frame;
     Baza baza;
-    ArrayList<Szafka> meskie;
-    ArrayList<Szafka> damskie;
 
-    public WindowCloseListener(OknoProgramu frame) {
+
+    public ZamykanieOkna(OknoProgramu frame) {
         this.frame = frame;
         this.baza = frame.baza;
 

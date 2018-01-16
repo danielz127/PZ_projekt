@@ -4,7 +4,7 @@ import AbstractActions.MenuJBar;
 import Baza.Baza;
 import Exceptions.PasswordException;
 import Interfejsy.AktualizacjaEtykiet;
-import Listenery.WindowCloseListener;
+import Dzialania.ZamykanieOkna;
 import PaneleMenu.PanelGl.PanelMenu;
 
 import javax.swing.*;
@@ -75,7 +75,7 @@ public class OknoProgramu extends JFrame implements AktualizacjaEtykiet {
     }
 
     private void listenery() {
-        addWindowListener(new WindowCloseListener(this));
+        addWindowListener(new ZamykanieOkna(this));
     }
 
 

@@ -5,7 +5,7 @@ import CzasSieciowy.PodawajGodzine;
 import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.Observer;
 import Interfejsy.Subject;
-import Listenery.ZmienPanelListener;
+import Dzialania.ZmienPanel;
 import Main.OknoProgramu;
 import PaneleMenu.Edycja.Edycja;
 import PaneleMenu.Karnety.Karnety;
@@ -40,7 +40,7 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     Edycja edycja;
     Stan stan;
     ArrayList<JPanel> listaPaneli;
-    ZmienPanelListener listenerKlienci, listenerKarnety, listenerSzatnie, listenerMagazyn, listenerWplaty;
+    ZmienPanel listenerKlienci, listenerKarnety, listenerSzatnie, listenerMagazyn, listenerWplaty;
 
 
     public PanelMenu(OknoProgramu frame, String miasto) {
@@ -67,11 +67,11 @@ public class PanelMenu extends JPanel implements Subject, AktualizacjaEtykiet {
     }
 
     public void listeneryPaneli() {
-        listenerKlienci = new ZmienPanelListener(this, klienci, buttonKlienci);
-        listenerSzatnie = new ZmienPanelListener(this, szatnia, buttonSzatnie);
-        listenerKarnety = new ZmienPanelListener(this, karnety, buttonKarnety);
-        listenerWplaty = new ZmienPanelListener(this, stan, buttonStan);
-        listenerMagazyn = new ZmienPanelListener(this, edycja, buttonEdycja);
+        listenerKlienci = new ZmienPanel(this, klienci, buttonKlienci);
+        listenerSzatnie = new ZmienPanel(this, szatnia, buttonSzatnie);
+        listenerKarnety = new ZmienPanel(this, karnety, buttonKarnety);
+        listenerWplaty = new ZmienPanel(this, stan, buttonStan);
+        listenerMagazyn = new ZmienPanel(this, edycja, buttonEdycja);
     }
 
 

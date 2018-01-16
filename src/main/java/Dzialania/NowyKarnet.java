@@ -1,4 +1,4 @@
-package Listenery;
+package Dzialania;
 
 import Baza.Baza;
 import PaneleMenu.Karnety.Karnety;
@@ -12,12 +12,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class NowyKarnetListener implements ActionListener {
+public class NowyKarnet implements ActionListener {
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     Karnety karnety;
     Baza baza;
     ArrayList<Klient> klients;
-    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    public NowyKarnetListener(Karnety karnety) {
+
+    public NowyKarnet(Karnety karnety) {
         this.karnety = karnety;
         this.baza = karnety.oknoProgramu.baza;
         this.klients = karnety.klients;
@@ -67,17 +68,14 @@ public class NowyKarnetListener implements ActionListener {
                         klients.add(new Klient(imie, nazwisko, Integer.parseInt(telefon), Integer.parseInt(nrKlienta)));
 
 
-                        //System.out.println(country + " " + sum);
-                        //
                     }
                     baza.rozlaczBaze();
 
 
                 } catch (SQLException e) {
                     logr.info("Blad z polaczeniem z baza");
-                   // e.printStackTrace();
+                    // e.printStackTrace();
                 }
-
 
 
                 return null;

@@ -4,7 +4,7 @@ import Baza.Baza;
 import Exceptions.BrakWynikow;
 import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.PaneleInfo;
-import Listenery.NowyKarnetListener;
+import Dzialania.NowyKarnet;
 import Main.OknoProgramu;
 import PaneleMenu.Klient.Klient;
 
@@ -117,7 +117,7 @@ public class Karnety extends JPanel implements AktualizacjaEtykiet, PaneleInfo {
                 wypelnijTabele();
             }
         });
-        buttonDodajKarnet.addActionListener(new NowyKarnetListener(this));
+        buttonDodajKarnet.addActionListener(new NowyKarnet(this));
 
     }
 

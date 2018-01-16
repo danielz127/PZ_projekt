@@ -1,10 +1,7 @@
 package AbstractActions;
 
-import AbstractActions.JezykAbstractAction;
-import AbstractActions.PlafAbstract;
-import AbstractActions.WylogujAbstract;
 import Interfejsy.AktualizacjaEtykiet;
-import Listenery.WindowCloseListener;
+import Dzialania.ZamykanieOkna;
 import Main.OknoProgramu;
 
 import javax.swing.*;
@@ -17,14 +14,14 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
     JMenuItem exit, language, plaf, plaf1, plaf2, plaf3, wyloguj;
     OknoProgramu frame;
     ResourceBundle bundle;
-    WindowCloseListener windowCloseListener;
+    ZamykanieOkna zamykanieOkna;
 
 
     public MenuJBar(OknoProgramu frame, ResourceBundle bundle) {
 
         this.bundle = bundle;
         this.frame = frame;
-        windowCloseListener = new WindowCloseListener(frame);
+        zamykanieOkna = new ZamykanieOkna(frame);
 
         utworzElementy();
         dodajElementy();
@@ -77,7 +74,7 @@ public class MenuJBar extends JMenuBar implements AktualizacjaEtykiet {
     }
 
     public void listenery() {
-        exit.addActionListener(windowCloseListener);
+        exit.addActionListener(zamykanieOkna);
 
         //language.addActionListener(new AbstractActions.JezykAbstractAction(frame));
 
