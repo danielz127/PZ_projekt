@@ -4,7 +4,7 @@ import Baza.Baza;
 import Exceptions.BrakWynikow;
 import Interfejsy.AktualizacjaEtykiet;
 import Interfejsy.PaneleInfo;
-import Listenery.NowyKlientEvent;
+import Listenery.NowyKlient;
 import Main.OknoProgramu;
 
 import javax.swing.*;
@@ -115,7 +115,7 @@ public class Klienci extends JPanel implements PaneleInfo, AktualizacjaEtykiet {
                 wypelnijTabele();
             }
         });
-        buttonDodajKlienta.addActionListener(new NowyKlientEvent(baza, oknoProgramu));
+        buttonDodajKlienta.addActionListener(new NowyKlient(baza, oknoProgramu));
         buttonSzukajNazwiska.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

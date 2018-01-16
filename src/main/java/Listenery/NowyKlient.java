@@ -16,7 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class NowyKlientEvent implements ActionListener {
+public class NowyKlient implements ActionListener {
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public String telefon;
     public OknoProgramu okno;
     Baza baza;
@@ -24,13 +25,13 @@ public class NowyKlientEvent implements ActionListener {
     String nazwisko;
     JOptionPane optionPane;
     int Idmiasta;
+    Locale locale;
     ResourceBundle bundle;
-    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public NowyKlientEvent(Baza baza, OknoProgramu oknoProgramu) {
+    public NowyKlient(Baza baza, OknoProgramu oknoProgramu) {
         this.okno = oknoProgramu;
         this.baza = baza;
-        Locale locale = Locale.getDefault();
+        locale = Locale.getDefault();
 
         //System.out.println(Locale.getDefault());
         optionPane = new JOptionPane();
@@ -54,14 +55,14 @@ public class NowyKlientEvent implements ActionListener {
 
     public void dodajKlienta() {
         bundle = ResourceBundle.getBundle("messages");
-        System.out.println(bundle .getString("imie"));
+        System.out.println(bundle.getString("imie"));
         imie = JOptionPane.showInputDialog(null, bundle.getString("imie"), bundle.getString("imie"), 1);
 
         if ((sprawdzFormat(imie))) {
             nazwisko = JOptionPane.showInputDialog(null, bundle.getString("nazwisko"), bundle.getString("nazwisko"), 1);
 
             if (sprawdzFormat(nazwisko)) {
-                telefon = JOptionPane.showInputDialog(null,  bundle.getString("telefon"), bundle.getString("telefon"), 1);
+                telefon = JOptionPane.showInputDialog(null, bundle.getString("telefon"), bundle.getString("telefon"), 1);
 
                 if (telefon != null && !telefon.equals("") && sprawdzTelefon(telefon)) {
                     System.out.println(imie + nazwisko + telefon);
@@ -77,7 +78,7 @@ public class NowyKlientEvent implements ActionListener {
         try {
             Integer.parseInt(telefonS);
             if (telefonS.length() == 9) {
-               // System.out.print("okej");
+                // System.out.print("okej");
                 return true;
 
             } else {
@@ -106,9 +107,9 @@ public class NowyKlientEvent implements ActionListener {
 
         Object[] options = {bundle.getString("tak"),
                 bundle.getString("nie")};
-        int a = JOptionPane.showOptionDialog(null, bundle.getString("czy.dodac")+"\n" +
-                       bundle.getString("imie") +": " + imie + ", "+bundle.getString("nazwisko") + ": "
-                +nazwisko +", "+bundle.getString("telefon") +": "+ telefon + "?", bundle.getString("potwierdz"),
+        int a = JOptionPane.showOptionDialog(null, bundle.getString("czy.dodac") + "\n" +
+                        bundle.getString("imie") + ": " + imie + ", " + bundle.getString("nazwisko") + ": "
+                        + nazwisko + ", " + bundle.getString("telefon") + ": " + telefon + "?", bundle.getString("potwierdz"),
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,

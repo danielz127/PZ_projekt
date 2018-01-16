@@ -57,7 +57,7 @@ public class SzafkaDialog extends JDialog implements WindowListener {
 
         gbc.gridy = 2;
         gbc.gridx = 3;
-        gbc.gridwidth = 5;
+
         add(textArea, gbc);
 
     }
@@ -76,10 +76,8 @@ public class SzafkaDialog extends JDialog implements WindowListener {
         uszkodzona = new JRadioButton();
         uszkodzona.setSelected(szafka.uszkodzona);
 
-        textArea = new JTextArea("");
+        textArea = new JTextArea();
         textArea.setColumns(15);
-        textArea.setSize(new Dimension(100, 20));
-
 
         listaElementow.add(wolna);
         listaElementow.add(zajeta);
@@ -88,8 +86,6 @@ public class SzafkaDialog extends JDialog implements WindowListener {
         for (JComponent component : listaElementow)
             group.add((AbstractButton) component);
         listenery();
-
-
     }
 
     private void znajdzKlienta() {

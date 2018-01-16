@@ -54,8 +54,7 @@ public class CzasSieciowy {
 
             return calendar;
         } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("Blad");
+
             try {
                 throw new BrakInternetu();
             } catch (BrakInternetu brakInternetu) {

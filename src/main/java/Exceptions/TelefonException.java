@@ -1,16 +1,16 @@
 package Exceptions;
 
-import Listenery.NowyKlientEvent;
+import Listenery.NowyKlient;
 
 import javax.swing.*;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 public class TelefonException extends Exception {
-    NowyKlientEvent event;
+    NowyKlient event;
     private final static Logger logr = Logger.getLogger( Logger.GLOBAL_LOGGER_NAME );
     ResourceBundle bundle = ResourceBundle.getBundle("messages");
-    public TelefonException(NowyKlientEvent event) {
+    public TelefonException(NowyKlient event) {
         this.event = event;
         event.telefon="";
         logr.warning("Nieprawidlowy format telefonu");

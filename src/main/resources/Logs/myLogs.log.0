@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
-</log>
+<record>
+  <date>2018-01-16T17:28:57</date>
+  <millis>1516120137527</millis>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>WARNING</level>
+  <class>Exceptions.UszkodzoneSzafki</class>
+  <method>&lt;init&gt;</method>
+  <thread>16</thread>
+  <message>Proba zwolnienia uszkodzonych szafek</message>
+</record>
